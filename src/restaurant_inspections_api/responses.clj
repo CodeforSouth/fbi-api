@@ -1,4 +1,4 @@
-(ns backend.responses
+(ns restaurant-inspections-api.responses
   (:require [cheshire.core :as json]))
 
 (def json-headers {"Content-Type" "application/json"})

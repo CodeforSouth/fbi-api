@@ -1,1 +1,1 @@
-web: java $JVM_OPTS -cp target/restaurant-inspections-api.jar clojure.main -m backend.routes
+web: java $JVM_OPTS -cp target/restaurant-inspections-api.jar clojure.main -m restaurant-inspections-api.routes

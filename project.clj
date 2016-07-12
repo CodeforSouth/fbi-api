@@ -1,4 +1,4 @@
-(defproject backend "0.1.0-SNAPSHOT"
+(defproject restaurant-inspections-api "0.1.0-SNAPSHOT"
   :description "State of Florida Restaurants Inspections API"
   :url "https://github.com/Code-for-Miami/restaurant-inspections-api"
   :license {:name "Eclipse Public License"

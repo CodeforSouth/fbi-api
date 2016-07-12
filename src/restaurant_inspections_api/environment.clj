@@ -1,4 +1,4 @@
-(ns backend.environment
+(ns restaurant-inspections-api.environment
   (:require [environ.core :refer [env]]))
 
 (defn get-env-port

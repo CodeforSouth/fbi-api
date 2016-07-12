@@ -1,7 +1,7 @@
-(ns backend.routes
+(ns restaurant-inspections-api.routes
   (:gen-class)
-  (:require [backend.environment :as env]
-            [backend.services :as srv]
+  (:require [restaurant-inspections-api.environment :as env]
+            [restaurant-inspections-api.services :as srv]
             [org.httpkit.server :refer [run-server]]
             [ring.middleware.reload :as reload]
             [compojure.handler :refer [site]]

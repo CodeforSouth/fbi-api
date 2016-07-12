@@ -1,6 +1,6 @@
-(ns backend.services
-  (:require [backend.responses :as res]
-            [backend.environment :as env]
+(ns restaurant-inspections-api.services
+  (:require [restaurant-inspections-api.responses :as res]
+            [restaurant-inspections-api.environment :as env]
             [clojure.java.jdbc :as db]))
 
 (def db-url (env/get-env-db-url))

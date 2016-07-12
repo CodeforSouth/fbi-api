@@ -1,4 +1,4 @@
-(ns backend.core-test
+(ns restaurant-inspections-api.core-test
   (:require [clojure.test :refer :all]
             [backend.routes :refer :all]))
 
