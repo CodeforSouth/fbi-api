@@ -1,3 +1,5 @@
+Get started here: https://restaurant-inspections.herokuapp.com/top10
+
 # What's is this?
 
 This is a REST API that scrapes Restaurant inspections in Miami-Dade County.
