@@ -10,6 +10,8 @@
                  [cheshire "5.6.3"]
                  [environ "1.0.3"]
                  [compojure "1.5.1"]
+                 [jarohen/chime "0.1.9"]
+                 [clojure-csv/clojure-csv "2.0.1"]
                  [org.clojure/java.jdbc "0.6.2-alpha1"]
                  [mysql/mysql-connector-java "5.1.6"]]
   :min-lein-version "2.0.0"
