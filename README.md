@@ -1,6 +1,6 @@
-Get started here: https://restaurant-inspections.herokuapp.com/top10
+Get started through our wiki here: https://github.com/Code-for-Miami/restaurant-inspections-api/wiki
 
-# What's is this?
+# What is this?
 
 This is a REST API that scrapes Restaurant inspections in Miami-Dade County.
 You can check the original requirement here: https://github.com/Code-for-Miami/tasks/issues/50
@@ -13,4 +13,4 @@ We are using the data from the State of Florida: http://www.myfloridalicense.com
 
 This is powered by Clojure, using MYSQL database.
 
-You can check the demo app here: https://restaurant-inspections.herokuapp.com/ 
+You can check the demo app here: http://198.199.73.168/fra/list-counties 
