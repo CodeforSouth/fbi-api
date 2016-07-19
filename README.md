@@ -11,6 +11,6 @@ We are using the data from the State of Florida: http://www.myfloridalicense.com
 
 # Technical Background
 
-This is powered by Clojure, using MYSQL database.
+This is powered by Clojure, using MYSQL database. Installation instructions here: https://github.com/Code-for-Miami/restaurant-inspections-api/wiki/How-to-Install%3F
 
 You can check the demo app here: http://198.199.73.168/fra/list-counties 
