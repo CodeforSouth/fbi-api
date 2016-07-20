@@ -1,9 +1,9 @@
 (ns restaurant-inspections-api.tasks
   (:require [clj-time.core :as t]
             [clj-time.format :as f]
+            [clojure.set :as set]
             [clj-time.periodic :refer [periodic-seq]]
             [clojure-csv.core :as csv]
-            [org.httpkit.client :as http]
             [chime :refer [chime-at]]
             [restaurant-inspections-api.environment :as env]
             [clojure.java.jdbc :as db]
@@ -112,7 +112,7 @@
                         :violation_57                       (str-null->int (nth % 78))
                         :violation_58                       (str-null->int (nth % 79))
                         :license_id                         (nth % 80)
-                        :inspection_visit_id                (nth % 81)})
+                        :inspection_visit_id                (str-null->int (nth % 81))})
               (catch Exception _ (prn "Fail to load row " %)))
        (csv/parse-csv csv-file)))
 
@@ -125,16 +125,39 @@
          (parse (slurp file)))
        csv-files))
 
+(def mydbg (atom []))
+
+(defn filter-new-inspections
+  "filter the new inspections based in our current DB"
+  [inspections]
+  (let [inspections (flatten inspections)
+        inspection-ids (map :inspection_visit_id inspections)
+        inspections-qty (count inspection-ids)]
+    (prn "Loading " inspections-qty " inspections")
+    (->> (partition-all 1000 inspection-ids)
+         (map #(db/query db-url
+                         (flatten
+                            [(str "SELECT inspection_visit_id"
+                                  "  FROM restaurant_inspections"
+                                  " WHERE inspection_visit_id IN ("
+                                  (str/join ", " (take (count %) (repeat "?")))
+                                  ")") %])))
+         (flatten)
+         (map :inspection_visit_id)
+         (set)
+         (set/difference (set inspection-ids))
+         (reset! mydbg)
+         (keep #(first (filter (fn [x] (= % (:inspection_visit_id x))) inspections))))))
+
 (defn process-load-data
   "load and read the CSV, compare and insert the new ones on DB"
   []
   (let [csv-files (env/get-csv-files)
-        inspections (download csv-files)]
+        inspections (filter-new-inspections (download csv-files))]
+    (prn "new inspections to load: " (count inspections))
     (mapv (fn [rows]
-            (println "Inserting data for District " (:district (first rows)))
-            (println "District " (:district (first rows))
-                     " - Saved Rows: " (count (insert-data! rows))))  ; TODO: before insert, check existing rows
-          inspections)))
+            (println "Saved Rows: " (count (insert-data! rows))))
+          (partition-all 1000 inspections))))
 
 (defn load-api-data
   "schedules the load process"
@@ -145,4 +168,5 @@
                   (withTime 4 0 0 0))                       ; Scheduled to run every day at 4 am
                   (-> 1 t/days)))
             (fn [time]
-              (prn "Chiming at" time))))                    ; TODO: call the correct load-data process
+              (prn "Starting load data task" time)
+              (process-load-data))))
