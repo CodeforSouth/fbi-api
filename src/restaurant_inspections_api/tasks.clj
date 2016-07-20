@@ -125,8 +125,6 @@
          (parse (slurp file)))
        csv-files))
 
-(def mydbg (atom []))
-
 (defn filter-new-inspections
   "filter the new inspections based in our current DB"
   [inspections]
@@ -146,7 +144,6 @@
          (map :inspection_visit_id)
          (set)
          (set/difference (set inspection-ids))
-         (reset! mydbg)
          (keep #(first (filter (fn [x] (= % (:inspection_visit_id x))) inspections))))))
 
 (defn process-load-data
