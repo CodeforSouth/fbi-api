@@ -7,23 +7,22 @@
            (GET "/" [] (srv/home))
            (GET "/get/:id" [id] (srv/get-details id))
            (GET "/list-counties" [] (srv/get-dist-counties))
-           (GET ["/location/:start-date/:end-date/:zips"
-                 :zips #"[^/]+"]
-                [start-date end-date zips]
-                (srv/location start-date end-date zips))
-           (GET ["/name/:start-date/:end-date/:name"
+           (GET ["/location/:zips" :zips #"[^/]+"]
+                [startDate endDate zips]
+                (srv/location startDate endDate zips))
+           (GET ["/name/:name"
                  :name #"[^/]+"]
-                [id start-date end-date name]
-                (srv/get-name start-date end-date name))
-           (GET ["/name/:start-date/:end-date/:name/:zips"
+                [startDate endDate name]
+                (srv/get-name startDate endDate name))
+           (GET ["/name/:name/:zips"
                  :name #"[^/]+"
                  :zips #"[^/]+"]
-                [id start-date end-date name zips]
-                (srv/get-name start-date end-date name zips))
-           (GET "/district/:start-date/:end-date/:id"
-                [start-date end-date id]
-                (srv/district id start-date end-date))
-           (GET "/county/:start-date/:end-date/:id"
-                [start-date end-date id]
-                (srv/county id start-date end-date)))
+                [startDate endDate name zips]
+                (srv/get-name startDate endDate name zips))
+           (GET "/district/:id"
+                [startDate endDate id]
+                (srv/district id startDate endDate))
+           (GET "/county/:id"
+                [startDate endDate id]
+                (srv/county id startDate endDate)))
 
