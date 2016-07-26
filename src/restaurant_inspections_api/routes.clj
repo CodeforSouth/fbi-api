@@ -5,7 +5,7 @@
 
 (defroutes all-routes
            (GET "/" [] (srv/home))
-           (GET "/get/:id" [id] (srv/get-details id))
+           (GET "/inspection/:id" [id] (srv/get-details id))
            (GET "/list-counties" [] (srv/get-dist-counties))
            (GET ["/location/:zips" :zips #"[^/]+"]
                 [startDate endDate zips]
