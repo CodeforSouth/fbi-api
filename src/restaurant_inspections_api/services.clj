@@ -25,15 +25,14 @@
 (defn get-violation-count
   "dynamically get violation in an inspection row using the violation #"
   [data id]
-  ((keyword (str "violation_"
-                 (if (< id 10) (str 0 id) id)))
+  ((keyword (format "violation_%1$02d" id))                 ;; violation_01 .. violation_58
     data))
 
 (defn parse-violations
   "get an inspection row and generates a list of not empty violations"
   [data]
   (keep #(let [count (get-violation-count data %)]
-           (if (pos? count) {:id % :count count}))
+           (when (pos? count) {:id % :count count}))
        (range 1 59)))
 
 (defn format-data
@@ -62,12 +61,12 @@
                       :intermediateViolations          (:intermediate_violations data)
                       :basicViolations                 (:basic_violations data)}]
       (if is-full
-        (into basic-data
-              {:criticalViolationsBefore2013      (:critical_violations_before_2013 data)
+        (assoc basic-data
+               :criticalViolationsBefore2013      (:critical_violations_before_2013 data)
                :nonCriticalViolationsBefore2013   (:noncritical_violations_before_2013 data)
                :pdaStatus                         (:pda_status data)
                :licenseId                         (:license_id data)
-               :violations (parse-violations data)})
+               :violations (parse-violations data))
         basic-data))))
 
 (defn location
