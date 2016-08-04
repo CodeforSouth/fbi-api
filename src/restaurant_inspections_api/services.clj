@@ -32,10 +32,8 @@
 (defn parse-violations
   "get an inspection row and generates a list of not empty violations"
   [data]
-  (keep #(let [count (get-violation-count data %)
-               hasViolation (> count 0)]
-           (if hasViolation (into {:id %}
-                                  {:count count})))
+  (keep #(let [count (get-violation-count data %)]
+           (if (pos? count) {:id % :count count}))
        (range 1 59)))
 
 (defn format-data
