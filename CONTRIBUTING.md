@@ -45,7 +45,9 @@ To submit a code change to the project for review by the team:
 1. **Setup:** [Install the app][install] on your computer.
 
 2. **Branch:** [Create a topic branch][branch] for the one specific issue
-you're addressing.
+you're addressing (if you are really committed to support us to fix the issue,
+you can create any initial dummy code and create a pull request for this, so
+we can see what's coming and avoid duplicated works).
 
 3. **Implement:** Implement your feature or bug fix - don't forget to write tests and check that 
 all the tests are passing (the news and also the old ones).
