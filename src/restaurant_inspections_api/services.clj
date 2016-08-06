@@ -2,11 +2,14 @@
   (:require [restaurant-inspections-api.responses :as res]
             [clj-time.format :as f]
             [clj-time.coerce :as c]
+            [yesql.core :refer [defqueries]]
             [restaurant-inspections-api.environment :as env]
             [clojure.java.jdbc :as db]
             [clojure.string :as str]))
 
 (def db-url (env/get-env-db-url))
+
+(defqueries "sql/inspections.sql" {:connection db-url})
 
 (defn home
   "go to project wiki"
@@ -108,41 +111,27 @@
 
 (defn district
   "return inspections per given district and period"
-  [id start-date end-date]
+  [district start-date end-date]
   (res/ok (map format-data
-               (db/query db-url
-                         [(str "SELECT " (basic-fields-sql)
-                                     "  FROM restaurant_inspections"
-                                     " WHERE inspection_date BETWEEN ? AND ?"
-                                     "   AND district = ?"
-                                     " LIMIT 1000") start-date end-date id] ))))
+               (inspections-by-district
+                 {:startDate    start-date
+                  :endDate      end-date
+                  :countyNumber district}))))
 
 (defn county
   "return inspections per given county and period"
-  [id start-date end-date]
+  [countyNumber start-date end-date]
   (res/ok (map format-data
-               (db/query db-url
-                         [(str "SELECT " (basic-fields-sql)
-                                     "  FROM restaurant_inspections"
-                                     " WHERE inspection_date BETWEEN ? AND ?"
-                                     "   AND county_number = ?"
-                                     " LIMIT 1000") start-date end-date id] ))))
+               (inspections-by-county {:startDate    start-date
+                                       :endDate      end-date
+                                       :countyNumber countyNumber}))))
 
 (defn get-details
   "return full info for the given Id"
   [id]
-  (res/ok (format-data (first (db/query db-url
-                                        ["SELECT *
-                             FROM restaurant_inspections
-                            WHERE inspection_visit_id = ?" id]))
-                       true)))
+  (res/ok (format-data (first (inspection-details {:id id})) true)))
 
 (defn get-dist-counties
   "return district and counties list"
   []
-  (res/ok (db/query db-url
-                    [(str "SELECT district, county_number as countyNumber, "
-                          "       county_name as countyName, count(*) as inspections "
-                          "  FROM restaurant_inspections "
-                          " GROUP BY district, county_number, county_name"
-                          " ORDER by district, county_name")])))
+  (res/ok district-counties-summary))
