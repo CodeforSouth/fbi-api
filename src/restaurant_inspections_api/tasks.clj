@@ -2,6 +2,8 @@
   (:require [clj-time.core :as t]
             [clj-time.format :as f]
             [clojure.set :as set]
+            [clojure.tools.logging :as log]
+            [yesql.core :refer [defqueries]]
             [clj-time.periodic :refer [periodic-seq]]
             [clojure-csv.core :as csv]
             [chime :refer [chime-at]]
@@ -11,6 +13,8 @@
   (:import (org.joda.time DateTimeZone)))
 
 (def db-url (env/get-env-db-url))
+
+(defqueries "sql/inspections.sql" {:connection db-url})
 
 (defn insert-data!
   "insert the data list into db"
@@ -113,15 +117,15 @@
                 :violation_58                       (str-null->int (nth % 79))
                 :license_id                         (nth % 80)
                 :inspection_visit_id                (str-null->int (nth % 81))}
-              (catch Exception _ (prn "Fail to load row " %)))
+              (catch Exception _ (log/info "Fail to load row " %)))
        (csv/parse-csv csv-file)))
 
 (defn download
   "download csv files"
   [csv-files]
-  (println "Downloading" (count csv-files) "CSV files...")
+  (log/info "Downloading" (count csv-files) "CSV files...")
   (map (fn [file]
-         (println "Downloading file " file)
+         (log/info "Downloading file " file)
          (parse (slurp file)))
        csv-files))
 
@@ -131,15 +135,9 @@
   (let [inspections (flatten inspections)
         inspection-ids (map :inspection_visit_id inspections)
         inspections-qty (count inspection-ids)]
-    (prn "Loading " inspections-qty " inspections")
+    (log/info "Loading " inspections-qty " inspections")
     (->> (partition-all 1000 inspection-ids)
-         (map #(db/query db-url
-                         (flatten
-                            [(str "SELECT inspection_visit_id"
-                                  "  FROM restaurant_inspections"
-                                  " WHERE inspection_visit_id IN ("
-                                  (str/join ", " (take (count %) (repeat "?")))
-                                  ")") %])))
+         (map #(select-existent-ids {:ids %}))
          (flatten)
          (map :inspection_visit_id)
          (set)
@@ -151,19 +149,19 @@
   []
   (let [csv-files (env/get-csv-files)
         inspections (filter-new-inspections (download csv-files))]
-    (prn "new inspections to load: " (count inspections))
+    (log/info "new inspections to load: " (count inspections))
     (mapv (fn [rows]
-            (println "Saved Rows: " (count (insert-data! rows))))
+            (log/info "Saved Rows: " (count (insert-data! rows))))
           (partition-all 1000 inspections))))
 
 (defn load-api-data
   "schedules the load process"
   []
-  (prn "Scheduling Load API Data")
+  (log/info "Scheduling Load API Data")
   (chime-at (->> (periodic-seq (.. (t/now)
                   (withZone (DateTimeZone/forID "America/New_York"))
                   (withTime 4 0 0 0))                       ; Scheduled to run every day at 4 am
                   (-> 1 t/days)))
             (fn [time]
-              (prn "Starting load data task" time)
+              (log/info "Starting load data task" time)
               (process-load-data))))
