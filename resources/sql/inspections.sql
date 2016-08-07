@@ -26,6 +26,40 @@ SELECT inspection_visit_id, district, county_number, county_name, license_type_c
  WHERE inspection_date BETWEEN :startDate AND :endDate
    AND district = :district;
 
+-- name: inspections-by-business
+-- Select inspections by business name
+SELECT inspection_visit_id, district, county_number, county_name, license_type_code, license_number,
+       business_name, inspection_date, location_address, location_city, location_zipcode,
+       inspection_number, visit_number, inspection_type, inspection_disposition,
+       total_violations, high_priority_violations,
+       intermediate_violations, basic_violations
+  FROM restaurant_inspections
+ WHERE inspection_date BETWEEN :startDate AND :endDate
+   AND business_name LIKE :businessName;
+
+-- name: inspections-by-business-location
+-- Select inspections by business name and location
+SELECT inspection_visit_id, district, county_number, county_name, license_type_code, license_number,
+       business_name, inspection_date, location_address, location_city, location_zipcode,
+       inspection_number, visit_number, inspection_type, inspection_disposition,
+       total_violations, high_priority_violations,
+       intermediate_violations, basic_violations
+  FROM restaurant_inspections
+ WHERE inspection_date BETWEEN :startDate AND :endDate
+   AND business_name LIKE :businessName
+   AND location_zipcode IN (:zips);
+
+-- name: inspections-by-zips
+-- Select inspections by zips
+SELECT inspection_visit_id, district, county_number, county_name, license_type_code, license_number,
+       business_name, inspection_date, location_address, location_city, location_zipcode,
+       inspection_number, visit_number, inspection_type, inspection_disposition,
+       total_violations, high_priority_violations,
+       intermediate_violations, basic_violations
+  FROM restaurant_inspections
+ WHERE inspection_date BETWEEN :startDate AND :endDate
+   AND location_zipcode IN (:zips);
+
 -- name: district-counties-summary
 -- Counts the number of inspections grouped by Districts and Counties
 SELECT district, county_number as countyNumber,

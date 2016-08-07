@@ -16,15 +16,6 @@
   []
   (res/redirect "https://github.com/Code-for-Miami/restaurant-inspections-api/wiki"))
 
-(defn basic-fields-sql
-  "return a string with the basic inspection fields"
-  []
-  (str "inspection_visit_id, district, county_number, county_name, license_type_code, license_number, "
-       "business_name, inspection_date, location_address, location_city, location_zipcode, "
-       "inspection_number, visit_number, inspection_type, inspection_disposition, "
-       "total_violations, high_priority_violations, "
-       "intermediate_violations, basic_violations"))
-
 (defn get-violation-count
   "dynamically get violation in an inspection row using the violation #"
   [data id]
@@ -77,46 +68,36 @@
   [start-date end-date zips]
   (let [zips (str/split zips #",")]
     (res/ok (map format-data
-                 (db/query db-url
-                           (concat [(str "SELECT " (basic-fields-sql)
-                                       "  FROM restaurant_inspections"
-                                       " WHERE inspection_date BETWEEN ? AND ?"
-                                       "   AND location_zipcode IN ("
-                                       (str/join ", " (take (count zips) (repeat "?")))
-                                       ") LIMIT 1000") start-date end-date] zips))))))
-
-(def name-basic-sql
-  (str "SELECT " (basic-fields-sql)
-       "  FROM restaurant_inspections"
-       " WHERE inspection_date BETWEEN ? AND ?"
-       "   AND business_name LIKE ? "))
+                 (inspections-by-zips
+                   {:startDate    start-date
+                    :endDate      end-date
+                    :zips         zips})))))
 
 (defn get-name
   "return inspections per given business name, location and period"
   ([start-date end-date name]
    (res/ok (map format-data
-                (db/query db-url
-                          [(str name-basic-sql
-                                " LIMIT 1000") start-date end-date
-                           (str/replace name #"\*" "%")]))))
+                (inspections-by-business
+                  {:startDate    start-date
+                   :endDate      end-date
+                   :businessName (str/replace name #"\*" "%")}))))
   ([start-date end-date name zips]
    (let [zips (str/split zips #",")]
      (res/ok (map format-data
-                  (db/query db-url
-                            (concat [(str name-basic-sql
-                                          " AND location_zipcode IN ("
-                                          (str/join ", " (take (count zips) (repeat "?")))
-                                          ") LIMIT 1000") start-date end-date
-                                     (str/replace name #"\*" "%")] zips)))))))
+                  (inspections-by-business
+                    {:startDate    start-date
+                     :endDate      end-date
+                     :businessName (str/replace name #"\*" "%")
+                     :zips         zips}))))))
 
 (defn district
   "return inspections per given district and period"
   [district start-date end-date]
   (res/ok (map format-data
                (inspections-by-district
-                 {:startDate    start-date
-                  :endDate      end-date
-                  :countyNumber district}))))
+                 {:startDate start-date
+                  :endDate   end-date
+                  :district  district}))))
 
 (defn county
   "return inspections per given county and period"
@@ -134,4 +115,4 @@
 (defn get-dist-counties
   "return district and counties list"
   []
-  (res/ok district-counties-summary))
+  (res/ok (district-counties-summary)))
