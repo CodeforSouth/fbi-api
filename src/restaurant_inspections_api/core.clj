@@ -4,9 +4,11 @@
             [restaurant-inspections-api.tasks :refer [load-api-data]]
             [org.httpkit.server :refer [run-server]]
             [ring.middleware.reload :as reload]
-            [compojure.handler :refer [site]]))
+            [compojure.handler :refer [site]])
+  (:gen-class))
 
 (def port (env/get-env-port))
+
 (defn -main
   "Starts the server"
   [& args]
