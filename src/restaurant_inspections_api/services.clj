@@ -26,7 +26,8 @@
   "get an inspection row and generates a list of not empty violations"
   [data]
   (keep #(let [count (get-violation-count data %)]
-           (when (pos? count) {:id % :count count}))
+           (when (and (not (nil? count)) (pos? count))
+             {:id % :count count}))
        (range 1 59)))
 
 (defn format-data
