@@ -11,6 +11,10 @@
 
 (defqueries "sql/inspections.sql" {:connection db-url})
 
+(defn query-inspection-details
+  [query]
+  (inspection-details query))
+
 (defn home
   "go to project wiki"
   []
@@ -111,7 +115,7 @@
 (defn get-details
   "return full info for the given Id"
   [id]
-  (res/ok (format-data (first (inspection-details {:id id})) true)))
+  (res/ok (format-data (first (query-inspection-details {:id id})) true)))
 
 (defn get-dist-counties
   "return district and counties list"
