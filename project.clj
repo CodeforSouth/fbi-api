@@ -13,6 +13,7 @@
                  [jarohen/chime "0.1.9"]
                  [clojure-csv/clojure-csv "2.0.1"]
                  [org.clojure/tools.logging "0.3.1"]
+                 [metosin/compojure-api "1.1.6"]
                  [yesql "0.5.3"]
                  [org.clojure/java.jdbc "0.6.2-alpha1"]
                  [mysql/mysql-connector-java "5.1.6"]]
