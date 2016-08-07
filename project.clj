@@ -20,5 +20,4 @@
   :plugins [[lein-environ "1.1.0"]]
   :uberjar-name "restaurant-inspections-api.jar"
   :main ^:skip-aot restaurant_inspections_api.core
-  :profiles {:production {:env {:production true}}
-             :uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all}})
