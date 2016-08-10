@@ -19,5 +19,5 @@
   :min-lein-version "2.0.0"
   :plugins [[lein-environ "1.1.0"]]
   :uberjar-name "restaurant-inspections-api.jar"
-  :main ^:skip-aot restaurant_inspections_api.core
+  :main ^:skip-aot restaurant-inspections-api.core
   :profiles {:uberjar {:aot :all}})
