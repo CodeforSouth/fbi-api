@@ -29,9 +29,10 @@
   [csv-map]
   (db/insert-county! csv-map)
   (db/insert-restaurant! csv-map)
-  (let [modified-inspection (db/insert-inspection! csv-map)
+  (let [modified-inspections (db/insert-inspection! csv-map)
         violations-seq (violations csv-map)]
-    (when-not (zero? modified-inspection)
+    ; TODO: is this when-not necessary?
+    (when-not (zero? modified-inspections)
       (doseq [entry violations-seq]
         (db/insert-inspection-violation!
           {:inspection_id (:inspection_visit_id csv-map)
@@ -51,9 +52,10 @@
   [csv-url]
   (with-open [in-file (io/reader csv-url)]
     ; TODO: remove; we'll start with 40 so its easier to work/test with data and inspect results
-    (csv-seq->db! (take 40 (csv/read-csv in-file)))))
+    (csv-seq->db! (csv/read-csv in-file))))
 
 
+; TODO: modify download! to return the amount of rows it modified etc?
 (defn download!
   "Download CSV files from urls and store new entries in db"
   [csv-urls]

@@ -6,11 +6,12 @@
             [restaurant-inspections-api.environment :as env]
             [restaurant-inspections-api.cron.csv-to-model :as model]))
 
+
 (defn process-load-data!
   "Load and read the CSV urls, and insert new records into the DB"
   []
   (let [csv-urls (env/get-csv-files)]
-        (model/download! csv-urls)))
+        (time (model/download! csv-urls))))
 
 ;; (process-load-data!)
 
