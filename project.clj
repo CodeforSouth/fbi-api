@@ -18,5 +18,5 @@
                  [mysql/mysql-connector-java "5.1.6"]]
   :min-lein-version "2.0.0"
   :uberjar-name "restaurant-inspections-api.jar"
-  :main ^:skip-aot restaurant-inspections-api.core
-  :profiles {:uberjar {:aot :all}})
+  :main ^:skip-aot restaurant-inspections-api.core ; skip ahead of time compilation on REPL
+  :profiles {:uberjar {:aot :all}})                ; ahead of time compilation for release
