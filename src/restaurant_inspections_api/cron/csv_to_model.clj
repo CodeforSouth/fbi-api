@@ -51,7 +51,6 @@
   "Receives one csv url and parses into, inserting new values into db"
   [csv-url]
   (with-open [in-file (io/reader csv-url)]
-    ; TODO: remove; we'll start with 40 so its easier to work/test with data and inspect results
     (csv-seq->db! (csv/read-csv in-file))))
 
 

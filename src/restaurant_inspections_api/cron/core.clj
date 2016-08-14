@@ -13,7 +13,6 @@
   (let [csv-urls (env/get-csv-files)]
         (time (model/download! csv-urls))))
 
-;; (process-load-data!)
 
 (defn load-api-data
   "Schedules the load process"
