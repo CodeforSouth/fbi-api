@@ -42,7 +42,6 @@ CREATE TABLE inspections(
 -- violations
 CREATE TABLE violations(
   id INT PRIMARY KEY,
-  level INT,
   description VARCHAR(255)
 );
 
