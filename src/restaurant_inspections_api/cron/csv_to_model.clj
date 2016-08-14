@@ -17,10 +17,12 @@
                                  (timef/parse (timef/formatter "MM/dd/YYYY") str)))
     (catch Exception _)))
 
+
 (defn violations
   "Returns a vector sequence from a map, with violation > 0"
   [csv-map]
     (filter #(and (re-find #"violation_" (name (first %))) (pos? (second %))) csv-map))
+
 
 (defn create-models-rows!
   "Calls db to insert new inspections and restaurant data, if needed."
@@ -37,37 +39,33 @@
            :violation_count (second entry)
            })))))
 
+
 (defn csv-seq->db!
   "parses a sequence of csv files, one row at a time"
   [csv-seq]
-  (dorun (map #(create-models-rows! (csv-row->map %)) csv-seq)))
+  (dorun (pmap #(create-models-rows! (csv-row->map %)) csv-seq)))
+
 
 (defn csv-url->db!
   "Receives one csv url and parses into, inserting new values into db"
   [csv-url]
-  (with-open [in-file (io/reader "etc/data/1fdinspi.csv")]
-    ; TODO: remove; we'll start with 10 so its easier to work with data and inspect results
-    (csv-seq->db! (take 10 (csv/read-csv in-file)))))
+  (with-open [in-file (io/reader csv-url)]
+    ; TODO: remove; we'll start with 40 so its easier to work/test with data and inspect results
+    (csv-seq->db! (take 40 (csv/read-csv in-file)))))
 
-(comment
-; TODO download but pass to lazy file in?
-(defn download
-  "Download CSV files from urls"
-  [csv-files]
-  (log/info "Downloading" (count csv-files) "CSV files...")
-  (map (fn [file]
+
+(defn download!
+  "Download CSV files from urls and store new entries in db"
+  [csv-urls]
+  (log/info "Downloading" (count csv-urls) "CSV files...")
+  (pmap (fn [file]
          (log/info "Downloading file " file)
-         (parse (slurp file)))
-       csv-files))
+         (csv-url->db! file)) csv-urls))
 
-  )
 
-; TODO: better algorithm for this:
-; alternatives:
-; (apply hash-map record)
+; Alternatives: (but wouldn't validate not-empty, str->int, etc)
 ; (zipmap fields values)
 ; (into {} (map vector fields values))
-; instead of nth 0..81?
 (defn csv-row->map
   "Transforms csv data into map with restaurant database keys"
   [csv-row]
