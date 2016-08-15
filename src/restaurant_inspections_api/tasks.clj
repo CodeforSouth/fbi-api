@@ -13,6 +13,7 @@
   (:import (org.joda.time DateTimeZone)))
 
 (def db-url (env/get-env-db-url))
+(def chime-time (env/get-env-chime))
 
 (defqueries "sql/inspections.sql" {:connection db-url})
 
@@ -157,11 +158,12 @@
 (defn load-api-data
   "schedules the load process"
   []
-  (log/info "Scheduling Load API Data")
-  (chime-at (->> (periodic-seq (.. (t/now)
-                  (withZone (DateTimeZone/forID "America/New_York"))
-                  (withTime 4 0 0 0))                       ; Scheduled to run every day at 4 am
-                  (-> 1 t/days)))
-            (fn [time]
-              (log/info "Starting load data task" time)
-              (process-load-data))))
+  (let [[hour min sec mili] chime-time]
+    (log/info (str "Scheduling Load API Data to run at " hour ":" min ":" sec "." mili))
+    (chime-at (->> (periodic-seq (.. (t/now)
+                                     (withZone (DateTimeZone/forID "America/New_York"))
+                                     (withTime hour min sec mili))           ; Scheduled to run every day at CHIME-TIME
+                                 (-> 1 t/days)))
+              (fn [time]
+                (log/info "Starting load data task" time)
+                (process-load-data)))))
