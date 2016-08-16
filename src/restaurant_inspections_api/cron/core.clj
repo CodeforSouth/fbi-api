@@ -8,6 +8,7 @@
             [restaurant-inspections-api.cron.csv-to-model :as model])
   (:import (org.joda.time DateTimeZone)))
 
+(def chime-time (env/get-env-chime))
 
 (defn process-load-data!
   "Load and read the CSV urls, and insert new records into the DB"
@@ -15,15 +16,15 @@
   (let [csv-urls (env/get-csv-files)]
         (time (model/download! csv-urls))))
 
-
 (defn load-api-data
-  "Schedules the load process"
+  "schedules the load process"
   []
-  (log/info "Scheduling Load API Data")
-  (chime-at (->> (periodic-seq (.. (timer/now)
-                                   (withZone (DateTimeZone/forID "America/New_York"))
-                                   (withTime 4 0 0 0)) ; Scheduled to run every day at 4 am
-                               (-> 1 timer/days)))
-            (fn [time]
-              (log/info "Starting load data task" time)
-              (process-load-data!))))
+  (let [[hour min sec mili] chime-time]
+    (log/info (str "Scheduling Load API Data to run at " hour ":" min ":" sec "." mili))
+    (chime-at (->> (periodic-seq (.. (t/now)
+                                     (withZone (DateTimeZone/forID "America/New_York"))
+                                     (withTime hour min sec mili))           ; Scheduled to run every day at CHIME-TIME
+                                 (-> 1 t/days)))
+              (fn [time]
+                (log/info "Starting load data task" time)
+                (process-load-data!)))))
