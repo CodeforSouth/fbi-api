@@ -15,21 +15,12 @@
 (defn get-env-chime
   "detect chime environment variable - tasks time"
   []
-  (if-let [chime-time (str/split (or (env :chime-time) "") #",")]
-    (do (log/info "Environment variable CHIME_TIME detected: " chime-time)
-        (map #(Integer. %) chime-time))
+  (if (env :chime-time)
+    (let [chime-time (str/split (or (env :chime-time) "") #",")]
+      (do (log/info "Environment variable CHIME_TIME detected: " chime-time)
+          (map #(Integer. %) chime-time)))
     (do (log/info "No-Environment variable CHIME_TIME, setting default time to 4 am")
         [4 0 0 0])))
-
-(defn get-env-db-url
-  "detect DATABASE_URL environment variable"
-  []
-  (if-let [url (or (env :database-url) (env :cleardb-database-url)) ]
-    (do (log/info "Environment variable DATABASE_URL detected: " url)
-        url)
-    (let [default-db "jdbc:mysql://localhost:3306/cfm_restaurants?user=root"]
-      (log/info "No-Environment variable DATABASE_URL, setting default url as " default-db)
-      default-db)))
 
 (defn in-prod?
   "verifies if it's in production mode (environment variable PRODUCTION)"
@@ -39,6 +30,16 @@
         true)
     (do (log/info "No-Environment variable PRODUCTION, production mode false")
         false)))
+
+(defn get-env-db-url
+  "detect DATABASE_URL environment variable"
+  []
+  (if-let [url (or (env :database-url) (env :cleardb-database-url)) ]
+    (do (when-not (in-prod?) (prn  "Environment variable DATABASE_URL detected: " url))
+        url)
+    (let [default-db "jdbc:mysql://localhost:3306/cfm_restaurants?user=root"]
+      (log/info "No-Environment variable DATABASE_URL, setting default url as " default-db)
+      default-db)))
 
 (defn get-csv-files
   "get restaurant inspections csv files address separated by comma"
