@@ -15,9 +15,9 @@
   "detect chime environment variable - tasks time"
   []
   (if-let [chime-time (str/split (or (env :chime-time) "") #",")]
-    (do (log/info "Environment variable CHIME_TIME detected: " chime-time)
+    (do (prn "Environment variable CHIME_TIME detected: " chime-time)
         (map #(Integer. %) chime-time))
-    (do (log/info "No-Environment variable CHIME_TIME, setting default time to 4 am")
+    (do (prn "No-Environment variable CHIME_TIME, setting default time to 4 am")
         [4 0 0 0])))
 
 (defn get-env-db-url
