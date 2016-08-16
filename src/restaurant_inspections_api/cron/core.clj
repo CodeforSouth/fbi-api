@@ -21,10 +21,10 @@
   []
   (let [[hour min sec mili] chime-time]
     (log/info (str "Scheduling Load API Data to run at " hour ":" min ":" sec "." mili))
-    (chime-at (->> (periodic-seq (.. (t/now)
+    (chime-at (->> (periodic-seq (.. (timer/now)
                                      (withZone (DateTimeZone/forID "America/New_York"))
                                      (withTime hour min sec mili))           ; Scheduled to run every day at CHIME-TIME
-                                 (-> 1 t/days)))
+                                 (-> 1 timer/days)))
               (fn [time]
                 (log/info "Starting load data task" time)
                 (process-load-data!)))))
