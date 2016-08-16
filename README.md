@@ -2,6 +2,8 @@
 
 Get started through our wiki here: https://github.com/Code-for-Miami/restaurant-inspections-api/wiki
 
+[![Build Status](https://travis-ci.org/Code-for-Miami/restaurant-inspections-api.svg?branch=master)](https://travis-ci.org/Code-for-Miami/restaurant-inspections-api)
+
 ## What is this?
 
 This is a RESTful API that scrapes restaurant inspections in Miami-Dade County. The goal is to provide an easier way for developers to use local restaurant inspection data for their own personal projects.

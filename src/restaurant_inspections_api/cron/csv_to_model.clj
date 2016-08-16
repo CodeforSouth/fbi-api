@@ -155,4 +155,3 @@
                 }
               (catch Exception e (do (log/info "Failed to load row " %)
                                    (log/info (str "... due to error: " e))))) csv-row))
-

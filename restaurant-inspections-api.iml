@@ -15,10 +15,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Leiningen: cheshire:5.6.3" level="project" />
-    <orderEntry type="library" name="Leiningen: cider/cider-nrepl:0.8.1" level="project" />
+    <orderEntry type="library" name="Leiningen: cider/cider-nrepl:0.14.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Leiningen: clj-stacktrace:0.2.8" level="project" />
     <orderEntry type="library" name="Leiningen: clj-time:0.11.0" level="project" />
-    <orderEntry type="library" name="Leiningen: cljs-tooling:0.1.3" level="project" />
     <orderEntry type="library" name="Leiningen: clojure-complete:0.2.4" level="project" />
     <orderEntry type="library" name="Leiningen: clojure-csv:2.0.1" level="project" />
     <orderEntry type="library" name="Leiningen: clout:2.1.2" level="project" />
@@ -28,14 +27,13 @@
     <orderEntry type="library" name="Leiningen: commons-codec:1.6" level="project" />
     <orderEntry type="library" name="Leiningen: commons-fileupload:1.3.1" level="project" />
     <orderEntry type="library" name="Leiningen: commons-io:2.5" level="project" />
-    <orderEntry type="library" name="Leiningen: compliment:0.2.0" level="project" />
     <orderEntry type="library" name="Leiningen: compojure:1.5.1" level="project" />
     <orderEntry type="library" name="Leiningen: crypto-equality:1.0.0" level="project" />
     <orderEntry type="library" name="Leiningen: crypto-random:1.2.0" level="project" />
-    <orderEntry type="library" name="Leiningen: environ:1.0.3" level="project" />
+    <orderEntry type="library" name="Leiningen: environ:1.1.0" level="project" />
     <orderEntry type="library" name="Leiningen: hiccup:1.0.5" level="project" />
     <orderEntry type="library" name="Leiningen: http-kit:2.2.0-beta1" level="project" />
-    <orderEntry type="library" name="Leiningen: instaparse:1.4.0" level="project" />
+    <orderEntry type="library" name="Leiningen: instaparse:1.4.1" level="project" />
     <orderEntry type="library" name="Leiningen: jarohen/chime:0.1.9" level="project" />
     <orderEntry type="library" name="Leiningen: javax.servlet/servlet-api:2.5" level="project" />
     <orderEntry type="library" name="Leiningen: joda-time:2.8.2" level="project" />
@@ -47,20 +45,21 @@
     <orderEntry type="library" name="Leiningen: org.clojure/core.cache:0.6.4" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/core.memoize:0.5.8" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/data.priority-map:0.0.4" level="project" />
-    <orderEntry type="library" name="Leiningen: org.clojure/java.classpath:0.2.0" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/java.classpath:0.2.2" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/java.jdbc:0.6.2-alpha1" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/tools.analyzer.jvm:0.6.9" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/tools.analyzer:0.6.7" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/tools.logging:0.3.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/tools.macro:0.1.5" level="project" />
-    <orderEntry type="library" name="Leiningen: org.clojure/tools.namespace:0.2.5" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/tools.namespace:0.2.10" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/tools.nrepl:0.2.12" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/tools.reader:0.9.1" level="project" />
-    <orderEntry type="library" name="Leiningen: org.clojure/tools.trace:0.7.8" level="project" />
     <orderEntry type="library" name="Leiningen: org.ow2.asm/asm-all:4.2" level="project" />
-    <orderEntry type="library" name="Leiningen: org.tcrawley/dynapath:0.2.3" level="project" />
+    <orderEntry type="library" name="Leiningen: org.tcrawley/dynapath:0.2.4" level="project" />
     <orderEntry type="library" name="Leiningen: ring/ring-codec:1.0.1" level="project" />
     <orderEntry type="library" name="Leiningen: ring/ring-core:1.5.0" level="project" />
     <orderEntry type="library" name="Leiningen: ring/ring-devel:1.5.0" level="project" />
     <orderEntry type="library" name="Leiningen: tigris:0.1.1" level="project" />
+    <orderEntry type="library" name="Leiningen: yesql:0.5.3" level="project" />
   </component>
 </module>
