@@ -90,7 +90,9 @@
 
 (deftest str-csv-date->iso-test
   (testing "Converts date string from csv format to iso date for use in db"
-    (is (= "2016-01-05" (str-csv-date->iso "01/05/2016")))))
+    (is (= "2016-01-05" (str-csv-date->iso "01/05/2016")))
+    (is (= nil (str-csv-date->iso "06/31/2016")))
+    (is (= nil (str-csv-date->iso "123132")))))
 
 (deftest csv-row->map-test
   (testing "Converts csv raw row into a map"
