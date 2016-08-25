@@ -61,7 +61,7 @@
                :nonCriticalViolationsBefore2013   (:noncritical_violations_before_2013 data)
                :pdaStatus                         (:pda_status data)
                :licenseId                         (:license_id data)
-               :violations (parse-violations data))
+               :violations                        (:violations data))
         basic-data))))
 
 (defn location
@@ -108,10 +108,26 @@
                                        :endDate      end-date
                                        :countyNumber countyNumber}))))
 
+(defn select-violations
+  "select and parse violations for a given inspection id"
+  [inspection-id]
+  (mapv (fn [violation]
+         (prn violation)
+         {:id               (:violation_id violation)
+          :count            (:violation_count violation)
+          :description      (:description violation)
+          :isRiskFactor     (:is_risk_factor violation)
+          :isPrimaryConcern (:is_primary_concern violation)})
+       (db/select-violations-by-inspection {:id inspection-id})))
+
 (defn get-details
   "return full info for the given Id"
   [id]
-  (res/ok (format-data (first (db/select-inspection-details {:id id})) true)))
+  (res/ok (if-let [inspection (first (db/select-inspection-details {:id id}))]
+            (do (prn (:inspection_visit_id inspection))
+                (format-data (assoc inspection :violations (select-violations (:inspection_visit_id inspection)))
+                             true))
+            (res/not-found))))
 
 (defn get-dist-counties
   "return district and counties list"
