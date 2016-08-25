@@ -12,7 +12,9 @@ INSERT IGNORE INTO inspections
    high_priority_violations,
    intermediate_violations,
    basic_violations,
-   pda_status)
+   pda_status,
+   county_number,
+   license_number)
 VALUES (:inspection_visit_id,
    :license_id,
    :inspection_number,
@@ -25,4 +27,6 @@ VALUES (:inspection_visit_id,
    :high_priority_violations,
    :intermediate_violations,
    :basic_violations,
-   :pda_status);
+   :pda_status,
+   :county_number,
+   :license_number);

@@ -4,16 +4,12 @@
             [clj-time.coerce :as c]
             [yesql.core :refer [defqueries]]
             [restaurant-inspections-api.environment :as env]
-            [clojure.java.jdbc :as db]
+            [restaurant-inspections-api.db :as db]
             [clojure.string :as str]))
 
 (def db-url (env/get-env-db-url))
 
 (defqueries "sql/inspections.sql" {:connection db-url})
-
-(defn query-inspection-details
-  [query]
-  (inspection-details query))
 
 (defn home
   "go to project wiki"
@@ -115,7 +111,7 @@
 (defn get-details
   "return full info for the given Id"
   [id]
-  (res/ok (format-data (first (query-inspection-details {:id id})) true)))
+  (res/ok (format-data (first (db/select-inspection-details {:id id})) true)))
 
 (defn get-dist-counties
   "return district and counties list"

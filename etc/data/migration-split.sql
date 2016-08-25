@@ -36,7 +36,9 @@ CREATE TABLE inspections(
   high_priority_violations INT,
   intermediate_violations INT,
   basic_violations INT,
-  pda_status BOOLEAN
+  pda_status BOOLEAN,
+  county_number INT NOT NULL,
+  license_number INT NOT NULL
 );
 
 -- violations
