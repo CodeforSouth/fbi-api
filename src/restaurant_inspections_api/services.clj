@@ -3,7 +3,6 @@
             [clj-time.format :as f]
             [clj-time.coerce :as c]
             [yesql.core :refer [defqueries]]
-            [restaurant-inspections-api.environment :as env]
             [restaurant-inspections-api.db :as db]
             [clojure.string :as str]))
 
