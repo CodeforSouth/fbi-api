@@ -17,6 +17,15 @@
    :headers json-headers
    :body (json/generate-string body)})
 
+(defn not-found
+  "return status 404"
+  ([]
+    (not-found [{:error "resource not found"}]))
+  ([body]
+   {:status 404
+    :headers json-headers
+    :body (json/generate-string body)}))
+
 (defn error-response
   "return an error response with the given status and error message"
   [status message]

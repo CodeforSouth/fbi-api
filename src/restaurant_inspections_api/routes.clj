@@ -1,5 +1,4 @@
 (ns restaurant-inspections-api.routes
-  (:gen-class)
   (:require [restaurant-inspections-api.services :as srv]
             [compojure.core :refer [GET defroutes]]))
 

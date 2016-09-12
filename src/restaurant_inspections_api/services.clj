@@ -3,36 +3,13 @@
             [clj-time.format :as f]
             [clj-time.coerce :as c]
             [yesql.core :refer [defqueries]]
-            [restaurant-inspections-api.environment :as env]
-            [clojure.java.jdbc :as db]
+            [restaurant-inspections-api.db :as db]
             [clojure.string :as str]))
-
-(def db-url (env/get-env-db-url))
-
-(defqueries "sql/inspections.sql" {:connection db-url})
-
-(defn query-inspection-details
-  [query]
-  (inspection-details query))
 
 (defn home
   "go to project wiki"
   []
   (res/redirect "https://github.com/Code-for-Miami/restaurant-inspections-api/wiki"))
-
-(defn get-violation-count
-  "dynamically get violation in an inspection row using the violation #"
-  [data id]
-  ((keyword (format "violation_%1$02d" id))                 ;; violation_01 .. violation_58
-    data))
-
-(defn parse-violations
-  "get an inspection row and generates a list of not empty violations"
-  [data]
-  (keep #(let [count (get-violation-count data %)]
-           (when (and (not (nil? count)) (pos? count))
-             {:id % :count count}))
-       (range 1 59)))
 
 (defn format-data
   "formats db raw data to json pattern"
@@ -65,7 +42,7 @@
                :nonCriticalViolationsBefore2013   (:noncritical_violations_before_2013 data)
                :pdaStatus                         (:pda_status data)
                :licenseId                         (:license_id data)
-               :violations (parse-violations data))
+               :violations                        (:violations data))
         basic-data))))
 
 (defn location
@@ -73,7 +50,7 @@
   [start-date end-date zips]
   (let [zips (str/split zips #",")]
     (res/ok (map format-data
-                 (inspections-by-zips
+                 (db/select-inspections-by-location
                    {:startDate    start-date
                     :endDate      end-date
                     :zips         zips})))))
@@ -82,14 +59,14 @@
   "return inspections per given business name, location and period"
   ([start-date end-date name]
    (res/ok (map format-data
-                (inspections-by-business
+                (db/select-inspections-by-restaurant
                   {:startDate    start-date
                    :endDate      end-date
                    :businessName (str/replace name #"\*" "%")}))))
   ([start-date end-date name zips]
    (let [zips (str/split zips #",")]
      (res/ok (map format-data
-                  (inspections-by-business
+                  (db/select-inspections-by-restaurant-location
                     {:startDate    start-date
                      :endDate      end-date
                      :businessName (str/replace name #"\*" "%")
@@ -99,7 +76,7 @@
   "return inspections per given district and period"
   [district start-date end-date]
   (res/ok (map format-data
-               (inspections-by-district
+               (db/select-inspections-by-district
                  {:startDate start-date
                   :endDate   end-date
                   :district  district}))))
@@ -108,16 +85,31 @@
   "return inspections per given county and period"
   [countyNumber start-date end-date]
   (res/ok (map format-data
-               (inspections-by-county {:startDate    start-date
-                                       :endDate      end-date
-                                       :countyNumber countyNumber}))))
+               (db/select-inspections-by-county
+                 {:startDate    start-date
+                  :endDate      end-date
+                  :countyNumber countyNumber}))))
+
+(defn select-violations
+  "select and parse violations for a given inspection id"
+  [inspection-id]
+  (map (fn [violation]
+         {:id               (:violation_id violation)
+          :count            (:violation_count violation)
+          :description      (:description violation)
+          :isRiskFactor     (:is_risk_factor violation)
+          :isPrimaryConcern (:is_primary_concern violation)})
+       (db/select-violations-by-inspection {:id inspection-id})))
 
 (defn get-details
   "return full info for the given Id"
   [id]
-  (res/ok (format-data (first (query-inspection-details {:id id})) true)))
+  (res/ok (if-let [inspection (first (db/select-inspection-details {:id id}))]
+            (format-data (assoc inspection :violations (select-violations (:inspection_visit_id inspection)))
+                         true)
+            (res/not-found))))
 
 (defn get-dist-counties
   "return district and counties list"
   []
-  (res/ok (district-counties-summary)))
+  (res/ok (db/select-counties-summary)))

@@ -1,42 +1,76 @@
-(ns restaurant-inspections-api.tasks
-  (:require [clj-time.core :as t]
-            [clj-time.format :as f]
-            [clojure.set :as set]
+(ns restaurant-inspections-api.cron.csv-to-model
+  (:require [clojure.data.csv :as csv]
+            [clojure.java.io :as io]
+            [clj-time.format :as timef]
+            [clojure.string :as str]
             [clojure.tools.logging :as log]
-            [yesql.core :refer [defqueries]]
-            [clj-time.periodic :refer [periodic-seq]]
-            [clojure-csv.core :as csv]
-            [chime :refer [chime-at]]
-            [restaurant-inspections-api.environment :as env]
-            [clojure.java.jdbc :as db]
-            [clojure.string :as str])
-  (:import (org.joda.time DateTimeZone)))
+            ; internal
+            [restaurant-inspections-api.util :refer [str-null->int]]
+            [restaurant-inspections-api.db :as db]))
 
-(def db-url (env/get-env-db-url))
-(def chime-time (env/get-env-chime))
-
-(defqueries "sql/inspections.sql" {:connection db-url})
-
-(defn insert-data!
-  "insert the data list into db"
-  [inspections]
-  (db/insert-multi! db-url :restaurant_inspections inspections))
-
-(defn str-null->int
-  "convert from blank string to number or nil"
-  [str]
-  (try (Integer. (not-empty str)) (catch Exception _)))
+(declare csv-row->map)
 
 (defn str-csv-date->iso
-  "convert from csv date format to iso date"
+  "Convert csv date format to iso date"
   [str]
-  (try (not-empty (f/unparse (f/formatter "YYYY-MM-dd") (f/parse (f/formatter "MM/dd/YYYY") str)))
-       (catch Exception _)))
+  (try (not-empty (timef/unparse (timef/formatter "YYYY-MM-dd")
+                                 (timef/parse (timef/formatter "MM/dd/YYYY") str)))
+    (catch Exception _)))
 
-(defn parse
-  "transforms csv data into restaurants database data"
-  [csv-file]
-  (keep #(try {:district                          (not-empty (nth % 0))
+
+(defn violations
+  "Returns a vector sequence from a map, with violation > 0"
+  [csv-map]
+    (filter #(and (re-find #"violation_" (name (first %))) (pos? (second %))) csv-map))
+
+
+(defn create-models-rows!
+  "Calls db to insert new inspections and restaurant data, if needed."
+  [csv-map]
+  (db/insert-county! csv-map)
+  (db/insert-restaurant! csv-map)
+  (let [modified-inspections (db/insert-inspection! csv-map)
+        violations-seq (violations csv-map)]
+    ; TODO: is this when-not necessary?
+    (when-not (zero? modified-inspections)
+      (doseq [entry violations-seq]
+        (db/insert-inspection-violation!
+          {:inspection_id (:inspection_visit_id csv-map)
+           :violation_id (Integer. (re-find #"\d+" (name (first entry))))
+           :violation_count (second entry)
+           })))))
+
+
+(defn csv-seq->db!
+  "parses a sequence of csv files, one row at a time"
+  [csv-seq]
+  (dorun (pmap #(create-models-rows! (csv-row->map %)) csv-seq)))
+
+
+(defn csv-url->db!
+  "Receives one csv url and parses into, inserting new values into db"
+  [csv-url]
+  (with-open [in-file (io/reader csv-url)]
+    (csv-seq->db! (csv/read-csv in-file))))
+
+
+; TODO: modify download! to return the amount of rows it modified etc?
+(defn download!
+  "Download CSV files from urls and store new entries in db"
+  [csv-urls]
+  (log/info "Downloading" (count csv-urls) "CSV files...")
+  (pmap (fn [file]
+         (log/info "Downloading file " file)
+         (csv-url->db! file)) csv-urls))
+
+
+; Alternatives: (but wouldn't validate not-empty, str->int, etc)
+; (zipmap fields values)
+; (into {} (map vector fields values))
+(defn csv-row->map
+  "Transforms csv data into map with restaurant database keys"
+  [csv-row]
+        (#(try {:district                          (not-empty (nth % 0))
                 :county_number                      (str-null->int (nth % 1))
                 :county_name                        (not-empty (nth % 2))
                 :license_type_code                  (not-empty (nth % 3))
@@ -58,6 +92,8 @@
                 :intermediate_violations            (str-null->int (nth % 19))
                 :basic_violations                   (str-null->int (nth % 20))
                 :pda_status                         (= (nth % 21) "Y")
+                :license_id                         (nth % 80)
+                :inspection_visit_id                (str-null->int (nth % 81))
                 :violation_01                       (str-null->int (nth % 22))
                 :violation_02                       (str-null->int (nth % 23))
                 :violation_03                       (str-null->int (nth % 24))
@@ -116,54 +152,6 @@
                 :violation_56                       (str-null->int (nth % 77))
                 :violation_57                       (str-null->int (nth % 78))
                 :violation_58                       (str-null->int (nth % 79))
-                :license_id                         (nth % 80)
-                :inspection_visit_id                (str-null->int (nth % 81))}
-              (catch Exception _ (log/info "Fail to load row " %)))
-       (csv/parse-csv csv-file)))
-
-(defn download
-  "download csv files"
-  [csv-files]
-  (log/info "Downloading" (count csv-files) "CSV files...")
-  (map (fn [file]
-         (log/info "Downloading file " file)
-         (parse (slurp file)))
-       csv-files))
-
-(defn filter-new-inspections
-  "filter the new inspections based in our current DB"
-  [inspections]
-  (let [inspections (flatten inspections)
-        inspection-ids (map :inspection_visit_id inspections)
-        inspections-qty (count inspection-ids)]
-    (log/info "Loading " inspections-qty " inspections")
-    (->> (partition-all 1000 inspection-ids)
-         (map #(select-existent-ids {:ids %}))
-         (flatten)
-         (map :inspection_visit_id)
-         (set)
-         (set/difference (set inspection-ids))
-         (keep #(first (filter (fn [x] (= % (:inspection_visit_id x))) inspections))))))
-
-(defn process-load-data
-  "load and read the CSV, compare and insert the new ones on DB"
-  []
-  (let [csv-files (env/get-csv-files)
-        inspections (filter-new-inspections (download csv-files))]
-    (log/info "new inspections to load: " (count inspections))
-    (mapv (fn [rows]
-            (log/info "Saved Rows: " (count (insert-data! rows))))
-          (partition-all 1000 inspections))))
-
-(defn load-api-data
-  "schedules the load process"
-  []
-  (let [[hour min sec mili] chime-time]
-    (log/info (str "Scheduling Load API Data to run at " hour ":" min ":" sec "." mili))
-    (chime-at (->> (periodic-seq (.. (t/now)
-                                     (withZone (DateTimeZone/forID "America/New_York"))
-                                     (withTime hour min sec mili))           ; Scheduled to run every day at CHIME-TIME
-                                 (-> 1 t/days)))
-              (fn [time]
-                (log/info "Starting load data task" time)
-                (process-load-data)))))
+                }
+              (catch Exception e (do (log/info "Failed to load row " %)
+                                   (log/info (str "... due to error: " e))))) csv-row))

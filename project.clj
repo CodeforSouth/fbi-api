@@ -11,13 +11,12 @@
                  [environ "1.1.0"]
                  [compojure "1.5.1"]
                  [jarohen/chime "0.1.9"]
-                 [clojure-csv/clojure-csv "2.0.1"]
+                 [org.clojure/data.csv "0.1.3"]
                  [org.clojure/tools.logging "0.3.1"]
                  [yesql "0.5.3"]
                  [org.clojure/java.jdbc "0.6.2-alpha1"]
                  [mysql/mysql-connector-java "5.1.6"]]
   :min-lein-version "2.0.0"
-  :plugins [[lein-environ "1.1.0"]]
   :uberjar-name "restaurant-inspections-api.jar"
-  :main ^:skip-aot restaurant-inspections-api.core
-  :profiles {:uberjar {:aot :all}})
+  :main ^:skip-aot restaurant-inspections-api.core ; skip ahead of time compilation on REPL
+  :profiles {:uberjar {:aot :all}})                ; ahead of time compilation for release

@@ -1,12 +1,13 @@
 (ns restaurant-inspections-api.core
-  (:require [restaurant-inspections-api.environment :as env]
-            [restaurant-inspections-api.cors :refer [all-cors]]
-            [restaurant-inspections-api.routes :refer [all-routes]]
-            [restaurant-inspections-api.tasks :refer [load-api-data]]
-            [clojure.tools.logging :as log]
+  (:require [clojure.tools.logging :as log]
             [org.httpkit.server :refer [run-server]]
             [ring.middleware.reload :as reload]
-            [compojure.handler :refer [site]])
+            [compojure.handler :refer [site]]
+            ; internal
+            [restaurant-inspections-api.environment :as env]
+            [restaurant-inspections-api.cors :refer [all-cors]]
+            [restaurant-inspections-api.routes :refer [all-routes]]
+            [restaurant-inspections-api.cron.core :refer [load-api-data]])
   (:gen-class))
 
 (def port (env/get-env-port))
