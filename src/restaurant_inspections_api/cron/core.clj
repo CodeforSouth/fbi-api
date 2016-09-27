@@ -17,7 +17,7 @@
         (time (model/download! csv-urls))))
 
 (defn load-api-data
-  "schedules the load process"
+  "Schedules the load process"
   []
   (let [[hour min sec mili] chime-time]
     (log/info (str "Scheduling Load API Data to run at " hour ":" min ":" sec "." mili))

@@ -1,7 +1,8 @@
 (ns restaurant-inspections-api.services-test
   (:require [clojure.test :refer :all]
             [cheshire.core :refer [parse-string]]
-            [restaurant-inspections-api.services :as srv]))
+            [restaurant-inspections-api.services :as srv]
+            [restaurant-inspections-api.db :as db]))
 
 (def inspection-example
   {:county_name "Broward",
@@ -37,7 +38,7 @@
                 {:id 54, :count 1}]})
 
 ; Test general helper functions
-(deftest db-to-json-formatter
+(deftest format-data-test
   (let [data inspection-example]
     (testing "Basic data"
       (let [json (srv/format-data data)]
@@ -50,3 +51,41 @@
         (is (= (count (:violations json)) 8))
         (is (= (first (:violations json)) {:id 3, :count 1}))
         (is (= (:totalViolations json) 11))))))
+
+(deftest location-test
+  (testing "Works correctly upon receiving all parameters")
+  (testing "Works when receiving only zips and uses default date range if so"
+    (is (=
+          (with-redefs [db/select-inspections-by-location #(-> %)]
+            (srv/location "33129"))
+          {:status 200
+           :headers {"Content-Type" "application/json"}
+           :body "[{\"intermediateViolations\":null,\"locationCity\":null,\"locationAddress\":null,\"countyName\":null,\"licenseTypeCode\":null,\"businessName\":null,\"locationZipcode\":null,\"totalViolations\":null,\"inspectionDisposition\":null,\"inspectionNumber\":null,\"basicViolations\":null,\"id\":null,\"countyNumber\":null,\"licenseNumber\":null,\"visitNumber\":null,\"inspectionType\":null,\"inspectionDate\":\"2016-09-27\",\"highPriorityViolations\":null,\"district\":null},{\"intermediateViolations\":null,\"locationCity\":null,\"locationAddress\":null,\"countyName\":null,\"licenseTypeCode\":null,\"businessName\":null,\"locationZipcode\":null,\"totalViolations\":null,\"inspectionDisposition\":null,\"inspectionNumber\":null,\"basicViolations\":null,\"id\":null,\"countyNumber\":null,\"licenseNumber\":null,\"visitNumber\":null,\"inspectionType\":null,\"inspectionDate\":\"2016-09-27\",\"highPriorityViolations\":null,\"district\":null},{\"intermediateViolations\":null,\"locationCity\":null,\"locationAddress\":null,\"countyName\":null,\"licenseTypeCode\":null,\"businessName\":null,\"locationZipcode\":null,\"totalViolations\":null,\"inspectionDisposition\":null,\"inspectionNumber\":null,\"basicViolations\":null,\"id\":null,\"countyNumber\":null,\"licenseNumber\":null,\"visitNumber\":null,\"inspectionType\":null,\"inspectionDate\":\"2016-09-27\",\"highPriorityViolations\":null,\"district\":null}]"}
+        ))))
+
+(deftest business-test
+  (testing "Works correctly upon receiving all parameters")
+  (testing "Works when receiving only business name and uses default date range if so"
+    (is (=
+          (with-redefs [db/select-inspections-by-restaurant {}]
+            (srv/business "McDonalds"))
+          {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
+        ))))
+
+(deftest district-test
+  (testing "Works correctly upon receiving all parameters")
+  (testing "Works when receiving only district name and uses default date range if so"
+    (is (=
+          (with-redefs [db/select-inspections-by-district {}]
+            (srv/district "whoknows"))
+          {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
+        ))))
+
+(deftest county-test
+  (testing "Works correctly upon receiving all parameters")
+  (testing "Works when receiving only district name and uses default date range if so"
+    (is (=
+          (with-redefs [db/select-inspections-by-county {}]
+            (srv/county "another"))
+          {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
+        ))))

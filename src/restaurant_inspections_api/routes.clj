@@ -4,21 +4,18 @@
 
 (defroutes all-routes
            (GET "/" [] (srv/home))
-           (GET "/inspections/:id" [id] (srv/get-details id))
+           (GET "/inspections/:id" [id] (srv/inspection id))
            (GET "/counties" [] (srv/get-dist-counties))
            (GET ["/locations/:zips"]
-                [startDate endDate zips]
-                (srv/location startDate endDate zips))
-           (GET ["/restaurants/:name"]
-                [startDate endDate name]
-                (srv/get-name startDate endDate name))
-           (GET ["/businesses/:name/:zips"]
-                [startDate endDate name zips]
-                (srv/get-name startDate endDate name zips))
+                [zips startDate endDate]
+                (srv/location zips startDate endDate))
+           (GET ["/businesses/:name"]
+                [name zips startDate endDate]
+                (srv/business name zips startDate endDate))
            (GET "/districts/:id"
-                [startDate endDate id]
+                [id startDate endDate]
                 (srv/district id startDate endDate))
            (GET "/counties/:id"
-                [startDate endDate id]
+                [id startDate endDate]
                 (srv/county id startDate endDate)))
 
