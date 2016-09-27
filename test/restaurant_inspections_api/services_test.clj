@@ -56,11 +56,11 @@
   (testing "Works correctly upon receiving all parameters")
   (testing "Works when receiving only zips and uses default date range if so"
     (is (=
-          (with-redefs [db/select-inspections-by-location #(-> %)]
+          (with-redefs [db/select-inspections-by-location {}]
             (srv/location "33129"))
           {:status 200
            :headers {"Content-Type" "application/json"}
-           :body "[{\"intermediateViolations\":null,\"locationCity\":null,\"locationAddress\":null,\"countyName\":null,\"licenseTypeCode\":null,\"businessName\":null,\"locationZipcode\":null,\"totalViolations\":null,\"inspectionDisposition\":null,\"inspectionNumber\":null,\"basicViolations\":null,\"id\":null,\"countyNumber\":null,\"licenseNumber\":null,\"visitNumber\":null,\"inspectionType\":null,\"inspectionDate\":\"2016-09-27\",\"highPriorityViolations\":null,\"district\":null},{\"intermediateViolations\":null,\"locationCity\":null,\"locationAddress\":null,\"countyName\":null,\"licenseTypeCode\":null,\"businessName\":null,\"locationZipcode\":null,\"totalViolations\":null,\"inspectionDisposition\":null,\"inspectionNumber\":null,\"basicViolations\":null,\"id\":null,\"countyNumber\":null,\"licenseNumber\":null,\"visitNumber\":null,\"inspectionType\":null,\"inspectionDate\":\"2016-09-27\",\"highPriorityViolations\":null,\"district\":null},{\"intermediateViolations\":null,\"locationCity\":null,\"locationAddress\":null,\"countyName\":null,\"licenseTypeCode\":null,\"businessName\":null,\"locationZipcode\":null,\"totalViolations\":null,\"inspectionDisposition\":null,\"inspectionNumber\":null,\"basicViolations\":null,\"id\":null,\"countyNumber\":null,\"licenseNumber\":null,\"visitNumber\":null,\"inspectionType\":null,\"inspectionDate\":\"2016-09-27\",\"highPriorityViolations\":null,\"district\":null}]"}
+           :body "[]"}
         ))))
 
 (deftest business-test
