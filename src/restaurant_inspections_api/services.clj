@@ -2,17 +2,23 @@
   (:require [restaurant-inspections-api.responses :as res]
             [clj-time.format :as f]
             [clj-time.coerce :as c]
+            [clj-time.core :as t]
             [yesql.core :refer [defqueries]]
             [restaurant-inspections-api.db :as db]
             [clojure.string :as str]))
 
+(defn todays-date
+  "Get todays date"
+  []
+  (f/unparse (f/formatter "yyyy-MM-dd") (t/now)))
+
 (defn home
-  "go to project wiki"
+  "Go to project wiki"
   []
   (res/redirect "https://github.com/Code-for-Miami/restaurant-inspections-api/wiki"))
 
 (defn format-data
-  "formats db raw data to json pattern"
+  "Formats db raw data to json pattern"
   ([data]
    (format-data data false))
   ([data is-full]
@@ -46,24 +52,30 @@
         basic-data))))
 
 (defn location
-  "return inspections per given location and period"
-  [start-date end-date zips]
+  "Returns inspections per given location and period"
+  ([zips]
+   (location zips "2013-01-01" (todays-date)))
+  ([zips start-date end-date]
   (let [zips (str/split zips #",")]
     (res/ok (map format-data
                  (db/select-inspections-by-location
                    {:startDate    start-date
                     :endDate      end-date
-                    :zips         zips})))))
+                    :zips         zips}))))))
 
-(defn get-name
-  "return inspections per given business name, location and period"
-  ([start-date end-date name]
+(defn business
+  "Returns inspections per given business name, location and period"
+  ([name]
+   (business name "2013-01-01" (todays-date)))
+  ([name zips]
+   (business name zips "2013-01-01" (todays-date)))
+  ([name start-date end-date]
    (res/ok (map format-data
                 (db/select-inspections-by-restaurant
                   {:startDate    start-date
                    :endDate      end-date
                    :businessName (str/replace name #"\*" "%")}))))
-  ([start-date end-date name zips]
+  ([name zips start-date end-date]
    (let [zips (str/split zips #",")]
      (res/ok (map format-data
                   (db/select-inspections-by-restaurant-location
@@ -73,25 +85,29 @@
                      :zips         zips}))))))
 
 (defn district
-  "return inspections per given district and period"
-  [district start-date end-date]
+  "Returns inspections per given district and period"
+  ([district-id]
+   (district district-id "2013-01-01" (todays-date)))
+  ([district-id start-date end-date]
   (res/ok (map format-data
                (db/select-inspections-by-district
                  {:startDate start-date
                   :endDate   end-date
-                  :district  district}))))
+                  :district  district-id})))))
 
 (defn county
-  "return inspections per given county and period"
-  [countyNumber start-date end-date]
+  "Returns inspections per given county and period"
+  ([county-number]
+   (county county-number "2013-01-01" (todays-date)))
+  ([county-number start-date end-date]
   (res/ok (map format-data
                (db/select-inspections-by-county
                  {:startDate    start-date
                   :endDate      end-date
-                  :countyNumber countyNumber}))))
+                  :countyNumber county-number})))))
 
 (defn select-violations
-  "select and parse violations for a given inspection id"
+  "Select and parse violations for a given inspection id"
   [inspection-id]
   (map (fn [violation]
          {:id               (:violation_id violation)
@@ -101,8 +117,8 @@
           :isPrimaryConcern (:is_primary_concern violation)})
        (db/select-violations-by-inspection {:id inspection-id})))
 
-(defn get-details
-  "return full info for the given Id"
+(defn inspection
+  "Returns full info on inspection for a given Id"
   [id]
   (res/ok (if-let [inspection (first (db/select-inspection-details {:id id}))]
             (format-data (assoc inspection :violations (select-violations (:inspection_visit_id inspection)))
@@ -110,6 +126,6 @@
             (res/not-found))))
 
 (defn get-dist-counties
-  "return district and counties list"
+  "Returns district and counties list"
   []
   (res/ok (db/select-counties-summary)))
