@@ -1,7 +1,8 @@
 (ns restaurant-inspections-api.services-test
     (:require [clojure.test :refer :all]
               [cheshire.core :refer [parse-string]]
-              [restaurant-inspections-api.services :as srv]))
+              [restaurant-inspections-api.services :as srv]
+              [restaurant-inspections-api.db :as db]))
 
 (def inspection-example
     {:county_name "Broward",
@@ -56,7 +57,7 @@
     (testing "Works when receiving only zips and uses default date range if so"
         (is (=
                 (with-redefs [db/select-inspections-by-location {}]
-                    (srv/location "33129"))
+                    (srv/inspections-by-zipcodes "33129"))
                 {:status 200
                  :headers {"Content-Type" "application/json"}
                  :body "[]"}
@@ -67,7 +68,7 @@
     (testing "Works when receiving only business name and uses default date range if so"
         (is (=
                 (with-redefs [db/select-inspections-by-restaurant {}]
-                    (srv/business "McDonalds"))
+                    (srv/inspections-by-business-name "McDonalds"))
                 {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
                 ))))
 
@@ -76,7 +77,7 @@
     (testing "Works when receiving only district name and uses default date range if so"
         (is (=
                 (with-redefs [db/select-inspections-by-district {}]
-                    (srv/district "whoknows"))
+                    (srv/inspections-by-district "whoknows"))
                 {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
                 ))))
 
@@ -85,7 +86,7 @@
     (testing "Works when receiving only district name and uses default date range if so"
         (is (=
                 (with-redefs [db/select-inspections-by-county {}]
-                    (srv/county "another"))
+                    (srv/inspections-by-county "another"))
                 {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
                 ))))
 

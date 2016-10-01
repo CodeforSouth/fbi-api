@@ -10,9 +10,9 @@
 
     (GET "/" [] (srv/home))
 
-    (GET "/inspection/:id" [id] (srv/full-inspection-details id))
+    (GET "/inspections/:id" [id] (srv/full-inspection-details id))
 
-    (GET "/list-counties" [] (srv/get-counties))
+    (GET "/counties" [] (srv/get-counties))
 
     (GET ["/location/:zips"]
          [zips startDate endDate]
@@ -37,7 +37,7 @@
     (ANY "/greet" []
          (resource
              :available-media-types ["application/json"]
-             :handle-ok (fn [ctx] (str "Hello liberator"))))
+             :handle-ok (fn [ctx] (str "Hello World!"))))
 
     ;; Default 404 when there's no match
     ;; TODO change body to something meaningful

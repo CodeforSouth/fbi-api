@@ -16,10 +16,8 @@
                  [yesql "0.5.3"]
                  [org.clojure/java.jdbc "0.6.2-alpha1"]
                  [mysql/mysql-connector-java "5.1.6"]
-                 [liberator "0.13"]
-                 [lein-light-nrepl "0.3.3"]]
+                 [liberator "0.13"]]
   :min-lein-version "2.0.0"
-  :repl-options {:nrepl-middleware [lighttable.nrepl.handler/lighttable-ops]}
   :uberjar-name "restaurant-inspections-api.jar"
   :main ^:skip-aot restaurant-inspections-api.core ; skip ahead of time compilation on REPL
   :profiles {:uberjar {:aot :all}})                ; ahead of time compilation for release
