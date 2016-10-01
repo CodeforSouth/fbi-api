@@ -1,6 +1,6 @@
 (ns restaurant-inspections-api.db
-  (:require [yesql.core :refer [defquery]]
-            [restaurant-inspections-api.environment :as env]))
+    (:require [yesql.core :refer [defquery]]
+              [restaurant-inspections-api.environment :as env]))
 
 (def db-params {:connection (env/get-env-db-url)})
 
