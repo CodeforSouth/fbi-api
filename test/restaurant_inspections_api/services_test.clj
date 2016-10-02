@@ -52,41 +52,41 @@
                 (is (= (first (:violations json)) {:id 3, :count 1}))
                 (is (= (:totalViolations json) 11))))))
 
-(deftest inspections-by-zipcodes-test
-    (testing "Works correctly upon receiving all parameters")
-    (testing "Works when receiving only zips and uses default date range if so"
-        (is (=
-                (with-redefs [db/select-inspections-by-location {}]
-                    (srv/inspections-by-zipcodes "33129"))
-                {:status 200
-                 :headers {"Content-Type" "application/json"}
-                 :body "[]"}
-                ))))
+;; (deftest inspections-by-zipcodes-test
+;;     (testing "Works correctly upon receiving all parameters")
+;;     (testing "Works when receiving only zips and uses default date range if so"
+;;         (is (=
+;;                 (with-redefs [db/select-inspections-by-location {}]
+;;                     (srv/inspections-by-zipcodes "33129"))
+;;                 {:status 200
+;;                  :headers {"Content-Type" "application/json"}
+;;                  :body "[]"}
+;;                 ))))
 
-(deftest inspections-by-business-name-test
-    (testing "Works correctly upon receiving all parameters")
-    (testing "Works when receiving only business name and uses default date range if so"
-        (is (=
-                (with-redefs [db/select-inspections-by-restaurant {}]
-                    (srv/inspections-by-business-name "McDonalds"))
-                {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
-                ))))
+;; (deftest inspections-by-business-name-test
+;;     (testing "Works correctly upon receiving all parameters")
+;;     (testing "Works when receiving only business name and uses default date range if so"
+;;         (is (=
+;;                 (with-redefs [db/select-inspections-by-restaurant {}]
+;;                     (srv/inspections-by-business-name "McDonalds"))
+;;                 {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
+;;                 ))))
 
-(deftest inspections-by-district-test
-    (testing "Works correctly upon receiving all parameters")
-    (testing "Works when receiving only district name and uses default date range if so"
-        (is (=
-                (with-redefs [db/select-inspections-by-district {}]
-                    (srv/inspections-by-district "whoknows"))
-                {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
-                ))))
+;; (deftest inspections-by-district-test
+;;     (testing "Works correctly upon receiving all parameters")
+;;     (testing "Works when receiving only district name and uses default date range if so"
+;;         (is (=
+;;                 (with-redefs [db/select-inspections-by-district {}]
+;;                     (srv/inspections-by-district "whoknows"))
+;;                 {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
+;;                 ))))
 
-(deftest inspections-by-county-test
-    (testing "Works correctly upon receiving all parameters")
-    (testing "Works when receiving only district name and uses default date range if so"
-        (is (=
-                (with-redefs [db/select-inspections-by-county {}]
-                    (srv/inspections-by-county "another"))
-                {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
-                ))))
+;; (deftest inspections-by-county-test
+;;     (testing "Works correctly upon receiving all parameters")
+;;     (testing "Works when receiving only district name and uses default date range if so"
+;;         (is (=
+;;                 (with-redefs [db/select-inspections-by-county {}]
+;;                     (srv/inspections-by-county "another"))
+;;                 {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
+;;                 ))))
 

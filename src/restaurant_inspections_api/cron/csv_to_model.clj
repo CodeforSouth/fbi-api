@@ -18,6 +18,11 @@
 (defn create-models-rows!
     "Calls db to insert new inspections and restaurant data, if needed."
     [csv-map]
+
+    ;; TODO: return rows affected, format:
+    ;; (defquery insert-person<! "sql/insert-person.sql")
+    ;; (insert-person<! db-spec "Emma" "Thompson" "emma@thompson.com")
+
     (db/insert-county! csv-map)
     (db/insert-restaurant! csv-map)
     (let [modified-inspections (db/insert-inspection! csv-map)
