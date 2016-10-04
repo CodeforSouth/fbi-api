@@ -21,3 +21,10 @@
         (is (= "2016-01-05" (str-csv-date->iso "01/05/2016")))
         (is (= nil (str-csv-date->iso "06/31/2016")))
         (is (= nil (str-csv-date->iso "123132")))))
+
+(deftest todays-date-test
+  (testing "output should be string"
+    (is (= (type (todays-date)) java.lang.String)))
+
+  (testing "Format should be date-like"
+    (is (not (nil? (re-matches #"\d{4}-\d\d-\d\d" (todays-date)))))))

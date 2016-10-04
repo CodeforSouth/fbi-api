@@ -20,8 +20,8 @@
             (not (boolean (some nil? matches))))))
 
 (defn validate-date
-    [start-date]
-    (boolean (re-matches #"[1-2]\d{3}-(0|1)[1-9]-[0-3][1-9]" start-date)))
+    [date]
+    (boolean (re-matches #"[1-2]\d{3}-(0|1)[0-9]-[0-3][1-9]" date)))
 
 (defn validate-district-code
     [district-code]
@@ -60,6 +60,11 @@
                 [false {:error {:error (str "Invalid format or value for parameter " (nth query-params-order invalid-param-index))}}]
                 [true {:validation-vector valid-params}]))))
 
+(defn handle-inspections-ok
+  ""
+  [ctx]
+  true)
+
 (defroutes all-routes
 
     ;; working:
@@ -82,14 +87,14 @@
 ;;           :handle-malformed
              :handle-ok (fn [ctx]
                             ;;                 (case valid-params
-                            ;;                     ;;          (srv/inspections-by-zipcodes  zips startDate endDate)
-                            ;;                     ;;          (srv/inspections-by-business-name name startDate endDate))
-                            ;;                     ;;          (srv/inspections-by-business-name name zips startDate endDate))
-                            ;;                     ;;          (srv/inspections-by-district district-id startDate endDate))
-                            ;;                     ;;          (srv/inspections-by-county id startDate endDate))
-                            ;;                     [true true true true true true] {:num 0}
-                            ;;                     [nil true true true true true] {:num 2}
-                            ;;                     :else {:num 1}
+                            ;;          (srv/inspections-by-zipcodes  zips startDate endDate)
+                            ;;          (srv/inspections-by-business-name name startDate endDate))
+                            ;;          (srv/inspections-by-business-name name zips startDate endDate))
+                            ;;          (srv/inspections-by-district district-id startDate endDate))
+                            ;;          (srv/inspections-by-county id startDate endDate))
+                            ;; [true true true true true true] {:num 0}
+                            ;; [nil true true true true true] {:num 2}
+                            ;;                 :else {:num 1}
                             ;;                     ))
                             {:result (get ctx :validation-vector)}
                             )))
