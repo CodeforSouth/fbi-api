@@ -3,7 +3,7 @@
             [clj-time.periodic :refer [periodic-seq]]
             [taoensso.timbre :refer [info]]
             [clj-time.core :as timer]
-            ; internal
+            ;; internal
             [restaurant-inspections-api.environment :as env]
             [restaurant-inspections-api.cron.csv-to-model :as model])
   (:import (org.joda.time DateTimeZone)))
@@ -21,7 +21,7 @@
   []
   (let [[hour min sec mili] (env/get-env-chime)]
     (info (str "Scheduling Load API Data to run at " hour ":" min ":" sec "." mili))
-    ; Scheduled to run every day at CHIME-TIME
+    ;; Scheduled to run every day at CHIME-TIME
     (chime-at (->> (periodic-seq (.. (timer/now)
                                      (withZone (DateTimeZone/forID "America/New_York"))
                                      (withTime hour min sec mili))  

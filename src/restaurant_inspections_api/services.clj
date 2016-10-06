@@ -24,7 +24,7 @@
                      :licenseNumber          (:license_number data)
                      :businessName           (:business_name data)
                      :inspectionDate    (timef/unparse (timef/formatter "YYYY-MM-dd")
-                                          (coerce-time/from-date (:inspection_date data)))
+                                                       (coerce-time/from-date (:inspection_date data)))
                      :locationAddress        (:location_address data)
                      :locationCity           (:location_city data)
                      :locationZipcode        (:location_zipcode data)
@@ -105,17 +105,29 @@
   "Return full inspection info for the given Id."
   [id]
   (if-let [inspection (first (db/select-inspection-details {:id id}))]
-             (format-data (assoc inspection :violations (violations-for-inspection (:inspection_visit_id inspection)))
-                          true)
-             (res/not-found)))
+    (format-data (assoc inspection :violations (violations-for-inspection (:inspection_visit_id inspection)))
+                 true)
+    (res/not-found)))
+
+(def default-inspections-params-map
+  {:startDate "2013-01-01"
+   :endDate "2016-10-06"
+   :businessName nil
+   :countyNumber nil
+   :district nil
+   :zipCodes nil
+   })
 
 (defn inspections-by-all
-  ""
-  []
-  0
-  )
+  "Retrieves and formats inspections, filtered by all, any, or no criteria."
+  [params-map]
+  (map format-data
+       ;; TODO: format zipCodes to replace commas with spaces
+       ;; TODO: format bussinessName to replace * with %
+       (db/select-inspections-by-all
+        (merge default-inspections-params-map params-map))))
 
 (defn get-counties
   "Return counties list, with their district."
   []
-  (res/ok (db/select-counties-summary)))
+  (db/select-counties-summary))

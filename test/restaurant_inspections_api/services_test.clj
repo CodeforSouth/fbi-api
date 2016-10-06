@@ -37,7 +37,7 @@
                 {:id 53, :count 1}
                 {:id 54, :count 1}]})
 
-                                        ; Test general helper functions
+;; Test general helper functions
 (deftest format-data-test
   (let [data inspection-example]
     (testing "Basic data"
@@ -51,6 +51,20 @@
         (is (= (count (:violations json)) 8))
         (is (= (first (:violations json)) {:id 3, :count 1}))
         (is (= (:totalViolations json) 11))))))
+
+;; TODO make sure we add with-redefs to not call real database...
+;;
+;; (deftest inspections-by-all-test
+;;   (testing "Retrieves inspections even when q params missing"
+;;     (is (= (srv/inspections-by-all {
+;;                                     :startDate "2013-01-01"
+;;                                     :endDate "2016-10-06"
+;;                                     :businessName "%Mc%"
+;;                                     :countyNumber 23
+;;                                     :district "D1"
+;;                                  }) {:empty true}))
+;;     )
+;;   )
 
 ;; (deftest inspections-by-zipcodes-test
 ;;     (testing "Works correctly upon receiving all parameters")

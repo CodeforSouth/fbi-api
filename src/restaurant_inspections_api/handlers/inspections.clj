@@ -41,7 +41,6 @@
                                                      start-date end-date
                                                      district-code
                                                      county-number)]
-
     (if (not (empty? (:invalid validations-map)))
         [false {:errors-map
                 {:errors  ;; for each invalid-params here
@@ -49,16 +48,15 @@
                              (format-query-params-error (name (key keyval)))))
                  }
                 }]
-        [true {:valid-params (:valid validations-map)}])))
+        [true {:valid-params (:valid validations-map)}]
+        )))
 
 
 (defn handle-inspections-ok
   ""
   [ctx]
   (let [result (get ctx :validation-vector)]
-    true
-    )
-  {:result (get ctx :validation-vector)}
-  ;; get index of next true value on vector, then use it on 
+    true)
+  ;; get index of next true value on vector, then use it on
   ;; query-params-order
   )
