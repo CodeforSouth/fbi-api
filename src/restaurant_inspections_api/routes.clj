@@ -34,16 +34,10 @@
         :handle-method-not-allowed #(-> {:error "Method not allowed on this resource."})
         ;;           :handle-malformed
         :handle-ok (fn [ctx]
-                     ;;                 (case valid-params
-                     ;;          (srv/inspections-by-zipcodes  zips startDate endDate)
-                     ;;          (srv/inspections-by-business-name name startDate endDate))
-                     ;;          (srv/inspections-by-business-name name zips startDate endDate))
-                     ;;          (srv/inspections-by-district district-id startDate endDate))
-                     ;;          (srv/inspections-by-county id startDate endDate))
-                     ;; [true true true true true true] {:num 0}
-                     ;; [nil true true true true true] {:num 2}
-                     ;;                 :else {:num 1}
-                     ;;                     ))
+                     ;;       (srv/inspections-by-zipcodes  zips startDate endDate)
+                     ;;       (srv/inspections-by-business-name name startDate endDate))
+                     ;;       (srv/inspections-by-district district-id startDate endDate)
+                     ;;       (srv/inspections-by-county id startDate endDate))
                      {:meta {:parameters (get ctx :valid-params)}
                       :data []
                       }
