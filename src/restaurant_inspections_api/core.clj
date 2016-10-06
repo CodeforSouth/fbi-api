@@ -11,7 +11,7 @@
   (:gen-class))
 
 (defn -main
-  "Starts server and schedules load-api-data process"
+  "Starts server and schedules load-api-data process."
   [& args]
   (let [handler (if (env/production?)
                   (all-cors (site all-routes))

@@ -16,6 +16,6 @@ SELECT i.inspection_visit_id, i.inspection_number,
    AND r.license_number = i.license_number
  WHERE i.inspection_date BETWEEN :startDate AND :endDate
    AND r.business_name LIKE :businessName
-   AND r.location_zipcode IN (:zipCOdes)
+   AND r.location_zipcode IN (:zipCodes)
    AND c.county_number = :countyNumber
    AND c.district = :districtCode;

@@ -8,7 +8,9 @@
    [clj-time.format :as timef]
    [clj-time.core :as clj-time]))
 
-(defn with-abs-path [filename]
+(defn with-abs-path
+  "Gets absolute path of server file."
+  [filename]
   (str (.getCanonicalPath (clojure.java.io/file ".")) (java.io.File/separator) filename))
 
 (def timbre-config
@@ -22,6 +24,8 @@
    ;; Clj only:
    ;;    :timestamp-opts default-timestamp-opts ; {:pattern _ :locale _ :timezone _}
    ;;    :output-fn default-output-fn ; (fn [data]) -> string
+
+   ;; TODO: Environmental variable to specify log file path?
    :appenders { :spit (appenders/spit-appender {:fname (with-abs-path "restaurant_inspections_api.log")}) }
    }
   )
@@ -29,18 +33,18 @@
 (timbre/merge-config! timbre-config)
 
 (defn todays-date
-  "Get todays date"
+  "Get todays date."
   []
   (timef/unparse (timef/formatter "yyyy-MM-dd") (clj-time/now)))
 
 (defn str-csv-date->iso
-  "Convert csv date format to iso date"
+  "Convert csv date format to iso date."
   [str]
   (try (not-empty (timef/unparse (timef/formatter "YYYY-MM-dd")
                                  (timef/parse (timef/formatter "MM/dd/YYYY") str)))
        (catch Exception _)))
 
 (defn str-null->int
-  "convert from blank string to number or nil"
+  "Convert from blank string to number or nil."
   [str]
   (try (Integer. (not-empty str)) (catch Exception _)))

@@ -3,7 +3,7 @@
             [restaurant-inspections-api.util :as util]))
 
 (defn validate-inspections-params
-  "Receives all inspections query parameters (some nil) and returns a map of valid and
+  "Receives all inspections query parameters (nil when not specified) and returns a map of valid and
   invalid params."
   [zip-codes business-name start-date end-date district-code county-number]
 
@@ -28,6 +28,7 @@
    })
 
 (defn inspections-processable?
+  "Given a ring server context, returns true or false if parameters are valid/processable. Also sets result (errors, correct fields) into the context."
   [ctx]
   ; lets make a map of field names, values, and valid
   (let [zip-codes (get-in ctx [:request :params :zipCodes])
@@ -49,6 +50,7 @@
                  }
                 }]
         [true {:valid-params (:valid validations-map)}])))
+
 
 (defn handle-inspections-ok
   ""
