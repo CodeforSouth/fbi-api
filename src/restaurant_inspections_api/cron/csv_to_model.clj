@@ -10,13 +10,13 @@
 (declare csv-row->map)
 
 (defn violations
-    "Returns a vector sequence from a map, with violation > 0"
+    "Returns a vector sequence from a csv map, with violation > 0."
     [csv-map]
     (filter #(and (re-find #"violation_" (name (first %))) (pos? (second %))) csv-map))
 
 
 (defn create-models-rows!
-    "Calls db to insert new inspections and restaurant data, if needed."
+    "Calls database to insert new inspections and restaurant data, if needed."
     [csv-map]
 
     ;; TODO: return rows affected, format:
@@ -27,7 +27,7 @@
     (db/insert-restaurant! csv-map)
     (let [modified-inspections (db/insert-inspection! csv-map)
           violations-seq (violations csv-map)]
-        ; TODO: is this when-not necessary?
+        ; TODO: is this when-not doing what it's supposed to do?
         (when-not (zero? modified-inspections)
             (doseq [entry violations-seq]
                 (db/insert-inspection-violation!
@@ -38,13 +38,13 @@
 
 
 (defn csv-seq->db!
-    "Parses a sequence of csv files, one row at a time"
+    "Parses a sequence of csv files, one row at a time."
     [csv-seq]
     (dorun (pmap #(create-models-rows! (csv-row->map %)) csv-seq)))
 
 
 (defn csv-url->db!
-    "Receives one csv url and parses into, inserting new values into db"
+    "Receives one csv url and parses into, inserting new values into db."
     [csv-url]
     (with-open [in-file (io/reader csv-url)]
         (csv-seq->db! (csv/read-csv in-file))))
@@ -52,7 +52,7 @@
 
 ; TODO: modify download! to return the amount of rows it modified etc?
 (defn download!
-    "Download CSV files from urls and store new entries in db"
+    "Download CSV files from urls and store new entries in db."
     [csv-urls]
     (info "Downloading" (count csv-urls) "CSV files...")
     (pmap (fn [file]
@@ -64,7 +64,7 @@
 ; (zipmap fields values)
 ; (into {} (map vector fields values))
 (defn csv-row->map
-    "Transforms csv data into map with restaurant database keys"
+    "Transforms csv data into map with restaurant database keys."
     [csv-row]
     (#(try {:district                          (not-empty (nth % 0))
             :county_number                      (str-null->int (nth % 1))
