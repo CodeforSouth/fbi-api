@@ -47,8 +47,7 @@
                  (into [] (for [keyval (:invalid validations-map)]
                              (format-query-params-error (name (key keyval)))))
                  }
-                }
-         ]
+                }]
         [true {:valid-params (:valid validations-map)}])))
 
 (defn handle-inspections-ok

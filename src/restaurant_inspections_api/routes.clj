@@ -29,7 +29,7 @@
         :allowed-methods [:get]
         :available-media-types ["application/json"]
         :processable? inspections/inspections-processable?
-        :handle-unprocessable-entity (fn [ctx] (get ctx :error-map))
+        :handle-unprocessable-entity (fn [ctx] (get ctx :errors-map))
         :handle-not-found	#(-> {:error "No results found."})
         :handle-method-not-allowed #(-> {:error "Method not allowed on this resource."})
         ;;           :handle-malformed
@@ -44,7 +44,9 @@
                      ;; [nil true true true true true] {:num 2}
                      ;;                 :else {:num 1}
                      ;;                     ))
-                     {:result (get ctx :valid-params)}
+                     {:meta {:parameters (get ctx :valid-params)}
+                      :data []
+                      }
                      )))
 
   ;; Default 404 when there's no match

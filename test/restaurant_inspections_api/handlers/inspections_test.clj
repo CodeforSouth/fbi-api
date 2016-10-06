@@ -66,6 +66,5 @@
   )
 
 (deftest handle-inspections-ok-test
-  (testing "handles all params scenario"
-    (is (= 1 1))))
+  (testing "handles all params scenario"))
 
