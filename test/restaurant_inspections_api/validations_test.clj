@@ -7,12 +7,12 @@
 ;;       consistent assertion error if fails.
 
 (deftest validate-zip-codes-test
-  (testing "Given a string zipcode list,passes through and retusn value if valid."
+  (testing "Given a string zipcode list, passes through/returns value if valid."
     (is (= "00953,32978,33137" (validate/zip-codes "00953,32978,33137")))
     (is (= "09878" (validate/zip-codes "09878")))
     ;; will allow users to enter 5 zeroes... their bad if nothing matches in DB
     (is (= "00000" (validate/zip-codes "00000"))))
-  (testing "Returns false for invalid format of zipcodes, including non accepted zipcode characters or difference in required digits"
+  (testing "Given invalid zipCodes format, returns false. Includes using non-accepted zipcode characters or difference in required digits."
     (is (false? (validate/zip-codes "00946,a3456")))
     (is (false? (validate/zip-codes "")))
     (is (false? (validate/zip-codes "a3433")))
@@ -20,7 +20,12 @@
     (is (false? (validate/zip-codes "1234")))
     (is (false? (validate/zip-codes "123456"))))
   (testing "Returns nil if zipcodes not provided (is nil)"
-    (is (nil? (validate/zip-codes nil)))))
+    (is (nil? (validate/zip-codes nil))))
+  (testing "Given wrong param type, raises exception"
+    ;; java.lang.ClassCastException
+    ;; TODO: could be an AssertionError
+    ;; (is (= 5 (validate/zip-codes '())))
+    ))
 
 (deftest validate-date-test
   (testing "Given a date string in (valid is YYYY-MM-DD) format, returns back value for valid date and format"

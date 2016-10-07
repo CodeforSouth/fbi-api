@@ -15,7 +15,6 @@
   (let [csv-urls (env/get-csv-files)]
     (time (model/download! csv-urls))))
 
-
 (defn load-api-data
   "Schedules cron job to update database with latest restaurant inspections."
   []
@@ -24,7 +23,7 @@
     ;; Scheduled to run every day at CHIME-TIME
     (chime-at (->> (periodic-seq (.. (timer/now)
                                      (withZone (DateTimeZone/forID "America/New_York"))
-                                     (withTime hour min sec mili))  
+                                     (withTime hour min sec mili))
                                  (-> 1 timer/days)))
               (fn [time]
                 (info "Starting load data task" time)

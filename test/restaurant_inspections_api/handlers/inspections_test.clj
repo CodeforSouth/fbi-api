@@ -62,9 +62,16 @@
                         :source {:parameter "zipCodes"}}]}}]))))
 
 (deftest validate-inspections-params-test
-  (testing "Given query params input, returns valid and invalid format/values.")
-  )
+  (testing "Given query params input, returns valid and invalid format/values."
+    (is (=
+         (validate-inspections-params
+          "33137,22345" "McDonalds" "2013-aa-22" "2015-03-03" nil nil)
+         {:invalid {:startDate false}
+          :valid {:zipCodes "33137,22345", :businessName "McDonalds", :endDate "2015-03-03"}
+          }
+         ))))
 
+;; TODO: inspections-ok still under routes.clj and under construction
 (deftest handle-inspections-ok-test
   (testing "handles all params scenario"))
 
