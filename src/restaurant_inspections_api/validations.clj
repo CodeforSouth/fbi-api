@@ -7,7 +7,7 @@
   (if (nil? zip-codes)
     nil
     (let [splitted-zip-codes-vector (clojure.string/split zip-codes #",")
-          matches (map (partial re-matches #"\d{5}") splitted-zip-codes-vector)]
+          matches (map (partial re-matches #"\d{5}|\d{9}") splitted-zip-codes-vector)]
       ;; the whole list should match, so no nil elements should be present
       (and (not (boolean (some nil? matches))) zip-codes))))
 

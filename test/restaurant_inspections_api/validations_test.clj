@@ -10,6 +10,7 @@
   (testing "Given a string zipcode list, passes through/returns value if valid."
     (is (= "00953,32978,33137" (validate/zip-codes "00953,32978,33137")))
     (is (= "09878" (validate/zip-codes "09878")))
+    (is (= "098783452" (validate/zip-codes "098783452")))
     ;; will allow users to enter 5 zeroes... their bad if nothing matches in DB
     (is (= "00000" (validate/zip-codes "00000"))))
   (testing "Given invalid zipCodes format, returns false. Includes using non-accepted zipcode characters or difference in required digits."
