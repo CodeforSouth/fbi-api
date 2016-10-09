@@ -79,16 +79,16 @@
        (db/select-inspections-by-district
         {:startDate start-date
          :endDate   end-date
-         :district  district}))
+         :district  district})))
 
-  (defn inspections-by-county
-    "Return inspections per given county and period."
-    [countyNumber start-date end-date]
-    (map format-data
-         (db/select-inspections-by-county
-          {:startDate    start-date
-           :endDate      end-date
-           :countyNumber countyNumber}))))
+(defn inspections-by-county
+  "Return inspections per given county and period."
+  [countyNumber start-date end-date]
+  (map format-data
+       (db/select-inspections-by-county
+        {:startDate    start-date
+         :endDate      end-date
+         :countyNumber countyNumber})))
 
 (defn violations-for-inspection
   "Select and parse violations for a given inspection id."

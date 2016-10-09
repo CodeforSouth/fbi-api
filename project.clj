@@ -21,5 +21,6 @@
   :uberjar-name "restaurant-inspections-api.jar"
   :main ^:skip-aot restaurant-inspections-api.core ; skip ahead of time compilation on REPL
   :profiles {:uberjar {:aot :all} ; ahead of time compilation for release
-             :dev {:plugins [[lein-cljfmt "0.5.6"]
-                             [lein-annotations "0.1.0"]]}})
+             :dev {:plugins [[lein-kibit "0.1.2"]
+                             [lein-cloverage "1.0.7"]
+                             [lein-cljfmt "0.5.6"]]}})

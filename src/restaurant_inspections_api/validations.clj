@@ -4,8 +4,7 @@
   "Validates zip codes. Returns original value if passes, nil if nil allowed,
   or false if not valid. Zip codes format: 33136,00976,33137."
   [zip-codes]
-  (if (nil? zip-codes)
-    nil
+  (when-not (nil? zip-codes)
     (let [splitted-zip-codes-vector (clojure.string/split zip-codes #",")
           matches (map (partial re-matches #"\d{5}|\d{9}") splitted-zip-codes-vector)]
       ;; the whole list should match, so no nil elements should be present
@@ -21,15 +20,12 @@
   "Validates a district code. Returns original value if passes, nil if nil is allowed,
   or false if not valid. District code format: D11."
   [district-code]
-  (if (nil? district-code)
-    nil
+  (when-not (nil? district-code)
     (and (boolean (re-matches #"D[0-9]{1,2}" district-code)) district-code)))
 
 (defn county-number
   "Validates a county code. Returns original value if passes, nil if nil is allowed,
   or false if not valid. County number format: any integer."
   [county-number]
-  (if (nil? county-number)
-    nil
+  (when-not (nil? county-number)
     (and (boolean (re-matches #"\d{1,3}" county-number)) county-number)))
-

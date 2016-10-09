@@ -39,7 +39,7 @@
                                                      start-date end-date
                                                      district-code
                                                      county-number)]
-    (if (not (empty? (:invalid validations-map)))
+    (if-not (empty? (:invalid validations-map))
       [false {:errors-map
               {:errors  ;; for each invalid-params here
                (into [] (for [keyval (:invalid validations-map)]

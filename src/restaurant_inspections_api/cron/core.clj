@@ -23,7 +23,7 @@
     (chime-at (->> (periodic-seq (.. (timer/now)
                                      (withZone (DateTimeZone/forID "America/New_York"))
                                      (withTime hour min sec mili))
-                                 (-> 1 timer/days)))
+                                 (timer/days 1)))
               (fn [time]
                 (info "Starting load data task" time)
                 (process-load-data!)))))
