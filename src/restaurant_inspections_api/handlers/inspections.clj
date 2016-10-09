@@ -15,8 +15,7 @@
                        :countyNumber (validate/county-number county-number)}]
 
     {:invalid (into {} (filter #(false? (second %)) validated-map))
-     :valid (into {} (filter #(boolean (second %)) validated-map))}
-    ))
+     :valid (into {} (filter #(boolean (second %)) validated-map))}))
 
 (defn format-query-params-error
   "Receives param-key for an error and returns a map with error details."
@@ -24,8 +23,7 @@
   {:code 1
    :title "Validation Error"
    :detail "Invalid format or value for parameter."
-   :source {:parameter param-key}
-   })
+   :source {:parameter param-key}})
 
 (defn inspections-processable?
   "Given a ring server context, returns true or false if parameters are valid/processable. Also sets result (errors, correct fields) into the context."
@@ -42,15 +40,11 @@
                                                      district-code
                                                      county-number)]
     (if (not (empty? (:invalid validations-map)))
-        [false {:errors-map
-                {:errors  ;; for each invalid-params here
-                 (into [] (for [keyval (:invalid validations-map)]
-                             (format-query-params-error (name (key keyval)))))
-                 }
-                }]
-        [true {:valid-params (:valid validations-map)}]
-        )))
-
+      [false {:errors-map
+              {:errors  ;; for each invalid-params here
+               (into [] (for [keyval (:invalid validations-map)]
+                          (format-query-params-error (name (key keyval)))))}}]
+      [true {:valid-params (:valid validations-map)}])))
 
 (defn handle-inspections-ok
   ""
@@ -59,4 +53,4 @@
     true)
   ;; get index of next true value on vector, then use it on
   ;; query-params-order
-  )
+)

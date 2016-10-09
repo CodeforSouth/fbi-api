@@ -8,7 +8,6 @@
             [restaurant-inspections-api.cron.csv-to-model :as model])
   (:import (org.joda.time DateTimeZone)))
 
-
 (defn process-load-data!
   "Download and read the urls with restaurant inspections CSV files, inserting new records into database."
   []

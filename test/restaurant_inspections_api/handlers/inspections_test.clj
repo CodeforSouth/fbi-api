@@ -2,17 +2,12 @@
   (:require [clojure.test :refer :all]
             [restaurant-inspections-api.handlers.inspections :refer :all]))
 
-(def mock-ctx {:request {
-                         :params {
-                                  :businessName "Johnys Pizza"
+(def mock-ctx {:request {:params {:businessName "Johnys Pizza"
                                   :zipCodes "32345"
                                   :districtCode "D3"
                                   :startDate "2013-02-02"
                                   :endDate "2017-02-01"
-                                  :countyNumber "19"
-                                  }
-                         }
-               })
+                                  :countyNumber "19"}}})
 
 (deftest inspections-processable?-test
   (testing "Given a request object, returns all params if all true."
@@ -67,9 +62,7 @@
          (validate-inspections-params
           "33137,22345" "McDonalds" "2013-aa-22" "2015-03-03" nil nil)
          {:invalid {:startDate false}
-          :valid {:zipCodes "33137,22345", :businessName "McDonalds", :endDate "2015-03-03"}
-          }
-         ))))
+          :valid {:zipCodes "33137,22345", :businessName "McDonalds", :endDate "2015-03-03"}}))))
 
 ;; TODO: inspections-ok still under routes.clj and under construction
 (deftest handle-inspections-ok-test

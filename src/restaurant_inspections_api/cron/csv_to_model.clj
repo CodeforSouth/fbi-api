@@ -14,7 +14,6 @@
   [csv-map]
   (filter #(and (re-find #"violation_" (name (first %))) (pos? (second %))) csv-map))
 
-
 (defn create-models-rows!
   "Receives a csv-map and calls database to insert *new* inspections and restaurant data, if needed."
   [csv-map]
@@ -33,22 +32,18 @@
         (db/insert-inspection-violation!
          {:inspection_id (:inspection_visit_id csv-map)
           :violation_id (Integer. (re-find #"\d+" (name (first entry))))
-          :violation_count (second entry)
-          })))))
-
+          :violation_count (second entry)})))))
 
 (defn csv-seq->db!
   "Parses a sequence of csv files, one row at a time."
   [csv-seq]
   (dorun (pmap #(create-models-rows! (csv-row->map %)) csv-seq)))
 
-
 (defn csv-url->db!
   "Receives one csv url and parses into, inserting new values into db."
   [csv-url]
   (with-open [in-file (io/reader csv-url)]
     (csv-seq->db! (csv/read-csv in-file))))
-
 
 ;; TODO: modify download! to return the amount of rows it modified etc?
 (defn download!
@@ -58,7 +53,6 @@
   (pmap (fn [file]
           (info "Downloading file " file)
           (csv-url->db! file)) csv-urls))
-
 
 ;; Alternatives: (but wouldn't validate not-empty, str->int, etc)
 ;; (zipmap fields values)
@@ -147,7 +141,6 @@
           :violation_55                       (str-null->int (nth % 76))
           :violation_56                       (str-null->int (nth % 77))
           :violation_57                       (str-null->int (nth % 78))
-          :violation_58                       (str-null->int (nth % 79))
-          }
+          :violation_58                       (str-null->int (nth % 79))}
          (catch Exception e (do (info "Failed to load row " %)
                                 (info (str "... due to error: " e))))) csv-row))

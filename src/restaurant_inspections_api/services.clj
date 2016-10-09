@@ -115,8 +115,7 @@
    :businessName nil
    :countyNumber nil
    :district nil
-   :zipCodes nil
-   })
+   :zipCodes nil})
 
 (defn inspections-by-all
   "Retrieves and formats inspections, filtered by all, any, or no criteria."

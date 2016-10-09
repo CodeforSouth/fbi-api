@@ -14,8 +14,7 @@
   (str (.getCanonicalPath (clojure.java.io/file ".")) (java.io.File/separator) filename))
 
 (def timbre-config
-  {
-   :level :debug  ; e/o #{:trace :debug :info :warn :error :fatal :report}
+  {:level :debug  ; e/o #{:trace :debug :info :warn :error :fatal :report}
    ;; Control log filtering by namespaces/patterns. Useful for turning off
    ;; logging in noisy libraries, etc.:
    ;;    :ns-whitelist  [] #_["my-app.foo-ns"]
@@ -26,9 +25,7 @@
    ;;    :output-fn default-output-fn ; (fn [data]) -> string
 
    ;; TODO: Environmental variable to specify log file path?
-   :appenders { :spit (appenders/spit-appender {:fname (with-abs-path "restaurant_inspections_api.log")}) }
-   }
-  )
+   :appenders {:spit (appenders/spit-appender {:fname (with-abs-path "restaurant_inspections_api.log")})}})
 
 (timbre/merge-config! timbre-config)
 

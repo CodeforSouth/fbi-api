@@ -34,7 +34,7 @@
 (defn get-env-db-url
   "Detect DATABASE_URL environment variable."
   []
-  (if-let [url (or (env :database-url) (env :cleardb-database-url)) ]
+  (if-let [url (or (env :database-url) (env :cleardb-database-url))]
     (do (when-not (production?) (prn  "Environment variable DATABASE_URL detected: " url))
         url)
     (let [default-db "jdbc:mysql://localhost:3306/cfm_restaurants?user=root"]

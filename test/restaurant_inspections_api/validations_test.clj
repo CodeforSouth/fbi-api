@@ -26,7 +26,7 @@
     ;; java.lang.ClassCastException
     ;; TODO: could be an AssertionError
     ;; (is (= 5 (validate/zip-codes '())))
-    ))
+))
 
 (deftest validate-date-test
   (testing "Given a date string in (valid is YYYY-MM-DD) format, returns back value for valid date and format"

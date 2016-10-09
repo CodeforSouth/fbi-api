@@ -21,4 +21,4 @@
        :body "preflight complete"}
       (let [response (handler request)]
         (update-in response [:headers]
-                   merge cors-headers )))))
+                   merge cors-headers)))))
