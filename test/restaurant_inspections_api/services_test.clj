@@ -51,6 +51,7 @@
         (is (= (count (:violations json)) 8))
         (is (= (first (:violations json)) {:id 3, :count 1}))
         (is (= (:totalViolations json) 11))))
+    ;; TODO: test given full results, gets fully correctly formatted object
     (testing "Given empty results, returns"
       (is (= (srv/format-data nil) {:basicViolations nil,
                                     :businessName nil,
@@ -72,55 +73,8 @@
                                     :totalViolations nil,
                                     :visitNumber nil})))))
 
-;; TODO make sure we add with-redefs to not call real database...
-;;
-;; (deftest inspections-by-all-test
-;;   (testing "Retrieves inspections even when q params missing"
-;;     (is (= (srv/inspections-by-all {
-;;                                     :startDate "2013-01-01"
-;;                                     :endDate "2016-10-06"
-;;                                     :businessName "%Mc%"
-;;                                     :countyNumber 23
-;;                                     :district "D1"
-;;                                  }) {:empty true}))
-;;     )
-;;   )
-
-;; (deftest inspections-by-zipcodes-test
-;;     (testing "Works correctly upon receiving all parameters")
-;;     (testing "Works when receiving only zips and uses default date range if so"
-;;         (is (=
-;;                 (with-redefs [db/select-inspections-by-location {}]
-;;                     (srv/inspections-by-zipcodes "33129"))
-;;                 {:status 200
-;;                  :headers {"Content-Type" "application/json"}
-;;                  :body "[]"}
-;;                 ))))
-
-;; (deftest inspections-by-business-name-test
-;;     (testing "Works correctly upon receiving all parameters")
-;;     (testing "Works when receiving only business name and uses default date range if so"
-;;         (is (=
-;;                 (with-redefs [db/select-inspections-by-restaurant {}]
-;;                     (srv/inspections-by-business-name "McDonalds"))
-;;                 {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
-;;                 ))))
-
-;; (deftest inspections-by-district-test
-;;     (testing "Works correctly upon receiving all parameters")
-;;     (testing "Works when receiving only district name and uses default date range if so"
-;;         (is (=
-;;                 (with-redefs [db/select-inspections-by-district {}]
-;;                     (srv/inspections-by-district "whoknows"))
-;;                 {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
-;;                 ))))
-
-;; (deftest inspections-by-county-test
-;;     (testing "Works correctly upon receiving all parameters")
-;;     (testing "Works when receiving only district name and uses default date range if so"
-;;         (is (=
-;;                 (with-redefs [db/select-inspections-by-county {}]
-;;                     (srv/inspections-by-county "another"))
-;;                 {:status 200, :headers {"Content-Type" "application/json"}, :body "[]"}
-;;                 ))))
-
+(deftest redirect-test
+  (testing "Given an url, returns correct redirect headers."
+    (is (= {:status 302
+            :headers {:Location "http://hello.com"}
+            :body ""} (srv/redirect "http://hello.com") ))))

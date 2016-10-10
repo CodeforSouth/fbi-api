@@ -1,15 +1,21 @@
 (ns restaurant-inspections-api.services
-  (:require [restaurant-inspections-api.responses :as res]
-            [clj-time.format :as timef]
+  (:require [clj-time.format :as timef]
             [clj-time.coerce :as coerce-time]
             [yesql.core :refer [defqueries]]
             [restaurant-inspections-api.db :as db]
             [clojure.string :as str]))
 
+(defn redirect
+  "Redirects to the given url"
+  [url]
+  {:status 302
+     :headers {:Location url}
+     :body ""})
+
 (defn home
   "Root: Navigate to project wiki."
   []
-  (res/redirect "https://github.com/Code-for-Miami/restaurant-inspections-api/wiki"))
+  (redirect "https://github.com/Code-for-Miami/restaurant-inspections-api/wiki"))
 
 (defn format-data
   "Format db raw data to json."
@@ -61,8 +67,7 @@
   [id]
   (if-let [inspection (first (db/select-inspection-details {:id id}))]
     (format-data (assoc inspection :violations (violations-for-inspection (:inspection_visit_id inspection)))
-                 true)
-    (res/not-found)))
+                 true)))
 
 (defn inspections-by-all
   "Retrieves and formats inspections, filtered by all, any, or no criteria."

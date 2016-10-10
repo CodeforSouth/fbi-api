@@ -32,13 +32,13 @@
     (and (boolean (re-matches #"\d{1,3}" county-number)) county-number)))
 
 (defn per-page
-  ""
+  "Validates that the provided per-page param is a number or nil"
   [per-page]
   (when-not (nil? per-page)
     (and (boolean (re-matches #"\d+" per-page)) per-page)))
 
 (defn page
-  ""
+  "Validate that the provided page (offset) param is a number or nil"
   [page]
   (when-not (nil? page)
     (and (boolean (re-matches #"\d+" page)) page)))

@@ -1,12 +1,10 @@
 (ns restaurant-inspections-api.routes
   (:require
-   [compojure.route :refer [not-found]]
    [liberator.core :refer [resource defresource]]
-   [ring.middleware.params :refer [wrap-params]]
    [compojure.core :refer [defroutes ANY GET]]
+   [compojure.route :refer [not-found]]
    ;; internal
    [restaurant-inspections-api.services :as srv]
-   [restaurant-inspections-api.responses :as responses]
    [restaurant-inspections-api.util :as util]
    [restaurant-inspections-api.validations :as validate]
    [restaurant-inspections-api.handlers.inspections :as inspections]))
@@ -19,20 +17,21 @@
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
-        ;; :processable? inspections/inspections-processable?
-        ;; :handle-unprocessable-entity #(get % :errors-map)
-        ;; :handle-not-found	(fn [ctx] {:errors "No results found."})
-        ;; :handle-malformed (400 BAD REQUEST)
+     ;; :handle-not-found	(fn [ctx] {:errors "No results found."})
+     ;; TODO: malformed when receiving query params
+     ;; :handle-malformed (400 BAD REQUEST)
      :handle-ok (fn [ctx] (srv/get-counties))))
 
-  (ANY "/inspections/:id" [id]
+  (ANY "/inspections/:id" [id] ;; id = inspections_visit_id
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
-        ;; :processable? inspections/inspections-processable?
-        ;; :handle-unprocessable-entity #(get % :errors-map)
-        ;; :handle-not-found	(fn [ctx] {:errors "No results found."})
-        ;; :handle-malformed (400 BAD REQUEST)
+     ;; :processable? inspections/inspections-processable?
+     ;; :handle-unprocessable-entity #(get % :errors-map)
+     ;; TODO: Not found when inspection id is not found (instead of 200)
+     ;; :handle-not-found	(fn [ctx] {:errors "No results found."})
+     ;; TODO: malformed when receiving query params
+     ;; :handle-malformed (400 BAD REQUEST)
      :handle-ok (fn [ctx] (srv/full-inspection-details id))))
 
   (ANY "/inspections" []
@@ -41,8 +40,9 @@
      :available-media-types ["application/json"]
      :processable? inspections/inspections-processable?
      :handle-unprocessable-entity #(get % :errors-map)
-        ;; :handle-not-found (404 NOT FOUND)
-        ;; :handle-malformed (400 BAD REQUEST)
+     ;; :handle-not-found (404 NOT FOUND)
+     ;; TODO: handle malformed when passing unknown query params
+     ;; :handle-malformed (400 BAD REQUEST)
      ;; TODO: return count of returned data elements
      :handle-ok inspections/handle-inspections-ok))
 

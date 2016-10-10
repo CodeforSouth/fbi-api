@@ -8,3 +8,5 @@
 (deftest test-all-routes
   (testing "Returns 404 if route doesnt match"
     (is (= 404 (:status (request "/name" all-routes))))))
+
+;; TODO: test home redirect
