@@ -1,9 +1,9 @@
 (ns restaurant-inspections-api.db
   (:require [yesql.core :refer [defquery]]
             [clojure.java.jdbc :as jdbc]
-            [restaurant-inspections-api.environment :as env]))
+            [restaurant-inspections-api.constants :as const]))
 
-(def db-params {:connection (env/get-env-db-url)})
+(def db-params {:connection const/db-url})
 
 ; Insert Statements
 (defquery insert-county! "sql/insert_county.sql" db-params)
@@ -55,5 +55,5 @@
 (defn select-inspections-by-all
   ""
   [params-map]
-  (jdbc/query (env/get-env-db-url)
+  (jdbc/query const/db-url
               (build-select-inspections-query params-map)))
