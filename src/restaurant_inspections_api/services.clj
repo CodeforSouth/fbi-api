@@ -109,22 +109,10 @@
                  true)
     (res/not-found)))
 
-(def default-inspections-params-map
-  {:startDate "2013-01-01"
-   :endDate "2016-10-06"
-   :businessName nil
-   :countyNumber nil
-   :district nil
-   :zipCodes nil})
-
 (defn inspections-by-all
   "Retrieves and formats inspections, filtered by all, any, or no criteria."
   [params-map]
-  (map format-data
-       ;; TODO: format zipCodes to replace commas with spaces
-       ;; TODO: format bussinessName to replace * with %
-       (db/select-inspections-by-all
-        (merge default-inspections-params-map params-map))))
+  (map format-data (db/select-inspections-by-all params-map)))
 
 (defn get-counties
   "Return counties list, with their district."

@@ -50,7 +50,27 @@
         (is (= (:locationCity json) "COOPER CITY"))
         (is (= (count (:violations json)) 8))
         (is (= (first (:violations json)) {:id 3, :count 1}))
-        (is (= (:totalViolations json) 11))))))
+        (is (= (:totalViolations json) 11))))
+    (testing "Given empty results, returns"
+      (is (= (srv/format-data nil) {:basicViolations nil,
+                                    :businessName nil,
+                                    :countyName nil,
+                                    :countyNumber nil,
+                                    :district nil,
+                                    :highPriorityViolations nil,
+                                    :id nil,
+                                    :inspectionDate "2016-10-10",
+                                    :inspectionDisposition nil,
+                                    :inspectionNumber nil,
+                                    :inspectionType nil,
+                                    :intermediateViolations nil,
+                                    :licenseNumber nil,
+                                    :licenseTypeCode nil,
+                                    :locationAddress nil,
+                                    :locationCity nil,
+                                    :locationZipcode nil,
+                                    :totalViolations nil,
+                                    :visitNumber nil})))))
 
 ;; TODO make sure we add with-redefs to not call real database...
 ;;

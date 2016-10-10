@@ -4,7 +4,7 @@
 
 (def mock-ctx {:request {:params {:businessName "Johnys Pizza"
                                   :zipCodes "32345"
-                                  :districtCode "D3"
+                                  :district "D3"
                                   :startDate "2013-02-02"
                                   :endDate "2017-02-01"
                                   :countyNumber "19"}}})
@@ -30,7 +30,7 @@
                         :source {:parameter "countyNumber"}}]}}])))
 
   (testing "json error for district if district is invalid"
-    (is (= (inspections-processable? (assoc-in mock-ctx [:request :params :districtCode] "D9999"))
+    (is (= (inspections-processable? (assoc-in mock-ctx [:request :params :district] "D9999"))
            [false
             {:errors-map
              {:errors [{:title "Validation Error"
@@ -39,7 +39,7 @@
                         :source {:parameter "districtCode"}}]}}])))
 
   (testing "json error for date if date is invalid"
-    (is (= (inspections-processable? (assoc-in mock-ctx [:request :params :startDate] "2015-03-00"))
+    (is (= (inspections-processable? (assoc-in mock-ctx [:request :params :startDate] "2015-03-a0"))
            [false
             {:errors-map
              {:errors [{:title "Validation Error"

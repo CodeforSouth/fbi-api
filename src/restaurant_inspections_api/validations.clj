@@ -10,11 +10,12 @@
       ;; the whole list should match, so no nil elements should be present
       (and (not (boolean (some nil? matches))) zip-codes))))
 
+;; TODO: Make regular expression better, to make conditional on 10 or 01 dates
 (defn date
   "Validates dates. Returns original value if passes, nil if nil allowed,
   or false if not valid. Date format: YYYY-MM-DD."
   [date]
-  (and (boolean (re-matches #"[1-2]\d{3}-(0|1)[0-9]-[0-3][1-9]" date)) date))
+  (and (boolean (re-matches #"[1-2]\d{3}-(0|1)[0-9]-[0-3][0-9]" date)) date))
 
 (defn district-code
   "Validates a district code. Returns original value if passes, nil if nil is allowed,

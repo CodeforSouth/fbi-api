@@ -33,7 +33,7 @@
         business-name (get-in ctx [:request :params :businessName])
         start-date (or (get-in ctx [:request :params :startDate]) "2013-01-01")
         end-date (or (get-in ctx [:request :params :endDate]) (util/todays-date))
-        district-code (get-in ctx [:request :params :districtCode])
+        district-code (get-in ctx [:request :params :district])
         county-number (get-in ctx [:request :params :countyNumber])
         validations-map (validate-inspections-params zip-codes business-name
                                                      start-date end-date
