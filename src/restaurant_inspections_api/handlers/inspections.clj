@@ -1,18 +1,22 @@
 (ns restaurant-inspections-api.handlers.inspections
   (:require [restaurant-inspections-api.validations :as validate]
-            [restaurant-inspections-api.util :as util]))
+            [restaurant-inspections-api.util :as util]
+            [restaurant-inspections-api.services :as srv]
+            ))
 
 (defn validate-inspections-params
   "Receives all inspections query parameters (nil when not specified) and returns a map of valid and
   invalid params."
-  [zip-codes business-name start-date end-date district-code county-number]
+  [zip-codes business-name start-date end-date district-code county-number per-page page]
 
   (let [validated-map {:zipCodes (validate/zip-codes zip-codes)
                        :businessName business-name
                        :startDate (validate/date start-date)
                        :endDate (validate/date end-date)
                        :districtCode (validate/district-code district-code)
-                       :countyNumber (validate/county-number county-number)}]
+                       :countyNumber (validate/county-number county-number)
+                       :perPage (validate/per-page per-page)
+                       :page (validate/page page)}]
 
     {:invalid (into {} (filter #(false? (second %)) validated-map))
      :valid (into {} (filter #(boolean (second %)) validated-map))}))
@@ -35,10 +39,14 @@
         end-date (or (get-in ctx [:request :params :endDate]) (util/todays-date))
         district-code (get-in ctx [:request :params :district])
         county-number (get-in ctx [:request :params :countyNumber])
+        per-page (or (get-in ctx [:request :params :perPage]) "20")
+        page (or (get-in ctx [:request :params :page]) "1")
         validations-map (validate-inspections-params zip-codes business-name
                                                      start-date end-date
                                                      district-code
-                                                     county-number)]
+                                                     county-number
+                                                     per-page
+                                                     page)]
     (if-not (empty? (:invalid validations-map))
       [false {:errors-map
               {:errors  ;; for each invalid-params here
@@ -49,8 +57,6 @@
 (defn handle-inspections-ok
   ""
   [ctx]
-  (let [result (get ctx :validation-vector)]
-    true)
-  ;; get index of next true value on vector, then use it on
-  ;; query-params-order
-)
+  {:meta {:parameters (get ctx :valid-params)}
+   :data (into [] (srv/inspections-by-all (get ctx :valid-params)))})
+

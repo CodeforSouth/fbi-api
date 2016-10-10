@@ -35,7 +35,7 @@
         ;; :handle-malformed (400 BAD REQUEST)
      :handle-ok (fn [ctx] (srv/full-inspection-details id))))
 
-  (ANY "/inspections" [] ; query params available: see query-params-order vector
+  (ANY "/inspections" []
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
@@ -43,13 +43,8 @@
      :handle-unprocessable-entity #(get % :errors-map)
         ;; :handle-not-found (404 NOT FOUND)
         ;; :handle-malformed (400 BAD REQUEST)
-     :handle-ok (fn [ctx]
-                     ;;       (srv/inspections-by-zipcodes  zips startDate endDate)
-                     ;;       (srv/inspections-by-business-name name startDate endDate))
-                     ;;       (srv/inspections-by-district district-id startDate endDate)
-                     ;;       (srv/inspections-by-county id startDate endDate))
-                  {:meta {:parameters (get ctx :valid-params)}
-                   :data (into [] (srv/inspections-by-all (get ctx :valid-params)))})))
+     ;; TODO: return count of returned data elements
+     :handle-ok inspections/handle-inspections-ok))
 
   ;; TODO: businesss
   (ANY "/businesses" []

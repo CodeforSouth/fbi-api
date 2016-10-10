@@ -45,51 +45,6 @@
               :violations                        (:violations data))
        basic-data))))
 
-(defn inspections-by-zipcodes
-  "Return inspections per given location and period."
-  [zips start-date end-date]
-  (let [zips (str/split zips #",")]
-    (map format-data
-         (db/select-inspections-by-location
-          {:startDate    start-date
-           :endDate      end-date
-           :zips         zips}))))
-
-(defn inspections-by-business-name
-  "Return inspections per given business name, location and period."
-  ([name start-date end-date]
-   (map format-data
-        (db/select-inspections-by-restaurant
-         {:startDate    start-date
-          :endDate      end-date
-          :businessName (str/replace name #"\*" "%")})))
-  ([name zips start-date end-date]
-   (let [zips (str/split zips #",")]
-     (map format-data
-          (db/select-inspections-by-restaurant-location
-           {:startDate    start-date
-            :endDate      end-date
-            :businessName (str/replace name #"\*" "%")
-            :zips         zips})))))
-
-(defn inspections-by-district
-  "Return inspections per given district and period."
-  [district start-date end-date]
-  (map format-data
-       (db/select-inspections-by-district
-        {:startDate start-date
-         :endDate   end-date
-         :district  district})))
-
-(defn inspections-by-county
-  "Return inspections per given county and period."
-  [countyNumber start-date end-date]
-  (map format-data
-       (db/select-inspections-by-county
-        {:startDate    start-date
-         :endDate      end-date
-         :countyNumber countyNumber})))
-
 (defn violations-for-inspection
   "Select and parse violations for a given inspection id."
   [inspection-id]

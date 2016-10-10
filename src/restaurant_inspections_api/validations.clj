@@ -30,3 +30,15 @@
   [county-number]
   (when-not (nil? county-number)
     (and (boolean (re-matches #"\d{1,3}" county-number)) county-number)))
+
+(defn per-page
+  ""
+  [per-page]
+  (when-not (nil? per-page)
+    (and (boolean (re-matches #"\d+" per-page)) per-page)))
+
+(defn page
+  ""
+  [page]
+  (when-not (nil? page)
+    (and (boolean (re-matches #"\d+" page)) page)))

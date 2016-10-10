@@ -7,7 +7,9 @@
                                   :district "D3"
                                   :startDate "2013-02-02"
                                   :endDate "2017-02-01"
-                                  :countyNumber "19"}}})
+                                  :countyNumber "19"
+                                  :perPage "1"
+                                  :page "2"}}})
 
 (deftest inspections-processable?-test
   (testing "Given a request object, returns all params if all true."
@@ -18,7 +20,9 @@
                    :startDate "2013-02-02"
                    :endDate "2017-02-01"
                    :districtCode "D3"
-                   :countyNumber "19"}}])))
+                   :countyNumber "19"
+                   :perPage "1"
+                   :page "2"}}])))
 
   (testing "json error for county if county is invalid"
     (is (= (inspections-processable? (assoc-in mock-ctx [:request :params :countyNumber] "38h3fh__"))
@@ -60,9 +64,13 @@
   (testing "Given query params input, returns valid and invalid format/values."
     (is (=
          (validate-inspections-params
-          "33137,22345" "McDonalds" "2013-aa-22" "2015-03-03" nil nil)
+          "33137,22345" "McDonalds" "2013-aa-22" "2015-03-03" nil nil "1" "2")
          {:invalid {:startDate false}
-          :valid {:zipCodes "33137,22345", :businessName "McDonalds", :endDate "2015-03-03"}}))))
+          :valid {:zipCodes "33137,22345"
+                  :businessName "McDonalds"
+                  :endDate "2015-03-03"
+                  :perPage "1"
+                  :page "2"}}))))
 
 ;; TODO: inspections-ok still under routes.clj and under construction
 (deftest handle-inspections-ok-test

@@ -64,3 +64,19 @@
     (is (false? (validate/county-number "D123"))))
   (testing "Nil if county number is nil"
     (is (nil? (validate/county-number nil)))))
+
+(deftest validate-per-page-test
+  (testing "Given a valid per page input, returns value"
+    (is (= "12" (validate/per-page "12"))))
+  (testing "Given an invalid per page input, returns false"
+    (is (= false (validate/per-page "a"))))
+  (testing "Given nil, returns nil"
+    (is (nil? (validate/per-page nil)))))
+
+(deftest validate-page-test
+  (testing "Given a valid page input, returns value"
+    (is (= "12" (validate/page "12"))))
+  (testing "Given an invalid page input, returns false"
+    (is (= false (validate/page "a"))))
+  (testing "Given nil, returns nil"
+    (is (nil? (validate/page nil)))))
