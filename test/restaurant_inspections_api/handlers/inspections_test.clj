@@ -11,9 +11,9 @@
                                   :perPage "1"
                                   :page "2"}}})
 
-(deftest inspections-processable?-test
+(deftest processable?-test
   (testing "Given a request object, returns all params if all true."
-    (is (= (inspections-processable? mock-ctx)
+    (is (= (processable? mock-ctx)
            [true {:valid-params
                   {:zipCodes "32345"
                    :businessName "Johnys Pizza"
@@ -25,7 +25,7 @@
                    :page "2"}}])))
 
   (testing "json error for county if county is invalid"
-    (is (= (inspections-processable? (assoc-in mock-ctx [:request :params :countyNumber] "38h3fh__"))
+    (is (= (processable? (assoc-in mock-ctx [:request :params :countyNumber] "38h3fh__"))
            [false
             {:errors-map
              {:errors [{:title "Validation Error"
@@ -34,7 +34,7 @@
                         :source {:parameter "countyNumber"}}]}}])))
 
   (testing "json error for district if district is invalid"
-    (is (= (inspections-processable? (assoc-in mock-ctx [:request :params :district] "D9999"))
+    (is (= (processable? (assoc-in mock-ctx [:request :params :district] "D9999"))
            [false
             {:errors-map
              {:errors [{:title "Validation Error"
@@ -43,7 +43,7 @@
                         :source {:parameter "districtCode"}}]}}])))
 
   (testing "json error for date if date is invalid"
-    (is (= (inspections-processable? (assoc-in mock-ctx [:request :params :startDate] "2015-03-a0"))
+    (is (= (processable? (assoc-in mock-ctx [:request :params :startDate] "2015-03-a0"))
            [false
             {:errors-map
              {:errors [{:title "Validation Error"
@@ -52,7 +52,7 @@
                         :source {:parameter "startDate"}}]}}])))
 
   (testing "json error for zipCodes if zipCode is invalid"
-    (is (= (inspections-processable? (assoc-in mock-ctx [:request :params :zipCodes] "33136,33435,0"))
+    (is (= (processable? (assoc-in mock-ctx [:request :params :zipCodes] "33136,33435,0"))
            [false
             {:errors-map
              {:errors [{:title "Validation Error"
@@ -73,6 +73,6 @@
                   :page "2"}}))))
 
 ;; TODO: inspections-ok still under routes.clj and under construction
-(deftest handle-inspections-ok-test
+(deftest handle-ok-test
   (testing "handles all params scenario"))
 

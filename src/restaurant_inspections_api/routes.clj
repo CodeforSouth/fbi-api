@@ -38,25 +38,26 @@
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
-     :processable? inspections/inspections-processable?
+     :processable? inspections/processable?
      :handle-unprocessable-entity #(get % :errors-map)
      ;; :handle-not-found (404 NOT FOUND)
      ;; TODO: handle malformed when passing unknown query params
      ;; :handle-malformed (400 BAD REQUEST)
      ;; TODO: return count of returned data elements
-     :handle-ok inspections/handle-inspections-ok))
+     :handle-ok inspections/handle-ok))
 
-  ;; TODO: businesss
+  ;; TODO: Better api handling of businesses
   (ANY "/businesses" []
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
-     :processable? #(-> %)
-     :handle-unprocessable-entity #(get % :errors-map)
+     ;; TODO: handle query params, the same way inspections do
+     ;; :processable? #(-> %)
+     ;;:handle-unprocessable-entity #(get % :errors-map)
      :handle-ok (fn [ctx]
-                  {:ok true})))
+                  (srv/get-businesses))))
 
-  ;; TODO: violation codes/definitions
+  ;; TODO: Better api handling of violation codes/definitions
   (ANY "/violations" []
     (resource
      :allowed-methods [:get]
@@ -64,7 +65,7 @@
      :processable? #(-> %)
      :handle-unprocessable-entity #(get % :errors-map)
      :handle-ok (fn [ctx]
-                  {:ok true})))
+                  (srv/get-violations))))
 
   ;; Default 404 when there's no match
   ;; TODO change body to something meaningful

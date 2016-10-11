@@ -1,8 +1,7 @@
 (ns restaurant-inspections-api.services
-  (:require [clj-time.format :as timef]
-            [clj-time.coerce :as coerce-time]
-            [yesql.core :refer [defqueries]]
+  (:require [yesql.core :refer [defqueries]]
             [restaurant-inspections-api.db :as db]
+            [restaurant-inspections-api.util :as util]
             [clojure.string :as str]))
 
 (defn redirect
@@ -29,8 +28,7 @@
                      :licenseTypeCode        (:license_type_code data)
                      :licenseNumber          (:license_number data)
                      :businessName           (:business_name data)
-                     :inspectionDate    (timef/unparse (timef/formatter "YYYY-MM-dd")
-                                                       (coerce-time/from-date (:inspection_date data)))
+                     :inspectionDate         (util/parse-date-or-nil (:inspection_date data))
                      :locationAddress        (:location_address data)
                      :locationCity           (:location_city data)
                      :locationZipcode        (:location_zipcode data)
@@ -78,3 +76,13 @@
   "Return counties list, with their district."
   []
   (db/select-counties-summary))
+
+(defn get-businesses
+  ""
+  []
+  (db/select-all-restaurants))
+
+(defn get-violations
+  ""
+  []
+  (db/select-all-violations))

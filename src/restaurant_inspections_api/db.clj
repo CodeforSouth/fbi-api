@@ -15,15 +15,16 @@
 (defquery select-inspection-details "sql/select_inspection_details.sql" db-params)
 (defquery select-violations-by-inspection "sql/select_violations_by_inspection_id.sql" db-params)
 (defquery select-counties-summary "sql/select_counties_summary.sql" db-params)
-(defquery select-inspections-by-county "sql/select_inspections_by_county.sql" db-params)
-(defquery select-inspections-by-district "sql/select_inspections_by_district.sql" db-params)
-(defquery select-inspections-by-location "sql/select_inspections_by_location.sql" db-params)
-(defquery select-inspections-by-restaurant "sql/select_inspections_by_restaurant.sql" db-params)
-(defquery select-inspections-by-restaurant-location "sql/select_inspections_by_restaurant_location.sql" db-params)
-
+(defquery select-all-restaurants "sql/select_all_restaurants.sql" db-params)
+(defquery select-all-violations "sql/select_all_violations.sql" db-params)
+;; (defquery select-inspections-by-county "sql/select_inspections_by_county.sql" db-params)
+;; (defquery select-inspections-by-district "sql/select_inspections_by_district.sql" db-params)
+;; (defquery select-inspections-by-location "sql/select_inspections_by_location.sql" db-params)
+;; (defquery select-inspections-by-restaurant "sql/select_inspections_by_restaurant.sql" db-params)
+;; (defquery select-inspections-by-restaurant-location "sql/select_inspections_by_restaurant_location.sql" db-params)
 ;; (defquery select-inspections-by-all "sql/select_inspections_by_all.sql" db-params)
 
-;; FIXME Temporary query
+;; FIXME Temporary query, see below function
 (def start-query
   (str "SELECT i.inspection_visit_id, i.inspection_number, i.visit_number, i.inspection_class, i.inspection_type, i.inspection_disposition, i.inspection_date, i.total_violations, i.high_priority_violations, i.intermediate_violations, i.basic_violations, i.county_number, i.license_number, r.county_number, r.license_type_code, r.license_number, r.business_name, r.location_address, r.location_city, r.location_zipcode, r.location_latitude, r.location_longitude, c.county_name, c.district FROM inspections AS i INNER JOIN counties AS c ON c.county_number = i.county_number INNER JOIN restaurants AS r ON r.county_number = i.county_number AND r.license_number = i.license_number WHERE i.inspection_date BETWEEN"))
 

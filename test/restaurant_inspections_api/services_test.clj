@@ -2,6 +2,7 @@
   (:require [clojure.test :refer :all]
             [cheshire.core :refer [parse-string]]
             [restaurant-inspections-api.services :as srv]
+            [restaurant-inspections-api.util :as util]
             [restaurant-inspections-api.db :as db]))
 
 (def inspection-example
@@ -60,7 +61,7 @@
                                     :district nil,
                                     :highPriorityViolations nil,
                                     :id nil,
-                                    :inspectionDate "2016-10-10",
+                                    :inspectionDate nil,
                                     :inspectionDisposition nil,
                                     :inspectionNumber nil,
                                     :inspectionType nil,

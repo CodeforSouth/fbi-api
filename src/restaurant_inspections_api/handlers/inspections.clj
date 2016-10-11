@@ -29,7 +29,7 @@
    :detail "Invalid format or value for parameter."
    :source {:parameter param-key}})
 
-(defn inspections-processable?
+(defn processable?
   "Given a ring server context, returns true or false if parameters are valid/processable. Also sets result (errors, correct fields) into the context."
   [ctx]
   ; lets make a map of field names, values, and valid
@@ -54,7 +54,7 @@
                           (format-query-params-error (name (key keyval)))))}}]
       [true {:valid-params (:valid validations-map)}])))
 
-(defn handle-inspections-ok
+(defn handle-ok
   ""
   [ctx]
   {:meta {:parameters (get ctx :valid-params)}

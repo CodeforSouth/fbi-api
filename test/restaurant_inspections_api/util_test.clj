@@ -26,3 +26,11 @@
     (is (= (type (todays-date)) java.lang.String)))
   (testing "Format should be date-like"
     (is (not (nil? (re-matches #"\d{4}-\d\d-\d\d" (todays-date)))))))
+
+(deftest parse-date-or-nil-test
+  (testing "Given nil, returns nil"
+    (is (= nil (parse-date-or-nil nil))))
+  ;; TODO:
+  (testing "Given a date string, returns a formatted date")
+  (testing "Given the wrong data type, raises ClassCastException"
+    (is (thrown? java.lang.ClassCastException (parse-date-or-nil {})))))

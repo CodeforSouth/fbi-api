@@ -5,6 +5,7 @@
    ;;               logf tracef debugf infof warnf errorf fatalf reportf
    ;;               spy get-env log-env)
    [taoensso.timbre.appenders.core :as appenders]
+   [clj-time.coerce :as coerce-time]
    [clj-time.format :as timef]
    [clj-time.core :as clj-time]))
 
@@ -45,3 +46,10 @@
   "Convert from blank string to number or nil."
   [str]
   (try (Integer. (not-empty str)) (catch Exception _)))
+
+(defn parse-date-or-nil
+  "Parses a date object into a string, returns nil if null"
+  [date]
+  (when-not (nil? date)
+    (timef/unparse (timef/formatter "YYYY-MM-dd")
+                   (coerce-time/from-date date))))
