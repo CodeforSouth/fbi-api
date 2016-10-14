@@ -1,1 +1,1 @@
-SELECT * FROM cfm_restaurants.violations;
+SELECT * FROM violations;
