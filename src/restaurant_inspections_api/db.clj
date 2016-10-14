@@ -37,7 +37,7 @@
        (when-let [zipCodes (:zipCodes params-map)]
          (str " AND r.location_zipcode IN ("
               (if (.contains zipCodes ",")
-                (str "\"" (clojure.string/replace zipCodes #"," "\",\"") "\"")
+                (str "\"" (clojure.string/replace zipCodes #"," "\" \"") "\"")
                 zipCodes)
               ")"))
        (when-let [businessName (:businessName params-map)]

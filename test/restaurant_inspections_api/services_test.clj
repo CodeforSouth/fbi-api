@@ -1,6 +1,5 @@
 (ns restaurant-inspections-api.services-test
   (:require [clojure.test :refer :all]
-            [cheshire.core :refer [parse-string]]
             [restaurant-inspections-api.services :as srv]
             [restaurant-inspections-api.util :as util]
             [restaurant-inspections-api.db :as db]))

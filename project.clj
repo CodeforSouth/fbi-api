@@ -7,7 +7,6 @@
                  [javax.servlet/servlet-api "2.5"]
                  [http-kit "2.2.0-beta1"]
                  [ring/ring-devel "1.5.0"]
-                 [cheshire "5.6.3"]
                  [environ "1.1.0"]
                  [compojure "1.5.1"]
                  [jarohen/chime "0.1.9"]
