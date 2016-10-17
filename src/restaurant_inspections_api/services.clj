@@ -79,8 +79,8 @@
 
 (defn get-businesses
   ""
-  []
-  (db/select-all-restaurants))
+  [page-options]
+  (db/select-all-restaurants (merge {:page 1 :perPage 20} page-options)))
 
 (defn get-violations
   ""
