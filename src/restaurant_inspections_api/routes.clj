@@ -11,7 +11,8 @@
 
 (defroutes all-routes
 
-  (GET "/" [] (srv/home))
+  (GET "/" [] {:status 302
+               :headers {"Location" "https://github.com/Code-for-Miami/restaurant-inspections-api/wiki"}})
 
   (ANY "/counties" []
     (resource
@@ -69,5 +70,4 @@
 
   ;; Default 404 when there's no match
   ;; TODO change body to something meaningful
-  (ANY "*" []
-    not-found))
+  (not-found "404 NOT FOUND"))

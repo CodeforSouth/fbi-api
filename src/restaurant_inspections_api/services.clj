@@ -4,17 +4,6 @@
             [restaurant-inspections-api.util :as util]
             [clojure.string :as str]))
 
-(defn redirect
-  "Redirects to the given url"
-  [url]
-  {:status 302
-     :headers {:Location url}
-     :body ""})
-
-(defn home
-  "Root: Navigate to project wiki."
-  []
-  (redirect "https://github.com/Code-for-Miami/restaurant-inspections-api/wiki"))
 
 (defn format-data
   "Format db raw data to json."
