@@ -72,9 +72,3 @@
                                     :locationZipcode nil,
                                     :totalViolations nil,
                                     :visitNumber nil})))))
-
-(deftest redirect-test
-  (testing "Given an url, returns correct redirect headers."
-    (is (= {:status 302
-            :headers {:Location "http://hello.com"}
-            :body ""} (srv/redirect "http://hello.com") ))))

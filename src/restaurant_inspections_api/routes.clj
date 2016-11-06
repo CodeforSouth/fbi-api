@@ -11,7 +11,8 @@
 
 (defroutes all-routes
 
-  (GET "/" [] (srv/home))
+  (GET "/" [] {:status 302
+               :headers {"Location" "https://github.com/Code-for-Miami/restaurant-inspections-api/wiki"}})
 
   (ANY "/counties" []
     (resource
