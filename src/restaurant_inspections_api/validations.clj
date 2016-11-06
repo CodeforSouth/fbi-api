@@ -35,10 +35,10 @@
   "Validates that the provided per-page param is a number or nil"
   [per-page]
   (when-not (nil? per-page)
-    (and (boolean (re-matches #"\d+" per-page)) per-page)))
+    (and (boolean (re-matches #"\d+" per-page)) (Integer. per-page) )))
 
 (defn page
   "Validate that the provided page (offset) param is a number or nil"
   [page]
   (when-not (nil? page)
-    (and (boolean (re-matches #"\d+" page)) page)))
+    (and (boolean (re-matches #"\d+" page)) (Integer. page))))
