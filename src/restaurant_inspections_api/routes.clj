@@ -75,5 +75,4 @@
 
   ;; Default 404 when there's no match
   ;; TODO change body to something meaningful
-  (ANY "*" []
-    not-found))
+  (not-found "404 NOT FOUND"))

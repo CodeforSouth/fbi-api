@@ -14,7 +14,9 @@
 (defn home
   "Root: Navigate to project wiki."
   []
-  (redirect "https://github.com/Code-for-Miami/restaurant-inspections-api/wiki"))
+  (println "redirect to home")
+  (redirect "https://github.com/Code-for-Miami/restaurant-inspections-api/wiki")
+  )
 
 (defn format-data
   "Format db raw data to json."
