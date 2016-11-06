@@ -63,9 +63,8 @@
     :businessName (when-let [businessName (:businessName params-map)]
                     (clojure.string/replace businessName #"\*" "%"))
     :zipCodes (when-let [zipCodes (:zipCodes params-map)]
-                ;(str "[\"" (clojure.string/replace zipCodes #"," "\",\"") "\"]")
-                (str/split zipCodes #",")
-                )))
+                (str/split zipCodes #","))
+    :page (* (:page params-map) (:perPage params-map))))
 
 (defn inspections-by-all
   "Retrieves and formats inspections, filtered by all, any, or no criteria."
