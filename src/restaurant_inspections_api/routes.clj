@@ -54,14 +54,8 @@
      ;; TODO: handle query params, the same way inspections do
      ;; :processable? #(-> %)
      ;;:handle-unprocessable-entity #(get % :errors-map)
-     ;; TODO: test first handle-ok
      :handle-ok (fn [ctx]
-                  (srv/get-businesses
-                   ;; TODO: check the param type of these guys. should be string?
-                   {:page (or (get-in ctx [:request :params :page]) (* 1 20))
-                    :perPage (or (get-in ctx [:request :params :perPage]) 20)
-                    }
-                   ))))
+                  (srv/get-businesses))))
 
   ;; TODO: Better api handling of violation codes/definitions
   (ANY "/violations" []
