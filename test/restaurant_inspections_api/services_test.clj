@@ -78,3 +78,22 @@
     (is (= {:status 302
             :headers {:Location "http://hello.com"}
             :body ""} (srv/redirect "http://hello.com") ))))
+
+(deftest format-params-test
+  (testing "Given parameters, returns formatted params")
+  (is (= { :zipCodes ["326015125"],
+           :businessName "%MC%DON%",
+           :startDate "2013-01-01",
+           :endDate "2016-11-06",
+           :districtCode nil,
+           :countyNumber nil,
+           :perPage 20,
+           :page 0
+          } (srv/format-params { :zipCodes "326015125",
+                                         :businessName "*MC*DON*",
+                                         :startDate "2013-01-01",
+                                         :endDate "2016-11-06",
+                                         :districtCode nil,
+                                         :countyNumber nil,
+                                         :perPage 20,
+                                         :page 0 }))))

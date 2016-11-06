@@ -21,8 +21,8 @@
                    :endDate "2017-02-01"
                    :districtCode "D3"
                    :countyNumber "19"
-                   :perPage "1"
-                   :page "2"}}])))
+                   :perPage 1
+                   :page 2}}])))
 
   (testing "json error for county if county is invalid"
     (is (= (processable? (assoc-in mock-ctx [:request :params :countyNumber] "38h3fh__"))
@@ -69,8 +69,10 @@
           :valid {:zipCodes "33137,22345"
                   :businessName "McDonalds"
                   :endDate "2015-03-03"
-                  :perPage "1"
-                  :page "2"}}))))
+                  :districtCode nil
+                  :countyNumber nil
+                  :perPage 1
+                  :page 2}}))))
 
 ;; TODO: inspections-ok still under routes.clj and under construction
 (deftest handle-ok-test

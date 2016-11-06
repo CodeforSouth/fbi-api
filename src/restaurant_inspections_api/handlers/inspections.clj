@@ -17,9 +17,8 @@
                        :countyNumber (validate/county-number county-number)
                        :perPage (validate/per-page per-page)
                        :page (validate/page page)}]
-
     {:invalid (into {} (filter #(false? (second %)) validated-map))
-     :valid (into {} (filter #(boolean (second %)) validated-map))}))
+     :valid (into {} (filter #(not (false? (second %)))) validated-map) }))
 
 (defn format-query-params-error
   "Receives param-key for an error and returns a map with error details."
@@ -34,13 +33,13 @@
   [ctx]
   ; lets make a map of field names, values, and valid
   (let [zip-codes (get-in ctx [:request :params :zipCodes])
-        business-name (get-in ctx [:request :params :businessName])
+        business-name (or (get-in ctx [:request :params :businessName]) nil)
         start-date (or (get-in ctx [:request :params :startDate]) "2013-01-01")
         end-date (or (get-in ctx [:request :params :endDate]) (util/todays-date))
         district-code (get-in ctx [:request :params :district])
         county-number (get-in ctx [:request :params :countyNumber])
         per-page (or (get-in ctx [:request :params :perPage]) "20")
-        page (or (get-in ctx [:request :params :page]) "1")
+        page (or (get-in ctx [:request :params :page]) "0")
         validations-map (validate-inspections-params zip-codes business-name
                                                      start-date end-date
                                                      district-code

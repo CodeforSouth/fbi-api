@@ -67,7 +67,7 @@
 
 (deftest validate-per-page-test
   (testing "Given a valid per page input, returns value"
-    (is (= "12" (validate/per-page "12"))))
+    (is (= 12 (validate/per-page "12"))))
   (testing "Given an invalid per page input, returns false"
     (is (= false (validate/per-page "a"))))
   (testing "Given nil, returns nil"
@@ -75,7 +75,7 @@
 
 (deftest validate-page-test
   (testing "Given a valid page input, returns value"
-    (is (= "12" (validate/page "12"))))
+    (is (= 12 (validate/page "12"))))
   (testing "Given an invalid page input, returns false"
     (is (= false (validate/page "a"))))
   (testing "Given nil, returns nil"

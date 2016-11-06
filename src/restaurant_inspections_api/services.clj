@@ -67,10 +67,21 @@
     (format-data (assoc inspection :violations (violations-for-inspection (:inspection_visit_id inspection)))
                  true)))
 
+(defn format-params
+  "Format all the pre-params sent to this endpoint"
+  [params-map]
+  (assoc params-map
+    :businessName (when-let [businessName (:businessName params-map)]
+                    (clojure.string/replace businessName #"\*" "%"))
+    :zipCodes (when-let [zipCodes (:zipCodes params-map)]
+                ;(str "[\"" (clojure.string/replace zipCodes #"," "\",\"") "\"]")
+                (str/split zipCodes #",")
+                )))
+
 (defn inspections-by-all
   "Retrieves and formats inspections, filtered by all, any, or no criteria."
   [params-map]
-  (map format-data (db/select-inspections-by-all params-map)))
+  (map format-data (db/select-inspections-by-all (format-params params-map))))
 
 (defn get-counties
   "Return counties list, with their district."
