@@ -1,6 +1,5 @@
 language: clojure
 script:
-  - lein test
   - lein uberjar
   - lein cloverage
 jdk:
