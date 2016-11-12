@@ -19,22 +19,17 @@
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
-     ;; :handle-not-found	(fn [ctx] {:errors "No results found."})
-     ;; TODO: malformed when receiving query params
-     ;; :handle-malformed (400 BAD REQUEST)
-     :handle-ok (fn [ctx] (srv/get-counties))))
+     :handle-ok (fn [ctx] {:meta {}
+                           :data (srv/get-counties)})))
 
   (ANY "/inspections/:id" [id] ;; id = inspections_visit_id
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
-     ;; :processable? inspections/inspections-processable?
-     ;; :handle-unprocessable-entity #(get % :errors-map)
      ;; TODO: Not found when inspection id is not found (instead of 200)
      ;; :handle-not-found	(fn [ctx] {:errors "No results found."})
-     ;; TODO: malformed when receiving query params
-     ;; :handle-malformed (400 BAD REQUEST)
-     :handle-ok (fn [ctx] (srv/full-inspection-details id))))
+     :handle-ok (fn [ctx] {:meta {}
+                           :data (srv/full-inspection-details id)})))
 
   (ANY "/inspections" []
     (resource
@@ -42,10 +37,6 @@
      :available-media-types ["application/json"]
      :processable? inspections/processable?
      :handle-unprocessable-entity inspections/handle-unprocessable
-     ;; :handle-not-found (404 NOT FOUND)
-     ;; TODO: handle malformed when passing unknown query params
-     ;; :handle-malformed (400 BAD REQUEST)
-     ;; TODO: return count of returned data elements
      :handle-ok inspections/handle-ok))
 
   ;; TODO: Better api handling of businesses
@@ -57,7 +48,8 @@
      ;; :processable? #(-> %)
      ;;:handle-unprocessable-entity #(get % :errors-map)
      :handle-ok (fn [ctx]
-                  (srv/get-businesses))))
+                  {:meta {}
+                   :data (srv/get-businesses)})))
 
   ;; TODO: Better api handling of violation codes/definitions
   (ANY "/violations" []
@@ -67,9 +59,8 @@
      :processable? #(-> %)
      :handle-unprocessable-entity #(get % :errors-map)
      :handle-ok (fn [ctx]
-                  (srv/get-violations))))
+                  {:meta {}
+                   :data (srv/get-violations)})))
 
-  ;; Default 404 when there's no match
-  ;; TODO change body to something meaningful
   (not-found "404 NOT FOUND"))
 
