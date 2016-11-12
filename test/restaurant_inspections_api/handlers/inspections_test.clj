@@ -25,40 +25,24 @@
                    :page 2}}])))
 
   (testing "json error for county if county is invalid"
-    (is (= (processable? (assoc-in mock-ctx [:request :params :countyNumber] "38h3fh__"))
-           [false
-            {:errors-map
-             {:errors [{:title "Validation Error"
-                        :detail "Invalid format or value for parameter."
-                        :code 1
-                        :source {:parameter "countyNumber"}}]}}])))
+    (is (= [false {:errors-map {:errors [{:code 1, :title "Validation Error", :detail "Invalid format or value for parameter.", :source {:parameter "countyNumber"}}]}, :params {:zipCodes "32345", :businessName "Johnys Pizza", :startDate "2013-02-02", :endDate "2017-02-01", :districtCode "D3", :perPage 1, :page 2}}]
+         (processable? (assoc-in mock-ctx [:request :params :countyNumber] "38h3fh__"))
+           )))
 
   (testing "json error for district if district is invalid"
-    (is (= (processable? (assoc-in mock-ctx [:request :params :district] "D9999"))
-           [false
-            {:errors-map
-             {:errors [{:title "Validation Error"
-                        :detail "Invalid format or value for parameter."
-                        :code 1
-                        :source {:parameter "districtCode"}}]}}])))
+    (is (= [false {:errors-map {:errors [{:code 1, :title "Validation Error", :detail "Invalid format or value for parameter.", :source {:parameter "districtCode"}}]}, :params {:zipCodes "32345", :businessName "Johnys Pizza", :startDate "2013-02-02", :endDate "2017-02-01", :countyNumber "19", :perPage 1, :page 2}}]
+         (processable? (assoc-in mock-ctx [:request :params :district] "D9999"))
+           )))
 
   (testing "json error for date if date is invalid"
-    (is (= (processable? (assoc-in mock-ctx [:request :params :startDate] "2015-03-a0"))
-           [false
-            {:errors-map
-             {:errors [{:title "Validation Error"
-                        :detail "Invalid format or value for parameter."
-                        :code 1
-                        :source {:parameter "startDate"}}]}}])))
+    (is (= [false {:errors-map {:errors [{:code 1, :title "Validation Error", :detail "Invalid format or value for parameter.", :source {:parameter "startDate"}}]}, :params {:zipCodes "32345", :businessName "Johnys Pizza", :endDate "2017-02-01", :districtCode "D3", :countyNumber "19", :perPage 1, :page 2}}]
+         (processable? (assoc-in mock-ctx [:request :params :startDate] "2015-03-a0"))
+           )))
 
   (testing "json error for zipCodes if zipCode is invalid"
-    (is (= (processable? (assoc-in mock-ctx [:request :params :zipCodes] "33136,33435,0"))
-           [false
-            {:errors-map
-             {:errors [{:title "Validation Error"
-                        :detail "Invalid format or value for parameter."
-                        :code 1
-                        :source {:parameter "zipCodes"}}]}}]))))
+    (is (= [false {:errors-map {:errors [{:code 1, :title "Validation Error", :detail "Invalid format or value for parameter.", :source {:parameter "zipCodes"}}]}, :params {:businessName "Johnys Pizza", :startDate "2013-02-02", :endDate "2017-02-01", :districtCode "D3", :countyNumber "19", :perPage 1, :page 2}}]
+         (processable? (assoc-in mock-ctx [:request :params :zipCodes] "33136,33435,0"))
+           ))))
 
 (deftest validate-inspections-params-test
   (testing "Given query params input, returns valid and invalid format/values."
@@ -74,7 +58,10 @@
                   :perPage 1
                   :page 2}}))))
 
+
 ;; TODO: inspections-ok still under routes.clj and under construction
 (deftest handle-ok-test
   (testing "handles all params scenario"))
 
+(deftest handle-unprocessable-test
+  (testing "properly returns correct error object given a ctx"))

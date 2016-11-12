@@ -10,7 +10,8 @@
   ([data]
    (format-data data false))
   ([data is-full]
-   (let [basic-data {:id                     (:inspection_visit_id data)
+   (let [basic-data {:type                   "inspections"
+                     :id                     (:inspection_visit_id data)
                      :district               (:district data)
                      :countyNumber           (:county_number data)
                      :countyName             (:county_name data)

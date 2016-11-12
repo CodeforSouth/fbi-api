@@ -9,6 +9,7 @@
    [restaurant-inspections-api.validations :as validate]
    [restaurant-inspections-api.handlers.inspections :as inspections]))
 
+;; all routes return app/json;charset=UTF-8 headers
 (defroutes all-routes
 
   (GET "/" [] {:status 302
@@ -40,7 +41,7 @@
      :allowed-methods [:get]
      :available-media-types ["application/json"]
      :processable? inspections/processable?
-     :handle-unprocessable-entity #(get % :errors-map)
+     :handle-unprocessable-entity inspections/handle-unprocessable
      ;; :handle-not-found (404 NOT FOUND)
      ;; TODO: handle malformed when passing unknown query params
      ;; :handle-malformed (400 BAD REQUEST)
@@ -71,3 +72,4 @@
   ;; Default 404 when there's no match
   ;; TODO change body to something meaningful
   (not-found "404 NOT FOUND"))
+

@@ -60,6 +60,7 @@
                                     :district nil,
                                     :highPriorityViolations nil,
                                     :id nil,
+                                    :type "inspections"
                                     :inspectionDate nil,
                                     :inspectionDisposition nil,
                                     :inspectionNumber nil,
@@ -73,7 +74,7 @@
                                     :totalViolations nil,
                                     :visitNumber nil})))))
 (deftest format-params-test
-  (testing "Given parameters, returns formatted params")
+  (testing "Given parameters, returns formatted params"
   (is (= { :zipCodes ["326015125"],
            :businessName "%MC%DON%",
            :startDate "2013-01-01",
@@ -89,4 +90,24 @@
                                          :districtCode nil,
                                          :countyNumber nil,
                                          :perPage 20,
-                                         :page 0 }))))
+                                :page 0 }))))
+  (testing "given per page and page number, returns page multiplied by perpage"
+    (is (= { :zipCodes ["326015125"],
+            :businessName "%MC%DON%",
+            :startDate "2013-01-01",
+            :endDate "2016-11-06",
+            :districtCode nil,
+            :countyNumber nil,
+            :perPage 10,
+            :page 20
+            }
+           (srv/format-params { :zipCodes "326015125",
+                               :businessName "*MC*DON*",
+                               :startDate "2013-01-01",
+                               :endDate "2016-11-06",
+                               :districtCode nil,
+                               :countyNumber nil,
+                               :perPage 10,
+                               :page 2 })
+           )))
+  )

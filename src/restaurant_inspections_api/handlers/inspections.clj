@@ -50,12 +50,20 @@
       [false {:errors-map
               {:errors  ;; for each invalid-params here
                (into [] (for [keyval (:invalid validations-map)]
-                          (format-query-params-error (name (key keyval)))))}}]
+                          (format-query-params-error (name (key keyval)))))}
+              :params (:valid validations-map)}]
       [true {:valid-params (:valid validations-map)}])))
 
 (defn handle-ok
-  ""
-  [ctx]
-  {:meta {:parameters (get ctx :valid-params)}
-   :data (into [] (srv/inspections-by-all (get ctx :valid-params)))})
+  "Handles 200 OK for inspections"
+  [{:keys [valid-params]}] ;; as ctx
+  {:meta {:parameters valid-params}
+   :data (into [] (srv/inspections-by-all valid-params))})
 
+(defn handle-unprocessable
+  "Handles 422 Unprocessable when invalid params provided"
+  [ctx]
+  (merge {:meta
+          {:parameters (get ctx :params)}
+          }
+         (get ctx :errors-map)))
