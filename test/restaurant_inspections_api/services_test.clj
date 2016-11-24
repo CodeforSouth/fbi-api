@@ -52,7 +52,7 @@
         (is (= (first (:violations json)) {:id 3, :count 1}))
         (is (= (:totalViolations json) 11))))
     ;; TODO: test given full results, gets fully correctly formatted object
-    (testing "Given empty results, returns"
+    (testing "Given empty results, returns object with all keys nil"
       (is (= (srv/format-data nil) {:basicViolations nil,
                                     :businessName nil,
                                     :countyName nil,
