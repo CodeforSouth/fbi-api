@@ -7,12 +7,12 @@
    "Access-Control-Allow-Methods" "GET"})
 
 (defn preflight?
-  "Returns true if the request is a preflight request"
+  "Returns true if the request is a preflight request."
   [request]
   (= (request :request-method) :options))
 
 (defn all-cors
-  "Allow requests from all origins - also check preflight"
+  "Allow requests from all origins - also check preflight."
   [handler]
   (fn [request]
     (if (preflight? request)
@@ -21,4 +21,4 @@
        :body "preflight complete"}
       (let [response (handler request)]
         (update-in response [:headers]
-                   merge cors-headers )))))
+                   merge cors-headers)))))

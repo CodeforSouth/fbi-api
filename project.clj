@@ -7,16 +7,19 @@
                  [javax.servlet/servlet-api "2.5"]
                  [http-kit "2.2.0-beta1"]
                  [ring/ring-devel "1.5.0"]
-                 [cheshire "5.6.3"]
                  [environ "1.1.0"]
                  [compojure "1.5.1"]
                  [jarohen/chime "0.1.9"]
                  [org.clojure/data.csv "0.1.3"]
-                 [org.clojure/tools.logging "0.3.1"]
+                 [com.taoensso/timbre "4.7.4"]
                  [yesql "0.5.3"]
                  [org.clojure/java.jdbc "0.6.2-alpha1"]
-                 [mysql/mysql-connector-java "5.1.6"]]
+                 [mysql/mysql-connector-java "5.1.6"]
+                 [liberator "0.13"]]
   :min-lein-version "2.0.0"
   :uberjar-name "restaurant-inspections-api.jar"
   :main ^:skip-aot restaurant-inspections-api.core ; skip ahead of time compilation on REPL
-  :profiles {:uberjar {:aot :all}})                ; ahead of time compilation for release
+  :profiles {:uberjar {:aot :all} ; ahead of time compilation for release
+             :dev {:plugins [[lein-kibit "0.1.2"]
+                             [lein-cloverage "1.0.7"]
+                             [lein-cljfmt "0.5.6"]]}})

@@ -1,25 +1,22 @@
 (ns restaurant-inspections-api.core
-  (:require [clojure.tools.logging :as log]
-            [org.httpkit.server :refer [run-server]]
+  (:require [org.httpkit.server :refer [run-server]]
             [ring.middleware.reload :as reload]
             [compojure.handler :refer [site]]
-            ; internal
-            [restaurant-inspections-api.environment :as env]
+            [taoensso.timbre :refer [info]]
+            ;; internal
+            [restaurant-inspections-api.constants :as const]
             [restaurant-inspections-api.cors :refer [all-cors]]
             [restaurant-inspections-api.routes :refer [all-routes]]
             [restaurant-inspections-api.cron.core :refer [load-api-data]])
   (:gen-class))
 
-(def port (env/get-env-port))
-
 (defn -main
-  "Starts the server"
+  "Starts server and schedules load-api-data process."
   [& args]
-  (let [handler (if (not (env/in-prod?))
-                  (do (log/info "Server in dev. mode, running hot-reload")
-                      (reload/wrap-reload (all-cors (site #'all-routes))))
-                  (do (log/info "Server in production mode")
-                      (all-cors (site all-routes))))]
-    (log/info "Running server on port " port)
+  (let [handler (if const/production?
+                  (all-cors (site all-routes))
+                  (reload/wrap-reload (all-cors (site #'all-routes))))
+        port const/port]
+    (info "Running server...")
     (load-api-data)
     (run-server handler {:port port})))

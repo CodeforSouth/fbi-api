@@ -1,7 +1,8 @@
 (ns restaurant-inspections-api.services-test
   (:require [clojure.test :refer :all]
-            [cheshire.core :refer [parse-string]]
-            [restaurant-inspections-api.services :as srv]))
+            [restaurant-inspections-api.services :as srv]
+            [restaurant-inspections-api.util :as util]
+            [restaurant-inspections-api.db :as db]))
 
 (def inspection-example
   {:county_name "Broward",
@@ -36,8 +37,8 @@
                 {:id 53, :count 1}
                 {:id 54, :count 1}]})
 
-; Test general helper functions
-(deftest db-to-json-formatter
+;; Test general helper functions
+(deftest format-data-test
   (let [data inspection-example]
     (testing "Basic data"
       (let [json (srv/format-data data)]
@@ -49,4 +50,64 @@
         (is (= (:locationCity json) "COOPER CITY"))
         (is (= (count (:violations json)) 8))
         (is (= (first (:violations json)) {:id 3, :count 1}))
-        (is (= (:totalViolations json) 11))))))
+        (is (= (:totalViolations json) 11))))
+    ;; TODO: test given full results, gets fully correctly formatted object
+    (testing "Given empty results, returns object with all keys nil"
+      (is (= (srv/format-data nil) {:basicViolations nil,
+                                    :businessName nil,
+                                    :countyName nil,
+                                    :countyNumber nil,
+                                    :district nil,
+                                    :highPriorityViolations nil,
+                                    :id nil,
+                                    :type "inspections"
+                                    :inspectionDate nil,
+                                    :inspectionDisposition nil,
+                                    :inspectionNumber nil,
+                                    :inspectionType nil,
+                                    :intermediateViolations nil,
+                                    :licenseNumber nil,
+                                    :licenseTypeCode nil,
+                                    :locationAddress nil,
+                                    :locationCity nil,
+                                    :locationZipcode nil,
+                                    :totalViolations nil,
+                                    :visitNumber nil})))))
+(deftest format-params-test
+  (testing "Given parameters, returns formatted params"
+  (is (= { :zipCodes ["326015125"],
+           :businessName "%MC%DON%",
+           :startDate "2013-01-01",
+           :endDate "2016-11-06",
+           :districtCode nil,
+           :countyNumber nil,
+           :perPage 20,
+           :page 0
+          } (srv/format-params { :zipCodes "326015125",
+                                         :businessName "*MC*DON*",
+                                         :startDate "2013-01-01",
+                                         :endDate "2016-11-06",
+                                         :districtCode nil,
+                                         :countyNumber nil,
+                                         :perPage 20,
+                                :page 0 }))))
+  (testing "given per page and page number, returns page multiplied by perpage"
+    (is (= { :zipCodes ["326015125"],
+            :businessName "%MC%DON%",
+            :startDate "2013-01-01",
+            :endDate "2016-11-06",
+            :districtCode nil,
+            :countyNumber nil,
+            :perPage 10,
+            :page 20
+            }
+           (srv/format-params { :zipCodes "326015125",
+                               :businessName "*MC*DON*",
+                               :startDate "2013-01-01",
+                               :endDate "2016-11-06",
+                               :districtCode nil,
+                               :countyNumber nil,
+                               :perPage 10,
+                               :page 2 })
+           )))
+  )

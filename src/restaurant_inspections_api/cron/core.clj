@@ -1,30 +1,29 @@
 (ns restaurant-inspections-api.cron.core
   (:require [chime :refer [chime-at]]
             [clj-time.periodic :refer [periodic-seq]]
-            [clojure.tools.logging :as log]
+            [taoensso.timbre :refer [info]]
             [clj-time.core :as timer]
-            ; internal
-            [restaurant-inspections-api.environment :as env]
+            ;; internal
+            [restaurant-inspections-api.constants :as const]
             [restaurant-inspections-api.cron.csv-to-model :as model])
   (:import (org.joda.time DateTimeZone)))
 
-(def chime-time (env/get-env-chime))
-
 (defn process-load-data!
-  "Load and read the CSV urls, and insert new records into the DB"
+  "Download and read the urls with restaurant inspections CSV files, inserting new records into database."
   []
-  (let [csv-urls (env/get-csv-files)]
-        (time (model/download! csv-urls))))
+  (let [csv-urls const/csv-files]
+    (time (model/download! csv-urls))))
 
 (defn load-api-data
-  "schedules the load process"
+  "Schedules cron job to update database with latest restaurant inspections."
   []
-  (let [[hour min sec mili] chime-time]
-    (log/info (str "Scheduling Load API Data to run at " hour ":" min ":" sec "." mili))
+  (let [[hour min sec mili] const/chime]
+    (info (str "Scheduling Load API Data to run at " hour ":" min ":" sec "." mili))
+    ;; Scheduled to run every day at CHIME-TIME
     (chime-at (->> (periodic-seq (.. (timer/now)
                                      (withZone (DateTimeZone/forID "America/New_York"))
-                                     (withTime hour min sec mili))           ; Scheduled to run every day at CHIME-TIME
-                                 (-> 1 timer/days)))
+                                     (withTime hour min sec mili))
+                                 (timer/days 1)))
               (fn [time]
-                (log/info "Starting load data task" time)
+                (info "Starting load data task" time)
                 (process-load-data!)))))

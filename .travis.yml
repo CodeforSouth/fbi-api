@@ -1,7 +1,7 @@
 language: clojure
 script:
-  - lein test
   - lein uberjar
+  - lein cloverage
 jdk:
   - openjdk6
   - openjdk7
