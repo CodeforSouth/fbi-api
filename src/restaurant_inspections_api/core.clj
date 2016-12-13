@@ -17,6 +17,6 @@
                   (all-cors (site all-routes))
                   (reload/wrap-reload (all-cors (site #'all-routes))))
         port const/port]
-    (info "Running server...")
+    (info (str "Running server on port " port))
     (load-api-data)
     (run-server handler {:port port})))
