@@ -6,14 +6,25 @@
    ;; internal
    [restaurant-inspections-api.services :as srv]
    [restaurant-inspections-api.util :as util]
+   [taoensso.timbre :refer [debug]]
    [restaurant-inspections-api.validations :as validate]
    [restaurant-inspections-api.handlers.inspections :as inspections]))
 
-;; all routes return app/json;charset=UTF-8 headers
+;; all routes return app/json;charset=UTF-8 headers (thanks to liberator/compojure)
 (defroutes all-routes
 
-  (GET "/" [] {:status 302
-               :headers {"Location" "https://github.com/Code-for-Miami/restaurant-inspections-api/wiki"}})
+  (ANY "/" []
+    (resource
+     :allowed-methods [:get]
+     :available-media-types ["application/json"]
+     :handle-ok (fn [ctx] {:api-name "FRIA: Florida's Restaurant Inspections API"
+                           :description "Florida's Restaurant inspections are available in csv files. Also available on an old http form on their website."
+                           :routes ["/" "/counties" "/wiki" "/inspections" "/inspections/:id"
+                                    "/businesses" "/violations"]})))
+
+  (GET "/wiki" []
+    {:status 302
+     :headers {"Location" "https://github.com/Code-for-Miami/restaurant-inspections-api/wiki"}})
 
   (ANY "/counties" []
     (resource
@@ -22,12 +33,10 @@
      :handle-ok (fn [ctx] {:meta {}
                            :data (srv/get-counties)})))
 
-  (ANY "/inspections/:id" [id] ;; id = inspections_visit_id
+  (ANY "/inspections/:id" [id]
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
-     ;; TODO: Not found when inspection id is not found (instead of 200)
-     ;; :handle-not-found	(fn [ctx] {:errors "No results found."})
      :handle-ok (fn [ctx] {:meta {}
                            :data (let [inspection (srv/full-inspection-details id)]
                                    (if inspection
@@ -48,11 +57,14 @@
      :allowed-methods [:get]
      :available-media-types ["application/json"]
      ;; TODO: handle query params, the same way inspections do
-     ;; :processable? #(-> %)
+     :processable? (fn [ctx]
+                     (let [per-page (or (get-in ctx [:request :params :perPage]) "20")
+                           page (or (get-in ctx [:request :params :page]) "0")]
+                       [true {:valid-params {:perPage (validate/per-page per-page) :page (validate/page page)}}]))
      ;;:handle-unprocessable-entity #(get % :errors-map)
-     :handle-ok (fn [ctx]
-                  {:meta {}
-                   :data (srv/get-businesses)})))
+     :handle-ok (fn [{:keys [valid-params] :as ctx}]
+                  {:meta {:parameters valid-params}
+                   :data (srv/get-businesses valid-params)})))
 
   ;; TODO: Better api handling of violation codes/definitions
   (ANY "/violations" []

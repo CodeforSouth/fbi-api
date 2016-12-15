@@ -1,8 +1,7 @@
 (ns restaurant-inspections-api.handlers.inspections
   (:require [restaurant-inspections-api.validations :as validate]
             [restaurant-inspections-api.util :as util]
-            [restaurant-inspections-api.services :as srv]
-            ))
+            [restaurant-inspections-api.services :as srv]))
 
 (defn validate-inspections-params
   "Receives all inspections query parameters (nil when not specified) and returns a map of valid and
@@ -64,6 +63,5 @@
   "Handles 422 Unprocessable when invalid params provided"
   [ctx]
   (merge {:meta
-          {:parameters (get ctx :params)}
-          }
+          {:parameters (get ctx :params)}}
          (get ctx :errors-map)))
