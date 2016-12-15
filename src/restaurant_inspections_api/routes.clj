@@ -19,7 +19,7 @@
      :available-media-types ["application/json"]
      :handle-ok (fn [ctx] {:api-name "FRIA: Florida's Restaurant Inspections API"
                            :description "Florida's Restaurant inspections are available in csv files. Also available on an old http form on their website."
-                           :routes ["/" "/counties" "/wiki" "/inspections" "/inspections/:id"
+                           :routes ["/" "/wiki" "/counties" "/inspections" "/inspections/:id"
                                     "/businesses" "/violations"]})))
 
   (GET "/wiki" []
