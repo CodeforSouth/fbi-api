@@ -86,7 +86,6 @@
 (defn get-businesses
   ""
   [params-map]
-  (debug (str"paraaaams" params-map))
   (db/select-all-restaurants (format-businesses-params params-map)))
 
 (defn get-violations
