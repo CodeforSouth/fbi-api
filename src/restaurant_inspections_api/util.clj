@@ -25,7 +25,7 @@
    ;;    :timestamp-opts default-timestamp-opts ; {:pattern _ :locale _ :timezone _}
    ;;    :output-fn default-output-fn ; (fn [data]) -> string
 
-   ;; TODO: Environmental variable to specify log file path?
+   ;; TODO: Environmental variable to specify log file path
    :appenders {:spit (appenders/spit-appender {:fname (with-abs-path "restaurant_inspections_api.log")})}})
 
 (timbre/merge-config! timbre-config)
