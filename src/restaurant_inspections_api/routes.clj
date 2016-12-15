@@ -29,7 +29,10 @@
      ;; TODO: Not found when inspection id is not found (instead of 200)
      ;; :handle-not-found	(fn [ctx] {:errors "No results found."})
      :handle-ok (fn [ctx] {:meta {}
-                           :data (srv/full-inspection-details id)})))
+                           :data (let [inspection (srv/full-inspection-details id)]
+                                   (if inspection
+                                     [inspection]
+                                     []))})))
 
   (ANY "/inspections" []
     (resource
