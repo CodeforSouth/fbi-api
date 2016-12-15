@@ -2,6 +2,7 @@
   (:require [yesql.core :refer [defqueries]]
             [restaurant-inspections-api.db :as db]
             [restaurant-inspections-api.util :as util]
+            [taoensso.timbre :refer [debug]]
             [clojure.string :as str]))
 
 
@@ -77,10 +78,15 @@
   []
   (db/select-counties-summary))
 
+(defn- format-businesses-params
+  [params-map]
+  (assoc params-map
+         :page (* (:page params-map) (:perPage params-map))))
+
 (defn get-businesses
   ""
-  []
-  (db/select-all-restaurants))
+  [params-map]
+  (db/select-all-restaurants (format-businesses-params params-map)))
 
 (defn get-violations
   ""
