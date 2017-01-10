@@ -1,5 +1,7 @@
 # Miami-Dade County Restaurant Inspections API
 
+![](https://img.shields.io/badge/status-active-green.svg)
+
 Get started through our wiki here: https://github.com/Code-for-Miami/restaurant-inspections-api/wiki
 
 [![Build Status](https://travis-ci.org/Code-for-Miami/restaurant-inspections-api.svg?branch=master)](https://travis-ci.org/Code-for-Miami/restaurant-inspections-api)
