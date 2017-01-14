@@ -38,7 +38,9 @@ CREATE TABLE inspections(
   basic_violations INT,
   pda_status BOOLEAN,
   county_number INT NOT NULL,
-  license_number INT NOT NULL
+  license_number INT NOT NULL,
+  modified_on DATE NOT NULL,
+  created_on DATE NOT NULL
 );
 
 -- violations

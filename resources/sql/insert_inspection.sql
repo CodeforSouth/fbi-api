@@ -14,7 +14,9 @@ INSERT IGNORE INTO inspections
    basic_violations,
    pda_status,
    county_number,
-   license_number)
+   license_number,
+   created_on,
+   modified_on)
 VALUES (:inspection_visit_id,
    :license_id,
    :inspection_number,
@@ -29,4 +31,6 @@ VALUES (:inspection_visit_id,
    :basic_violations,
    :pda_status,
    :county_number,
-   :license_number);
+   :license_number,
+   :created_on,
+   :modified_on);

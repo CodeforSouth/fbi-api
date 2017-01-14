@@ -4,7 +4,7 @@
             [clojure.string :as str]
             [taoensso.timbre :refer [info]]
             ;; internal
-            [restaurant-inspections-api.util :refer [str-null->int str-csv-date->iso]]
+            [restaurant-inspections-api.util :refer [str-null->int str-csv-date->iso todays-date]]
             [restaurant-inspections-api.db :as db]))
 
 (declare csv-row->map)
@@ -60,7 +60,7 @@
 (defn csv-row->map
   "Transforms csv data into map with restaurant database keys."
   [csv-row]
-  (#(try {:district                          (not-empty (nth % 0))
+  (#(try {:district                           (not-empty (nth % 0))
           :county_number                      (str-null->int (nth % 1))
           :county_name                        (not-empty (nth % 2))
           :license_type_code                  (not-empty (nth % 3))
@@ -141,6 +141,8 @@
           :violation_55                       (str-null->int (nth % 76))
           :violation_56                       (str-null->int (nth % 77))
           :violation_57                       (str-null->int (nth % 78))
-          :violation_58                       (str-null->int (nth % 79))}
+          :violation_58                       (str-null->int (nth % 79))
+          :created_on                         (todays-date)
+          :modified_on                        (todays-date)}
          (catch Exception e (do (info "Failed to load row " %)
                                 (info (str "... due to error: " e))))) csv-row))
