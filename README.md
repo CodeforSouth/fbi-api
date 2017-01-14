@@ -18,7 +18,7 @@ We are using CSV data from the State of Florida: http://www.myfloridalicense.com
 
 ## Technical Background
 
-This is powered by Clojure, using MYSQL database. Installation instructions here: https://github.com/Code-for-Miami/restaurant-inspections-api/wiki/How-to-Install
+This is powered by Clojure, using MYSQL database. Installation instructions here: https://github.com/Code-for-Miami/restaurant-inspections-api/wiki/How-to-Install%3F
 
 You can check the demo app here: http://45.55.191.140
 
