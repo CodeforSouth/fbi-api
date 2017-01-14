@@ -20,10 +20,12 @@ We are using CSV data from the State of Florida: http://www.myfloridalicense.com
 
 This is powered by Clojure, using MYSQL database. Installation instructions here: https://github.com/Code-for-Miami/restaurant-inspections-api/wiki/How-to-Install%3F
 
-You can check the demo app here: http://198.199.73.168/fra/list-counties 
+You can check the demo app here: http://45.55.191.140
 
 ## License
 
 The code for this repository has been released into the public domain by Code for Miami via the MIT License.
 
 Created by [Leo Ribeiro](https://github.com/leordev)
+
+Maintained by [Joel Quiles](https://github.com/teh0xqb)
