@@ -37,9 +37,9 @@
 
 (defn str-csv-date->iso
   "Convert csv date format to iso date."
-  [str]
+  [stri]
   (try (not-empty (timef/unparse (timef/formatter "YYYY-MM-dd")
-                                 (timef/parse (timef/formatter "MM/dd/YYYY") str)))
+                                 (timef/parse (timef/formatter "MM/dd/YYYY") stri)))
        (catch Exception _)))
 
 (defn str-null->int

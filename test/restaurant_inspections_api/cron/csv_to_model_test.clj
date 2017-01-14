@@ -1,6 +1,7 @@
 (ns restaurant-inspections-api.cron.csv-to-model-test
   (:require [clojure.test :refer :all]
-            [restaurant-inspections-api.cron.csv-to-model :refer :all]))
+            [restaurant-inspections-api.cron.csv-to-model :refer :all]
+            [restaurant-inspections-api.util :as util]))
 
                                         ; three rows of csv data
 (def test-data '(["D1" "23" "Dade" "2010" "2300006" "SPS RESTAURANT" "1757 NE 2 AVE" "MIAMI" "331321191" "2498647" "2" "Food" "Routine - Food" "Call Back - Complied" "01/05/2016" "" "" "3" "1" "1" "1" "Y" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "1" "0" "1" "0" "0" "0" "0" "0" "0" "1" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "2153540" "5769863"] ["D1" "23" "Dade" "2010" "2300006" "SPS RESTAURANT" "1757 NE 2 AVE" "MIAMI" "331321191" "2560247" "1" "Food" "Routine - Food" "Warning Issued" "05/10/2016" "" "" "21" "6" "4" "11" "Y" "1" "0" "2" "0" "1" "1" "0" "0" "0" "0" "0" "1" "0" "1" "0" "0" "0" "0" "0" "0" "0" "4" "0" "1" "0" "0" "1" "0" "4" "0" "0" "0" "0" "0" "1" "2" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "1" "0" "0" "0" "0" "0" "2153540" "5770307"] ["D1" "23" "Dade" "2010" "2300006" "SPS RESTAURANT" "1757 NE 2 AVE" "MIAMI" "331321191" "2498647" "1" "Food" "Routine - Food" "Warning Issued" "10/28/2015" "" "" "16" "5" "3" "8" "Y" "0" "2" "3" "0" "2" "0" "0" "1" "0" "0" "0" "0" "0" "1" "0" "0" "0" "0" "0" "0" "1" "0" "0" "0" "0" "0" "1" "0" "2" "0" "0" "0" "0" "0" "0" "2" "0" "0" "0" "0" "0" "1" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "2153540" "5606807"]))
@@ -86,7 +87,9 @@
                  :district "D1"
                  :intermediate_violations 1
                  :inspection_type "Routine - Food"
-                 :violation_21 0})
+                 :violation_21 0
+                 :created_on (util/todays-date)
+                 :modified_on (util/todays-date)})
 
 (deftest csv-row->map-test
   (testing "Converts csv raw row into a map"
