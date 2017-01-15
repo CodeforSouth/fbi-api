@@ -12,6 +12,7 @@
                  [jarohen/chime "0.1.9"]
                  [org.clojure/data.csv "0.1.3"]
                  [com.taoensso/timbre "4.7.4"]
+                 [org.clojure/tools.nrepl "0.2.12"]
                  [yesql "0.5.3"]
                  [org.clojure/java.jdbc "0.6.2-alpha1"]
                  [mysql/mysql-connector-java "5.1.6"]
