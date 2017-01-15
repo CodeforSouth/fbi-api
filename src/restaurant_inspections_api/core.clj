@@ -8,7 +8,9 @@
             [restaurant-inspections-api.cors :refer [all-cors]]
             [restaurant-inspections-api.routes :refer [all-routes]]
             [restaurant-inspections-api.cron.core :refer [load-api-data]])
+  (:use [clojure.tools.nrepl.server :only (start-server stop-server)])
   (:gen-class))
+
 
 (defn -main
   "Starts server and schedules load-api-data process."
@@ -19,4 +21,5 @@
         port const/port]
     (info (str "Running server on port " port))
     (load-api-data)
+    (defonce server (start-server :port 7888))
     (run-server handler {:port port})))
