@@ -51,6 +51,16 @@
      :handle-unprocessable-entity inspections/handle-unprocessable
      :handle-ok inspections/handle-ok))
 
+  (ANY "/businesses/:id" [id]
+    (resource
+     :allowed-methods [:get]
+     :available-media-types ["application/json"]
+     :handle-ok (fn [ctx] {:meta {}
+                           :data (let [business (srv/full-business-details id)]
+                                   (if business
+                                     [business]
+                                     []))})))
+
   ;; TODO: Better api handling of businesses
   (ANY "/businesses" []
     (resource

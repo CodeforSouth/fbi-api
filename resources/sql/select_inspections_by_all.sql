@@ -17,4 +17,4 @@ SELECT i.inspection_visit_id, i.inspection_number, i.visit_number,
    AND (length(concat(:zipCodes)) is null or r.location_zipcode IN (:zipCodes))
    AND (:districtCode is null or c.district = :districtCode)
    AND (:countyNumber is null or i.county_number = :countyNumber)
- LIMIT :perPage OFFSET :page
+ LIMIT :perPage OFFSET :page;

@@ -21,5 +21,5 @@
         port const/port]
     (info (str "Running server on port " port))
     (load-api-data)
-    (defonce server (start-server :port 7888))
+    (defonce nrepl-server (start-server :port 7888))
     (run-server handler {:port port})))

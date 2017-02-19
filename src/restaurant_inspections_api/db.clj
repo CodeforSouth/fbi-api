@@ -16,5 +16,6 @@
 (defquery select-violations-by-inspection "sql/select_violations_by_inspection_id.sql" db-params)
 (defquery select-counties-summary "sql/select_counties_summary.sql" db-params)
 (defquery select-all-restaurants "sql/select_all_restaurants.sql" db-params)
+(defquery select-restaurant-details "sql/select_restaurant_details.sql" db-params)
 (defquery select-all-violations "sql/select_all_violations.sql" db-params)
 (defquery select-inspections-by-all "sql/select_inspections_by_all.sql" db-params)
