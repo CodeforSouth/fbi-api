@@ -58,6 +58,11 @@
     (format-data (assoc inspection :violations (violations-for-inspection (:inspection_visit_id inspection)))
                  true)))
 
+(defn full-business-details
+  "Return full business info for the given Id."
+  [id]
+  (db/select-restaurant-details {:licenseNumber id}))
+
 (defn format-params
   "Format all the pre-params sent to this endpoint"
   [params-map]
