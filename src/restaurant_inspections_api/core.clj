@@ -14,6 +14,12 @@
   (:use [clojure.tools.nrepl.server :only (start-server stop-server)])
   (:gen-class))
 
+(def server-error-details
+  "\n\nPlease contact the administrator:
+          - Github: teh0xqb
+          - Email: quilesbaker@gmail.com
+          - or Code For Miami Slack Group (http://codefor.miami)")
+
 (defn wrap-exception-handling
   [handler]
   (fn [request]
@@ -21,16 +27,17 @@
       (handler request)
       (catch com.mysql.jdbc.exceptions.jdbc4.CommunicationsException comm-e
         (log/error comm-e "DATABASE NOT AVAILABLE!")
-        {:status 500 :body "INTERNAL SERVER ERROR: Database not available. Please contact the administrator:
-        Github: teh0xqb
-        Email: quilesbaker@gmail.com
-        or Code For Miami Slack Group (http://codefor.miami)"})
+        {:status 500 :body (str "500 INTERNAL SERVER ERROR: Database not available." server-error-details)})
       (catch Exception e
         (log/error e "GENERIC ERROR bubbled up. replace specific expection here and add to the catch statements.")
-        {:status 500 :body "INTERNAL SERVER ERROR"}))))
+        {:status 500 :body (str "500 INTERNAL SERVER ERROR." server-error-details)}))))
 
-(def api (->> routes
-              middleware/wrap-canonical-redirect
+(def api (->> (middleware/wrap-canonical-redirect           ;; Not using thread last in first arg
+               routes                                       ;; because handler is the second args of this middleware
+               (fn [^String uri]
+                 (if (.equals uri "/")
+                   uri
+                   (middleware/remove-trailing-slash uri))))
               wrap-exception-handling
               site
               all-cors
