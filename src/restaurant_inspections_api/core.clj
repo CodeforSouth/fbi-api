@@ -4,15 +4,13 @@
             [compojure.middleware :as middleware]
             [compojure.handler :refer [site]]
             [taoensso.timbre :as log]
-            [schema.core :as s]
             [compojure.api.sweet :as sweet]
             ;; internal
             [restaurant-inspections-api.constants :as const]
             [restaurant-inspections-api.cors :refer [all-cors]]
-            [restaurant-inspections-api.routes :refer [all-routes]]
-            ;; [restaurant-inspections-api.docs :as docs]
+            [restaurant-inspections-api.routes :refer [routes]]
+            [restaurant-inspections-api.schemas :as schemas]
             [restaurant-inspections-api.cron.core :refer [load-api-data]])
-
   (:use [clojure.tools.nrepl.server :only (start-server stop-server)])
   (:gen-class))
 
@@ -31,39 +29,12 @@
         (log/error e "GENERIC ERROR bubbled up. replace specific expection here and add to the catch statements.")
         {:status 500 :body "INTERNAL SERVER ERROR"}))))
 
-(s/defschema User {:id s/Str,
-                   :name s/Str
-                   :address {:street s/Str
-                             :city (s/enum :tre :hki)}})
-
-(def api (->> all-routes
+(def api (->> routes
               middleware/wrap-canonical-redirect
               wrap-exception-handling
               site
               all-cors
-              (sweet/api {:swagger
-                          {:ui "/api-docs"
-                           :spec "/swagger.json"
-                           :data {:info {:title "Sausages",
-                                         :version "1.0.0",
-                                         :description "Sausage description",
-                                         :termsOfService "http://helloreverb.com/terms/",
-                                         :contact {:name "My API Team",
-                                                   :email "foo@example.com",
-                                                   :url "http://www.metosin.fi"},
-                                         :license {:name "Eclipse Public License",
-                                                   :url "http://www.eclipse.org/legal/epl-v10.html"}},
-                                  :produces ["application/json"],
-                                  :consumes ["application/json"],
-                                  :tags [{:name "user", :description "User stuff"}],
-                                  :paths {"/inspections" {:get {:responses {200 {:schema User
-                                                                                 :description "Found it!"
-                                                                                 }}
-                                                                :summary "adds two numbers together"
-                                                                }
-                                                          }
-
-                                          }}}})))
+              (sweet/api schemas/swagger)))
 
 (def app
   (if const/production?

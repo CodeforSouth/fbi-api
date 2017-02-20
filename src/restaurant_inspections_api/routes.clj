@@ -1,6 +1,6 @@
 (ns restaurant-inspections-api.routes
   (:require
-   [liberator.core :refer [resource defresource]]
+   [liberator.core :refer [resource]]
    [compojure.core :refer [defroutes ANY GET]]
    [compojure.route :refer [not-found]]
    [taoensso.timbre :as log]
@@ -11,7 +11,7 @@
    [restaurant-inspections-api.handlers.inspections :as inspections]))
 
 ;; all routes return app/json;charset=UTF-8 headers (thanks to liberator/compojure)
-(defroutes all-routes
+(defroutes routes
 
   (ANY "/" []
     (resource
