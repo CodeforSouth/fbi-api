@@ -19,8 +19,8 @@
      :available-media-types ["application/json"]
      :handle-ok (fn [ctx] {:api-name "FRIA: Florida's Restaurant Inspections API"
                            :description "Florida's Restaurant inspections are available in csv files. Also available on an old http form on their website."
-                           :routes ["/" "/wiki" "/counties" "/inspections" "/inspections/:id"
-                                    "/businesses" "/violations"]})))
+                           :routes ["/" "/wiki" "/api-docs" "/counties" "/inspections" "/inspections/:id"
+                                    "/businesses" "/businesses/:licenseNumber" "/violations"]})))
 
   (GET "/wiki" []
     {:status 302
@@ -34,16 +34,6 @@
      :handle-ok (fn [ctx] {:meta {}
                            :data (srv/get-counties)})))
 
-  (ANY "/inspections/:id" [id]
-    (resource
-     :allowed-methods [:get]
-     :available-media-types ["application/json"]
-     :handle-ok (fn [ctx] {:meta {}
-                           :data (let [inspection (srv/full-inspection-details id)]
-                                   (if inspection
-                                     [inspection]
-                                     []))})))
-
   (ANY "/inspections" []
     (resource
      :allowed-methods [:get]
@@ -52,14 +42,14 @@
      :handle-unprocessable-entity inspections/handle-unprocessable
      :handle-ok inspections/handle-ok))
 
-  (ANY "/businesses/:id" [id]
+  (ANY "/inspections/:id" [id]
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
      :handle-ok (fn [ctx] {:meta {}
-                           :data (let [business (srv/full-business-details id)]
-                                   (if business
-                                     [business]
+                           :data (let [inspection (srv/full-inspection-details id)]
+                                   (if inspection
+                                     [inspection]
                                      []))})))
 
   ;; TODO: More extensive api handling of businesses
@@ -76,6 +66,16 @@
      :handle-ok (fn [{:keys [valid-params] :as ctx}]
                   {:meta {:parameters valid-params}
                    :data (srv/get-businesses valid-params)})))
+
+  (ANY "/businesses/:licenseNumber" [licenseNumber]
+    (resource
+     :allowed-methods [:get]
+     :available-media-types ["application/json"]
+     :handle-ok (fn [ctx] {:meta {}
+                           :data (let [business (srv/full-business-details licenseNumber)]
+                                   (if business
+                                     [business]
+                                     []))})))
 
   ;; TODO: Better api handling of violation codes/definitions
   (ANY "/violations" []
