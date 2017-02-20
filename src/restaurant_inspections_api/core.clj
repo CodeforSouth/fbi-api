@@ -14,11 +14,13 @@
   (:use [clojure.tools.nrepl.server :only (start-server stop-server)])
   (:gen-class))
 
+
 (def server-error-details
   "\n\nPlease contact the administrator:
-          - Github: teh0xqb
-          - Email: quilesbaker@gmail.com
-          - or Code For Miami Slack Group (http://codefor.miami)")
+       - Github: teh0xqb
+       - Email: quilesbaker@gmail.com
+       - or Code For Miami Slack Group (http://codefor.miami)")
+
 
 (defn wrap-exception-handling
   [handler]
@@ -29,8 +31,9 @@
         (log/error comm-e "DATABASE NOT AVAILABLE!")
         {:status 500 :body (str "500 INTERNAL SERVER ERROR: Database not available." server-error-details)})
       (catch Exception e
-        (log/error e "GENERIC ERROR bubbled up. replace specific expection here and add to the catch statements.")
+        (log/error e "GENERIC ERROR bubbled up. Replace specific expection here and add to the catch statements.")
         {:status 500 :body (str "500 INTERNAL SERVER ERROR." server-error-details)}))))
+
 
 (def api (->> (middleware/wrap-canonical-redirect           ;; Not using thread last in first arg
                routes                                       ;; because handler is the second args of this middleware
@@ -43,10 +46,12 @@
               all-cors
               (sweet/api schemas/swagger)))
 
+
 (def app
   (if const/production?
     api
-    (reload/wrap-reload api)))
+    (reload/wrap-reload #'api)))
+
 
 (defn -main
   "Starts server and schedules load-api-data process."
