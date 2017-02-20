@@ -56,14 +56,14 @@
                                   :produces ["application/json"],
                                   :consumes ["application/json"],
                                   :tags [{:name "user", :description "User stuff"}],
-                                  :paths {"/api/ping" {:get {:responses {"200" {:schema User
-                                                                                :description "Found it!"}}}}},
-                                  :definitions {"User" {:type "object",
-                                                        :properties {:id {:type "string"},
-                                                                     :name {:type "string"},
-                                                                     :address {:ref "#/definitions/UserAddress"}},
-                                                        :additionalProperties false,
-                                                        :required (:id :name :address)}}}}})))
+                                  :paths {"/inspections" {:get {:responses {200 {:schema User
+                                                                                 :description "Found it!"
+                                                                                 }}
+                                                                :summary "adds two numbers together"
+                                                                }
+                                                          }
+
+                                          }}}})))
 
 (def app
   (if const/production?

@@ -13,7 +13,6 @@
                  [org.clojure/data.csv "0.1.3"]
                  [com.taoensso/timbre "4.7.4"]
                  [org.clojure/tools.nrepl "0.2.12"]
-                 ;; [metosin/ring-swagger "0.23.0"]
                  [prismatic/schema "1.1.3"]
                  [yesql "0.5.3"]
                  [metosin/compojure-api "1.1.10"]
