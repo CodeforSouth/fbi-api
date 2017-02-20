@@ -3,10 +3,10 @@
    [liberator.core :refer [resource defresource]]
    [compojure.core :refer [defroutes ANY GET]]
    [compojure.route :refer [not-found]]
+   [taoensso.timbre :as log]
    ;; internal
    [restaurant-inspections-api.services :as srv]
    [restaurant-inspections-api.util :as util]
-   [taoensso.timbre :refer [debug]]
    [restaurant-inspections-api.validations :as validate]
    [restaurant-inspections-api.handlers.inspections :as inspections]))
 
@@ -26,6 +26,7 @@
     {:status 302
      :headers {"Location" "https://github.com/Code-for-Miami/restaurant-inspections-api/wiki"}})
 
+  ;; TODO: use id to check for county info
   (ANY "/counties" []
     (resource
      :allowed-methods [:get]
@@ -61,7 +62,7 @@
                                      [business]
                                      []))})))
 
-  ;; TODO: Better api handling of businesses
+  ;; TODO: More extensive api handling of businesses
   (ANY "/businesses" []
     (resource
      :allowed-methods [:get]

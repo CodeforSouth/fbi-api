@@ -12,8 +12,6 @@
   (:use [clojure.tools.nrepl.server :only (start-server stop-server)])
   (:gen-class))
 
-;; (def site (all-cors (site (middleware/wrap-canonical-redirect all-routes))))
-
 (defn wrap-exception-handling
   [handler]
   (fn [request]
