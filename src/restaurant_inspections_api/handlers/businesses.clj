@@ -22,8 +22,9 @@
         per-page (or (get-in ctx [:request :params :perPage]) "20")
         page (or (get-in ctx [:request :params :page]) "0")
         validations-map (validate-businesses-params zip-codes
-                                                     county-number
-                                                     per-page page)]
+                                                    county-number
+                                                    per-page
+                                                    page)]
     (if-not (empty? (:invalid validations-map))
       [false {:errors-map
               {:errors (into [] (for [keyval (:invalid validations-map)]

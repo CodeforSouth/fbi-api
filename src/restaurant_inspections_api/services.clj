@@ -86,6 +86,8 @@
 (defn- format-businesses-params
   [params-map]
   (assoc params-map
+         :zipCodes (when-let [zipCodes (:zipCodes params-map)]
+                     (str/split zipCodes #","))
          :page (* (:page params-map) (:perPage params-map))))
 
 (defn get-businesses
