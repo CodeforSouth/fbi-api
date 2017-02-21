@@ -1,1 +1,0 @@
-web: java $JVM_OPTS -cp target/restaurant-inspections-api.jar clojure.main -m restaurant-inspections-api.core

@@ -1,0 +1,990 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Florida Restaurant Inspections API 0.3.0</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #272822;
+  background-color: #f92672;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #f8f8f2;
+}
+.highlight .p, .highlight .pi {
+  color: #f8f8f2;
+}
+.highlight .gi {
+  color: #a6e22e;
+}
+.highlight .gd {
+  color: #f92672;
+}
+.highlight .gh {
+  color: #66d9ef;
+  background-color: #272822;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #ae81ff;
+}
+.highlight .kc {
+  color: #fd971f;
+}
+.highlight .kt {
+  color: #fd971f;
+}
+.highlight .kd {
+  color: #fd971f;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #a6e22e;
+}
+.highlight .sr {
+  color: #a1efe4;
+}
+.highlight .si {
+  color: #cc6633;
+}
+.highlight .se {
+  color: #cc6633;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #66d9ef;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #a6e22e;
+}
+.highlight .ss {
+  color: #a6e22e;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" alt="Navbar" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" alt="Logo" />
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+        <ul class="toc-footer">
+            <li><a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="florida-restaurant-inspections-api-0-3-0">Florida Restaurant Inspections API 0.3.0</h1>
+
+<blockquote>
+<h3 id="consumes">Consumes</h3>
+
+<p><code class="prettyprint">application/json</code>  </p>
+
+<h3 id="produces">Produces</h3>
+
+<p><code class="prettyprint">application/json</code>  </p>
+</blockquote>
+
+<p><strong>Base path</strong>: <code class="prettyprint">/</code></p>
+
+<h2 id="counties-summary-here">counties summary here</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">//counties</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+
+<span class="p">{</span><span class="w">
+    </span><span class="nt">"district"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"countynumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"countyname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspections"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="responses">Responses</h3>
+
+<table><thead>
+<tr>
+<th>Http code</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td><a href="#county">County</a></td>
+<td>Counties description here&hellip;</td>
+</tr>
+</tbody></table>
+
+<h2 id="adds-two-numbers-together">adds two numbers together</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">//inspections</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+
+<span class="p">{</span><span class="w">
+    </span><span class="nt">"intermediateViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"locationCity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"countyName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"licenseTypeCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"businessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"locationZipcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"totalViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionDisposition"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"basicViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"countyNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"licenseNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"visitNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"highPriorityViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"district"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>In</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>countyNumber</td>
+<td>query</td>
+<td>integer</td>
+<td>Optional.</td>
+</tr>
+<tr>
+<td>districtCode</td>
+<td>query</td>
+<td>integer</td>
+<td>Optional.</td>
+</tr>
+<tr>
+<td>zipCodes</td>
+<td>query</td>
+<td>string</td>
+<td>Optional.</td>
+</tr>
+<tr>
+<td>startDate</td>
+<td>query</td>
+<td>string</td>
+<td>Optional.</td>
+</tr>
+<tr>
+<td>endDate</td>
+<td>query</td>
+<td>string</td>
+<td>Optional.</td>
+</tr>
+<tr>
+<td>businessName</td>
+<td>query</td>
+<td>string</td>
+<td>Optional.</td>
+</tr>
+</tbody></table>
+
+<h3 id="responses">Responses</h3>
+
+<table><thead>
+<tr>
+<th>Http code</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td><a href="#inspection">Inspection</a></td>
+<td>Found it!</td>
+</tr>
+</tbody></table>
+
+<h2 id="adds-two-numbers-together">adds two numbers together</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">//inspections/{id}</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+
+<span class="p">{</span><span class="w">
+    </span><span class="nt">"intermediateViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"locationCity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"countyName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"licenseTypeCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"businessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"locationZipcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"totalViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionDisposition"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"basicViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"nonCriticalViolationsBefore2013"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"countyNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"licenseNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pdaStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"visitNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"violations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"is_risk_factor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"is_primary_concern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"highPriorityViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"criticalViolationsBefore2013"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"district"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>In</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>path</td>
+<td>integer</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h3 id="responses">Responses</h3>
+
+<table><thead>
+<tr>
+<th>Http code</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td><a href="#inspectiondetail">InspectionDetail</a></td>
+<td>Found it!</td>
+</tr>
+</tbody></table>
+
+<h2 id="adds-two-numbers-together">adds two numbers together</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">//businesses</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+
+<span class="p">{</span><span class="w">
+    </span><span class="nt">"county_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"noncritical_violations_before_2013"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"license_type_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"business_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"license_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location_zipcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"critical_violations_before_2013"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location-city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location_latitude"</span><span class="p">:</span><span class="w"> </span><span class="s2">"number"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location_longitude"</span><span class="p">:</span><span class="w"> </span><span class="s2">"number"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="responses">Responses</h3>
+
+<table><thead>
+<tr>
+<th>Http code</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td><a href="#business">Business</a></td>
+<td>Found it!</td>
+</tr>
+</tbody></table>
+
+<h2 id="adds-two-numbers-together">adds two numbers together</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">//businesses/{licenseNumber}</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+
+<span class="p">{</span><span class="w">
+    </span><span class="nt">"county_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"noncritical_violations_before_2013"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"license_type_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"business_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"license_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location_zipcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"critical_violations_before_2013"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location-city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location_latitude"</span><span class="p">:</span><span class="w"> </span><span class="s2">"number"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location_longitude"</span><span class="p">:</span><span class="w"> </span><span class="s2">"number"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>In</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>licenseNumber<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>path</td>
+<td>integer</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h3 id="responses">Responses</h3>
+
+<table><thead>
+<tr>
+<th>Http code</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td><a href="#business">Business</a></td>
+<td>Found it!</td>
+</tr>
+</tbody></table>
+
+<h2 id="adds-two-numbers-together">adds two numbers together</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">//violations</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+
+<span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"is_risk_factor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"is_primary_concern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="responses">Responses</h3>
+
+<table><thead>
+<tr>
+<th>Http code</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td><a href="#violation">Violation</a></td>
+<td>Found it!</td>
+</tr>
+</tbody></table>
+
+<h1 id="models">Models</h1>
+
+<h2 id="business">Business</h2>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"county_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"noncritical_violations_before_2013"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"license_type_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"business_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"license_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location_zipcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"critical_violations_before_2013"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location-city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location_latitude"</span><span class="p">:</span><span class="w"> </span><span class="s2">"number"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location_longitude"</span><span class="p">:</span><span class="w"> </span><span class="s2">"number"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="fields">Fields</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Format</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>county_number<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>location_address<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>noncritical_violations_before_2013<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>license_type_code<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>business_name<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>license_number<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>location_zipcode<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>critical_violations_before_2013<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>location-city<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>location_latitude<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>number</td>
+<td>double</td>
+<td></td>
+</tr>
+<tr>
+<td>location_longitude<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>number</td>
+<td>double</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h2 id="county">County</h2>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"district"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"countynumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"countyname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspections"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="fields">Fields</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Format</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>district<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>countynumber<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>countyname<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>inspections<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h2 id="inspection">Inspection</h2>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"intermediateViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"locationCity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"countyName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"licenseTypeCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"businessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"locationZipcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"totalViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionDisposition"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"basicViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"countyNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"licenseNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"visitNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"highPriorityViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"district"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="fields">Fields</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Format</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>intermediateViolations<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>locationCity<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>locationAddress<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>countyName<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>licenseTypeCode<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>businessName<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>locationZipcode<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>totalViolations<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>type<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>inspectionDisposition<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>inspectionNumber<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>basicViolations<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>id<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>countyNumber<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>licenseNumber<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>visitNumber<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>inspectionType<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>inspectionDate<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td>date-time</td>
+<td></td>
+</tr>
+<tr>
+<td>highPriorityViolations<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>district<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h2 id="inspectiondetail">InspectionDetail</h2>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"intermediateViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"locationCity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"locationAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"countyName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"licenseTypeCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"businessName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"locationZipcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"totalViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionDisposition"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"basicViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"nonCriticalViolationsBefore2013"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"countyNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"licenseNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pdaStatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"visitNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inspectionDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"violations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"is_risk_factor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"is_primary_concern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"highPriorityViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"criticalViolationsBefore2013"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"district"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="fields">Fields</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Format</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>intermediateViolations<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>locationCity<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>locationAddress<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>countyName<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>licenseTypeCode<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>businessName<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>locationZipcode<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>totalViolations<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>type<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>inspectionDisposition<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>inspectionNumber<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>basicViolations<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>nonCriticalViolationsBefore2013<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>id<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>countyNumber<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>licenseNumber<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>pdaStatus<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>boolean</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>visitNumber<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>inspectionType<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>inspectionDate<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td>date-time</td>
+<td></td>
+</tr>
+<tr>
+<td>violations<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>array[<a href="#violation">Violation</a>]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>highPriorityViolations<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>criticalViolationsBefore2013<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>district<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h2 id="violation">Violation</h2>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"is_risk_factor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"is_primary_concern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="fields">Fields</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Format</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>description<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>is_risk_factor<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>boolean</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>is_primary_concern<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>boolean</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<style>
+    ul.enum {
+        margin: 0;
+        padding: 0 0 0 2px;
+        list-style-position: inside;
+    }
+    .required {
+        color: red;
+        font-weight: bold;
+    }
+    a.pseudo {
+        border-bottom:1px dashed; 
+        text-decoration: none;
+    }
+</style>
+
+      </div>
+      <div class="dark-box">
+      </div>
+    </div>
+  </body>
+</html>

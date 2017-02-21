@@ -1,9 +1,0 @@
-language: clojure
-script:
-  - lein uberjar
-  - lein cloverage
-jdk:
-  - openjdk6
-  - openjdk7
-  - oraclejdk7
-  - oraclejdk8
