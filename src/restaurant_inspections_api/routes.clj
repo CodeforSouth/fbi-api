@@ -61,21 +61,6 @@
    :handle-unprocessable-entity businesses/handle-unprocessable
    :handle-ok businesses/handle-ok))
 
- ;; TODO: More extensive api handling of businesses
-  ; (ANY "/businesses" []
-  ;   (resource
-  ;    :allowed-methods [:get]
-  ;    :available-media-types ["application/json"]
-  ;    ;; TODO: handle query params, the same way inspections do
-  ;    :processable? (fn [ctx]
-  ;                    (let [per-page (or (get-in ctx [:request :params :perPage]) "20")
-  ;                          page (or (get-in ctx [:request :params :page]) "0")]
-  ;                      [true {:valid-params {:perPage (validate/per-page per-page) :page (validate/page page)}}]))
-  ;    ;;:handle-unprocessable-entity #(get % :errors-map)
-  ;    :handle-ok (fn [{:keys [valid-params] :as ctx}]
-  ;                 {:meta {:parameters valid-params}
-  ;                  :data (srv/get-businesses valid-params)})))
-
   (ANY "/businesses/:licenseNumber" [licenseNumber]
     (resource
      :allowed-methods [:get]

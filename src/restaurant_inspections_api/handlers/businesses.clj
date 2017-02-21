@@ -6,11 +6,10 @@
 (defn validate-businesses-params
   "Recieves all businesses query parameters (nil when not specified) and
   returns a map of valid and invalid params"
-  [zip-codes district-code county-number per-page page]
+  [zip-codes county-number per-page page]
 
   (let [validated-map {:zipCodes (validate/zip-codes zip-codes)
-                       :district-code (validate/district-code district-code)
-                       :county-number (validate/county-number county-number)
+                       :county (validate/county-number county-number)
                        :perPage (validate/per-page per-page)
                        :page (validate/page page)}]
     {:invalid (into {} (filter #(false? (second %)) validated-map))
@@ -29,12 +28,10 @@
    are valid/processable and the errors or valid params"
   [ctx]
   (let [zip-codes (get-in ctx [:request :params :zipCodes])
-        district-code (get-in ctx [:request :params :district])
         county-number (get-in ctx [:request :params :countyNumber])
         per-page (or (get-in ctx [:request :params :perPage]) "20")
         page (or (get-in ctx [:request :params :page]) "0")
         validations-map (validate-businesses-params zip-codes
-                                                     district-code
                                                      county-number
                                                      per-page page)]
     (if-not (empty? (:invalid validations-map))
