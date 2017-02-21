@@ -9,7 +9,7 @@
   [zip-codes county-number per-page page]
 
   (validate/validate-params {:zipCodes (validate/zip-codes zip-codes)
-                             :county (validate/county-number county-number)
+                             :countyNumber (validate/county-number county-number)
                              :perPage (validate/per-page per-page)
                              :page (validate/page page)}))
 
