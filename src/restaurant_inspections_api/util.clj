@@ -53,3 +53,11 @@
   (when-not (nil? date)
     (timef/unparse (timef/formatter "YYYY-MM-dd")
                    (coerce-time/from-date date))))
+
+(defn format-query-params-error
+  "Receives param-key for an error and returns a map with error details."
+  [param-key]
+  {:code 1
+   :title "Validation Error"
+   :detail "Invalid format or value for parameter."
+   :source {:parameter param-key}})

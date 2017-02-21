@@ -163,7 +163,11 @@
 
                    "/businesses" {:get {:responses {200 {:schema Business
                                                          :description "Found it!"}}
-                                        :summary "adds two numbers together"}}
+                                        :parameters {:query {(s/optional-key :countyNumber) s/Int
+                                                              (s/optional-key :zipCodes) s/Str
+                                                              (s/optional-key :perPage) s/Int
+                                                              (s/optional-key :page) s/Int}}
+                                        :summary "Get all businesses"}}
 
                    "/businesses/:licenseNumber" {:get {:responses {200 {:schema Business
                                                                         :description "Found it!"}}
