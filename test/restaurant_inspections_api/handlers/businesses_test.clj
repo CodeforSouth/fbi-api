@@ -9,11 +9,10 @@
 
 (deftest validate-businesses-params-test
   (testing "Given query params input, returns valid and invalid format/values."
-    (is (=
-         (validate-businesses-params
-          "33137,22345" "11" "1" "2")
-         {:invalid {}
+    (is (= {:invalid {}
           :valid {:zipCodes "33137,22345"
                   :countyNumber "11"
                   :perPage 1
-                  :page 2}}))))
+                  :page 2}}
+         (validate-businesses-params
+          "33137,22345" "11" "1" "2")))))
