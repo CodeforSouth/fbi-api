@@ -140,7 +140,7 @@
                             :url "https://choosealicense.com/licenses/mit/"}},
            :produces ["application/json"],
            :consumes ["application/json"],
-           :tags [{:name "inspection", :description "inspection stuff"}],
+           :tags [],
 
            :paths {"/counties"  {:get {:responses {200 {:schema County
                                                         :description "Counties description here..."}}
