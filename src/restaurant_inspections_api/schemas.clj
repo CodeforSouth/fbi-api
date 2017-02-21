@@ -166,7 +166,7 @@
                                         :parameters {:query {(s/optional-key :countyNumber) s/Int
                                                               (s/optional-key :zipCodes) s/Str
                                                               (s/optional-key :perPage) s/Int
-                                                              (s/optional-ket :page) s/Int}}
+                                                              (s/optional-key :page) s/Int}}
                                         :summary "Get all businesses"}}
 
                    "/businesses/:licenseNumber" {:get {:responses {200 {:schema Business
