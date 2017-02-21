@@ -42,3 +42,10 @@
   [page]
   (when-not (nil? page)
     (and (boolean (re-matches #"\d+" page)) (Integer. page))))
+
+(defn validate-params
+  "Receives a dictionary with parameter names and boolean values
+   and returns two arrays of valid and invalid params"
+  [validated-map]
+  {:invalid (into {} (filter #(false? (second %)) validated-map))
+   :valid (into {} (filter #(not (false? (second %)))) validated-map) })

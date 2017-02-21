@@ -8,20 +8,10 @@
   returns a map of valid and invalid params"
   [zip-codes county-number per-page page]
 
-  (let [validated-map {:zipCodes (validate/zip-codes zip-codes)
-                       :county (validate/county-number county-number)
-                       :perPage (validate/per-page per-page)
-                       :page (validate/page page)}]
-    {:invalid (into {} (filter #(false? (second %)) validated-map))
-     :valid (into {} (filter #(not (false? (second %)))) validated-map) }))
-
-(defn format-query-params-error
-  "Receives param-key for an error and return a map with error details."
-  [param-key]
-  {:code 1
-   :title "Validation Error"
-   :detail "Invalid format or value for parameter."
-   :source {:parameter param-key}})
+  (validate/validate-params {:zipCodes (validate/zip-codes zip-codes)
+                             :county (validate/county-number county-number)
+                             :perPage (validate/per-page per-page)
+                             :page (validate/page page)}))
 
 (defn processable?
   "Given a ring server ctx, returns an array with true or false if parameters
@@ -37,7 +27,7 @@
     (if-not (empty? (:invalid validations-map))
       [false {:errors-map
               {:errors (into [] (for [keyval (:invalid validations-map)]
-                                  (format-query-params-error (name (key keyval)))))}
+                                  (util/format-query-params-error (name (key keyval)))))}
                :params (:valid validations-map)}]
       [true {:valid-params (:valid validations-map)}])))
 
