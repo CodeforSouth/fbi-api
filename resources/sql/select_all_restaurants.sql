@@ -5,5 +5,5 @@
 -- TODO Add geocapabilities (for Lat & Lon)
 SELECT * FROM restaurants as r
 WHERE ((length(concat(:zipCodes)) is null or r.location_zipcode IN (:zipCodes))
-  AND (:county is null or r.county_number = :county))
+  AND (:countyNumber is null or r.county_number = :countyNumber))
 LIMIT :perPage OFFSET :page;
