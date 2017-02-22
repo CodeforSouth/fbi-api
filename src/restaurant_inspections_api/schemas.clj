@@ -114,15 +114,15 @@
    :district s/Str})
 
 (s/defschema UnprocessableError
-  {:code 1
-   :title "Validation Error"
-   :detail "Invalid format or value for parameter."
+  {:code (s/eq 1)
+   :title (s/eq "Validation Error")
+   :detail (s/eq "Invalid format or value for parameter.")
    :source {:parameter s/Str}})
 
 (defn wrap-data
   ""
   [data]
-  {:meta []
+  {:meta {}
    :data [data]})
 
 (def swagger
@@ -135,7 +135,8 @@
                   ;; :termsOfService "",
                   :contact {:name "Joel Quiles",
                             :email "quilesbaker@gmail.com",
-                            :url "//codefor.miami"},
+                            :github "teh0xqb"
+                            :url "http://codefor.miami"},
                   :license {:name "MIT License",
                             :url "https://choosealicense.com/licenses/mit/"}},
            :produces ["application/json"],
@@ -146,7 +147,7 @@
 
            :paths {"/counties"  {:get {:responses {200 {:schema County
                                                         :description "Counties description here..."}}
-                                       :summary "Retrieve all available counties."}}
+                                       :summary "Retrieve all available counties"}}
 
                    "/inspections" {:get {:responses {200 {:schema Inspection
                                                           :description "Returns all Inspections, 20 per page by default."}
@@ -158,24 +159,28 @@
                                                               (s/optional-key :startDate) s/Str
                                                               (s/optional-key :endDate) s/Str
                                                               (s/optional-key :businessName) s/Str}}
-                                         :summary "Retrieve all Inspections; paginated."}}
+                                         :summary "List Inspections using filters"}}
 
                    "/inspections/:id" {:get {:responses {200 {:schema InspectionDetail
                                                               :description "Found it!"}}
                                              :parameters {:path {:id Long}}
-                                             :summary "Retrieves one inspection by Id; includes linked violation resource details."}}
+                                             :summary "Retrieve one inspection by id; includes violations details"}}
 
                    "/businesses" {:get {:responses {200 {:schema Business
-                                                         :description "Found it!"}
+                                                         :description "Returns all businesses, 20 per page at a time by default."}
                                                     422 {:schema UnprocessableError
                                                          :description "Unprocessable Query Parameters provided to businesses endpoint."}}
-                                        :summary "adds two numbers together"}}
+                                        :parameters {:query {(s/optional-key :countyNumber) s/Int
+                                                             (s/optional-key :zipCodes) s/Str
+                                                             (s/optional-key :perPage) s/Int
+                                                             (s/optional-key :page) s/Int}}
+                                        :summary "List businesses using filters"}}
 
                    "/businesses/:licenseNumber" {:get {:responses {200 {:schema Business
-                                                                        :description "Found it!"}}
+                                                                        :description "Retrieve one business by id."}}
                                                        :parameters {:path {:licenseNumber Long}}
-                                                       :summary "adds two numbers together"}}
+                                                       :summary "Retrieve individual Business details by id"}}
 
                    "/violations" {:get {:responses {200 {:schema Violation
-                                                         :description "Found it!"}}
-                                        :summary "adds two numbers together"}}}}}})
+                                                         :description "All Violations with their summary."}}
+                                        :summary "List violations"}}}}}})

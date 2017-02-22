@@ -8,6 +8,7 @@
    [restaurant-inspections-api.services :as srv]
    [restaurant-inspections-api.util :as util]
    [restaurant-inspections-api.validations :as validate]
+   [restaurant-inspections-api.handlers.businesses :as businesses]
    [restaurant-inspections-api.handlers.inspections :as inspections]))
 
 ;; all routes return app/json;charset=UTF-8 headers (thanks to liberator/compojure)
@@ -42,6 +43,7 @@
      :handle-unprocessable-entity inspections/handle-unprocessable
      :handle-ok inspections/handle-ok))
 
+  ;; TODO: return different status code and error? in body if no inspection with provided id
   (ANY "/inspections/:id" [id]
     (resource
      :allowed-methods [:get]
@@ -52,20 +54,13 @@
                                      [inspection]
                                      []))})))
 
-  ;; TODO: More extensive api handling of businesses
-  (ANY "/businesses" []
-    (resource
-     :allowed-methods [:get]
-     :available-media-types ["application/json"]
-     ;; TODO: handle query params, the same way inspections do
-     :processable? (fn [ctx]
-                     (let [per-page (or (get-in ctx [:request :params :perPage]) "20")
-                           page (or (get-in ctx [:request :params :page]) "0")]
-                       [true {:valid-params {:perPage (validate/per-page per-page) :page (validate/page page)}}]))
-     ;;:handle-unprocessable-entity #(get % :errors-map)
-     :handle-ok (fn [{:keys [valid-params] :as ctx}]
-                  {:meta {:parameters valid-params}
-                   :data (srv/get-businesses valid-params)})))
+ (ANY "/businesses" []
+  (resource
+   :allowed-methods [:get]
+   :available-media-types ["application/json"]
+   :processable? businesses/processable?
+   :handle-unprocessable-entity businesses/handle-unprocessable
+   :handle-ok businesses/handle-ok))
 
   (ANY "/businesses/:licenseNumber" [licenseNumber]
     (resource
@@ -77,7 +72,6 @@
                                      [business]
                                      []))})))
 
-  ;; TODO: Better api handling of violation codes/definitions
   (ANY "/violations" []
     (resource
      :allowed-methods [:get]
