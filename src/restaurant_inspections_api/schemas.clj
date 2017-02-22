@@ -149,6 +149,8 @@
     :spec "/swagger.json"
     :data {:info {:title "Florida Restaurants Inspections API",
                   :version "0.3.0",
+                  :host "45.55.191.140"
+                  :schemes "http"
                   :description "API For Florida Restaurant Inspections Records. It's datasource is Florida Department of Business & Professional Regulation. See http://www.myfloridalicense.com",
                   ;; :termsOfService "",
                   :contact {:name "Joel Quiles",
