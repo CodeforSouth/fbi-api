@@ -43,6 +43,7 @@
      :handle-unprocessable-entity inspections/handle-unprocessable
      :handle-ok inspections/handle-ok))
 
+  ;; TODO: return different status code and error? in body if no inspection with provided id
   (ANY "/inspections/:id" [id]
     (resource
      :allowed-methods [:get]
@@ -71,7 +72,6 @@
                                      [business]
                                      []))})))
 
-  ;; TODO: Better api handling of violation codes/definitions
   (ANY "/violations" []
     (resource
      :allowed-methods [:get]

@@ -1,11 +1,6 @@
 (ns restaurant-inspections-api.schemas
   (:require [schema.core :as s]))
 
-(s/defschema User {:id s/Str,
-                   :name s/Str
-                   :address {:street s/Str
-                             :city (s/enum :tre :hki)}})
-
 ;; "district": "D1",
 ;; "countynumber": 23,
 ;; "countyname": "Dade",
@@ -118,11 +113,16 @@
    :criticalViolationsBefore2013 s/Int,
    :district s/Str})
 
+(s/defschema UnprocessableError
+  {:code (s/eq 1)
+   :title (s/eq "Validation Error")
+   :detail (s/eq "Invalid format or value for parameter.")
+   :source {:parameter s/Str}})
 
 (defn wrap-data
   ""
   [data]
-  {:meta []
+  {:meta {}
    :data [data]})
 
 (def swagger
@@ -135,45 +135,52 @@
                   ;; :termsOfService "",
                   :contact {:name "Joel Quiles",
                             :email "quilesbaker@gmail.com",
-                            :url "//codefor.miami"},
+                            :github "teh0xqb"
+                            :url "http://codefor.miami"},
                   :license {:name "MIT License",
                             :url "https://choosealicense.com/licenses/mit/"}},
            :produces ["application/json"],
            :consumes ["application/json"],
-           :tags [{:name "inspection", :description "inspection stuff"}],
+           :tags [], ;; TODO: if we want to add tags, we need to tag things below as well.
+
+           :basePath ""
 
            :paths {"/counties"  {:get {:responses {200 {:schema County
                                                         :description "Counties description here..."}}
-                                       :summary "counties summary here"}}
+                                       :summary "Retrieve all available counties"}}
 
                    "/inspections" {:get {:responses {200 {:schema Inspection
-                                                          :description "Found it!"}}
+                                                          :description "Returns all Inspections, 20 per page by default."}
+                                                     422 {:schema UnprocessableError
+                                                          :description "Unprocessable Query Parameters provided to inspections endpoint."}}
                                          :parameters {:query {(s/optional-key :countyNumber) s/Int
                                                               (s/optional-key :districtCode) s/Int
                                                               (s/optional-key :zipCodes) s/Str
                                                               (s/optional-key :startDate) s/Str
                                                               (s/optional-key :endDate) s/Str
                                                               (s/optional-key :businessName) s/Str}}
-                                         :summary "adds two numbers together"}}
+                                         :summary "List Inspections using filters"}}
 
                    "/inspections/:id" {:get {:responses {200 {:schema InspectionDetail
-                                                              :description "Found it!"}}
+                                                              :description "Individual Inspection Detail"}}
                                              :parameters {:path {:id Long}}
-                                             :summary "adds two numbers together"}}
+                                             :summary "Retrieve one inspection by id; includes violations details"}}
 
                    "/businesses" {:get {:responses {200 {:schema Business
-                                                         :description "Found it!"}}
+                                                         :description "Returns all businesses, 20 per page at a time by default."}
+                                                    422 {:schema UnprocessableError
+                                                         :description "Unprocessable Query Parameters provided to businesses endpoint."}}
                                         :parameters {:query {(s/optional-key :countyNumber) s/Int
-                                                              (s/optional-key :zipCodes) s/Str
-                                                              (s/optional-key :perPage) s/Int
-                                                              (s/optional-key :page) s/Int}}
-                                        :summary "Get all businesses"}}
+                                                             (s/optional-key :zipCodes) s/Str
+                                                             (s/optional-key :perPage) s/Int
+                                                             (s/optional-key :page) s/Int}}
+                                        :summary "List businesses using filters"}}
 
                    "/businesses/:licenseNumber" {:get {:responses {200 {:schema Business
-                                                                        :description "Found it!"}}
+                                                                        :description "Retrieve one business by id."}}
                                                        :parameters {:path {:licenseNumber Long}}
-                                                       :summary "adds two numbers together"}}
+                                                       :summary "Retrieve individual Business details by id"}}
 
                    "/violations" {:get {:responses {200 {:schema Violation
-                                                         :description "Found it!"}}
-                                        :summary "adds two numbers together"}}}}}})
+                                                         :description "All Violations with their summary."}}
+                                        :summary "List violations"}}}}}})
