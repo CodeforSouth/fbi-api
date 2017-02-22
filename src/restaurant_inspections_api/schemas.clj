@@ -145,7 +145,7 @@
            :basePath ""
 
            :paths {"/counties"  {:get {:responses {200 {:schema County
-                                                        :description "Counties description here..."}}
+                                                        :description "Returns all counties, no pagination."}}
                                        :summary "Retrieve all available counties"}}
 
                    "/inspections" {:get {:responses {200 {:schema Inspection
