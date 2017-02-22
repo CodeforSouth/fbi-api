@@ -162,7 +162,7 @@
                                          :summary "List Inspections using filters"}}
 
                    "/inspections/:id" {:get {:responses {200 {:schema InspectionDetail
-                                                              :description "Found it!"}}
+                                                              :description "Individual Inspection Detail"}}
                                              :parameters {:path {:id Long}}
                                              :summary "Retrieve one inspection by id; includes violations details"}}
 
