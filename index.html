@@ -125,10 +125,8 @@
 <p><code class="prettyprint">application/json</code>  </p>
 </blockquote>
 
-<p><strong>Base path</strong>: <code class="prettyprint">/</code></p>
-
-<h2 id="counties-summary-here">counties summary here</h2>
-<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">//counties</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<h2 id="retrieve-all-available-counties">Retrieve all available counties</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/counties</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 </code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 
@@ -155,8 +153,8 @@
 </tr>
 </tbody></table>
 
-<h2 id="adds-two-numbers-together">adds two numbers together</h2>
-<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">//inspections</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<h2 id="list-inspections-using-filters">List Inspections using filters</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/inspections</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 </code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 
@@ -181,6 +179,17 @@
     </span><span class="nt">"inspectionDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"highPriorityViolations"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"district"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">422</span> <span class="ne">Unprocessable Entity</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+
+<span class="p">{</span><span class="w">
+    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"detail"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"parameter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3 id="parameters">Parameters</h3>
@@ -243,12 +252,17 @@
 <tr>
 <td>200</td>
 <td><a href="#inspection">Inspection</a></td>
-<td>Found it!</td>
+<td>Returns all Inspections, 20 per page by default.</td>
+</tr>
+<tr>
+<td>422</td>
+<td><a href="#unprocessableerror">UnprocessableError</a></td>
+<td>Unprocessable Query Parameters provided to inspections endpoint.</td>
 </tr>
 </tbody></table>
 
-<h2 id="adds-two-numbers-together">adds two numbers together</h2>
-<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">//inspections/{id}</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<h2 id="retrieve-one-inspection-by-id-includes-violations-details">Retrieve one inspection by id; includes violations details</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/inspections/{id}</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 </code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 
@@ -316,12 +330,12 @@
 <tr>
 <td>200</td>
 <td><a href="#inspectiondetail">InspectionDetail</a></td>
-<td>Found it!</td>
+<td>Individual Inspection Detail</td>
 </tr>
 </tbody></table>
 
-<h2 id="adds-two-numbers-together">adds two numbers together</h2>
-<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">//businesses</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<h2 id="list-businesses-using-filters">List businesses using filters</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/businesses</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 </code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 
@@ -338,7 +352,54 @@
     </span><span class="nt">"location_latitude"</span><span class="p">:</span><span class="w"> </span><span class="s2">"number"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"location_longitude"</span><span class="p">:</span><span class="w"> </span><span class="s2">"number"</span><span class="w">
 </span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">422</span> <span class="ne">Unprocessable Entity</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+
+<span class="p">{</span><span class="w">
+    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"detail"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"parameter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>In</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>countyNumber</td>
+<td>query</td>
+<td>integer</td>
+<td>Optional.</td>
+</tr>
+<tr>
+<td>zipCodes</td>
+<td>query</td>
+<td>string</td>
+<td>Optional.</td>
+</tr>
+<tr>
+<td>perPage</td>
+<td>query</td>
+<td>integer</td>
+<td>Optional.</td>
+</tr>
+<tr>
+<td>page</td>
+<td>query</td>
+<td>integer</td>
+<td>Optional.</td>
+</tr>
+</tbody></table>
+
 <h3 id="responses">Responses</h3>
 
 <table><thead>
@@ -351,12 +412,17 @@
 <tr>
 <td>200</td>
 <td><a href="#business">Business</a></td>
-<td>Found it!</td>
+<td>Returns all businesses, 20 per page at a time by default.</td>
+</tr>
+<tr>
+<td>422</td>
+<td><a href="#unprocessableerror">UnprocessableError</a></td>
+<td>Unprocessable Query Parameters provided to businesses endpoint.</td>
 </tr>
 </tbody></table>
 
-<h2 id="adds-two-numbers-together">adds two numbers together</h2>
-<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">//businesses/{licenseNumber}</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<h2 id="retrieve-individual-business-details-by-id">Retrieve individual Business details by id</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/businesses/{licenseNumber}</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 </code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 
@@ -404,12 +470,12 @@
 <tr>
 <td>200</td>
 <td><a href="#business">Business</a></td>
-<td>Found it!</td>
+<td>Retrieve one business by id.</td>
 </tr>
 </tbody></table>
 
-<h2 id="adds-two-numbers-together">adds two numbers together</h2>
-<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">//violations</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<h2 id="list-violations">List violations</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/violations</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 </code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 
@@ -432,7 +498,7 @@
 <tr>
 <td>200</td>
 <td><a href="#violation">Violation</a></td>
-<td>Found it!</td>
+<td>All Violations with their summary.</td>
 </tr>
 </tbody></table>
 
@@ -916,6 +982,75 @@
 </tr>
 <tr>
 <td>district<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h2 id="unprocessableerror">UnprocessableError</h2>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"detail"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"parameter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="fields">Fields</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Format</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>code<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>integer</td>
+<td>int64</td>
+<td></td>
+</tr>
+<tr>
+<td>title<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>detail<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td>string</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>source<span title="required" class="required">&nbsp;*&nbsp;</span></td>
+<td><a href="#unprocessableerrorsource">UnprocessableErrorSource</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h2 id="unprocessableerrorsource">UnprocessableErrorSource</h2>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"parameter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="fields">Fields</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Format</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>parameter<span title="required" class="required">&nbsp;*&nbsp;</span></td>
 <td>string</td>
 <td></td>
 <td></td>
