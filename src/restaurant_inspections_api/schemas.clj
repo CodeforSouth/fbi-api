@@ -1,11 +1,6 @@
 (ns restaurant-inspections-api.schemas
   (:require [schema.core :as s]))
 
-(s/defschema User {:id s/Str,
-                   :name s/Str
-                   :address {:street s/Str
-                             :city (s/enum :tre :hki)}})
-
 ;; "district": "D1",
 ;; "countynumber": 23,
 ;; "countyname": "Dade",
@@ -118,6 +113,11 @@
    :criticalViolationsBefore2013 s/Int,
    :district s/Str})
 
+(s/defschema UnprocessableError
+  {:code 1
+   :title "Validation Error"
+   :detail "Invalid format or value for parameter."
+   :source {:parameter s/Str}})
 
 (defn wrap-data
   ""
@@ -140,29 +140,35 @@
                             :url "https://choosealicense.com/licenses/mit/"}},
            :produces ["application/json"],
            :consumes ["application/json"],
-           :tags [{:name "inspection", :description "inspection stuff"}],
+           :tags [], ;; TODO: if we want to add tags, we need to tag things below as well.
+
+           :basePath ""
 
            :paths {"/counties"  {:get {:responses {200 {:schema County
                                                         :description "Counties description here..."}}
-                                       :summary "counties summary here"}}
+                                       :summary "Retrieve all available counties."}}
 
                    "/inspections" {:get {:responses {200 {:schema Inspection
-                                                          :description "Found it!"}}
+                                                          :description "Returns all Inspections, 20 per page by default."}
+                                                     422 {:schema UnprocessableError
+                                                          :description "Unprocessable Query Parameters provided to inspections endpoint."}}
                                          :parameters {:query {(s/optional-key :countyNumber) s/Int
                                                               (s/optional-key :districtCode) s/Int
                                                               (s/optional-key :zipCodes) s/Str
                                                               (s/optional-key :startDate) s/Str
                                                               (s/optional-key :endDate) s/Str
                                                               (s/optional-key :businessName) s/Str}}
-                                         :summary "adds two numbers together"}}
+                                         :summary "Retrieve all Inspections; paginated."}}
 
                    "/inspections/:id" {:get {:responses {200 {:schema InspectionDetail
                                                               :description "Found it!"}}
                                              :parameters {:path {:id Long}}
-                                             :summary "adds two numbers together"}}
+                                             :summary "Retrieves one inspection by Id; includes linked violation resource details."}}
 
                    "/businesses" {:get {:responses {200 {:schema Business
-                                                         :description "Found it!"}}
+                                                         :description "Found it!"}
+                                                    422 {:schema UnprocessableError
+                                                         :description "Unprocessable Query Parameters provided to businesses endpoint."}}
                                         :summary "adds two numbers together"}}
 
                    "/businesses/:licenseNumber" {:get {:responses {200 {:schema Business
