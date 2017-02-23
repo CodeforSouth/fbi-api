@@ -9,7 +9,8 @@
    [restaurant-inspections-api.util :as util]
    [restaurant-inspections-api.validations :as validate]
    [restaurant-inspections-api.handlers.businesses :as businesses]
-   [restaurant-inspections-api.handlers.inspections :as inspections]))
+   [restaurant-inspections-api.handlers.inspections :as inspections]
+   [restaurant-inspections-api.handlers.counties :as counties]))
 
 ;; all routes return app/json;charset=UTF-8 headers (thanks to liberator/compojure)
 (defroutes routes
@@ -20,8 +21,15 @@
      :available-media-types ["application/json"]
      :handle-ok (fn [ctx] {:api-name "FRIA: Florida's Restaurant Inspections API"
                            :description "Florida's Restaurant inspections are available in csv files. Also available on an old http form on their website."
-                           :routes ["/" "/wiki" "/api-docs" "/counties" "/inspections" "/inspections/:id"
-                                    "/businesses" "/businesses/:licenseNumber" "/violations"]})))
+                           :routes ["/"
+                                    "/wiki"
+                                    "/api-docs"
+                                    "/counties"
+                                    "/inspections"
+                                    "/inspections/:id"
+                                    "/businesses"
+                                    "/businesses/:licenseNumber"
+                                    "/violations"]})))
 
   (GET "/wiki" []
     {:status 302
@@ -32,8 +40,7 @@
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
-     :handle-ok (fn [ctx] {:meta {}
-                           :data (srv/get-counties)})))
+     :handle-ok counties/handle-ok))
 
   (ANY "/inspections" []
     (resource
@@ -83,4 +90,3 @@
                    :data (srv/get-violations)})))
 
   (not-found "404 NOT FOUND"))
-

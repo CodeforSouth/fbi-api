@@ -1,4 +1,6 @@
-(ns restaurant-inspections-api.validations)
+(ns restaurant-inspections-api.validations
+  (:require [restaurant-inspections-api.util :as util]))
+
 
 (defn zip-codes
   "Validates zip codes. Returns original value if passes, nil if nil allowed,
@@ -15,7 +17,8 @@
   "Validates dates. Returns original value if passes, nil if nil allowed,
   or false if not valid. Date format: YYYY-MM-DD."
   [date]
-  (and (boolean (re-matches #"[1-2]\d{3}-(0|1)[0-9]-[0-3][0-9]" date)) date))
+  (when-not (nil? date)
+    (and (boolean (re-matches #"[1-2]\d{3}-(0|1)[0-9]-[0-3][0-9]" date)) date)))
 
 (defn district-code
   "Validates a district code. Returns original value if passes, nil if nil is allowed,
@@ -49,3 +52,16 @@
   [validated-map]
   {:invalid (into {} (filter #(false? (second %)) validated-map))
    :valid (into {} (filter #(not (false? (second %)))) validated-map) })
+
+(defn processable?
+  "Given a ring server ctx, returns an array with true or false if parameters
+   are valid/processable and the errors or valid params"
+  [validatefn ctx]
+  (let [params (get-in ctx [:request :params])
+        validations-map (validatefn (into {} (filter (comp some? val) params)))]
+    (if-not (empty? (:invalid validations-map))
+      [false {:errors-map
+              {:errors (into [] (for [keyval (:invalid validations-map)]
+                                  (util/format-query-params-error (name (key keyval)))))}
+              :params (:valid validations-map)}]
+      [true {:valid-params (:valid validations-map)}])))
