@@ -5,9 +5,9 @@
    [compojure.route :refer [not-found]]
    [taoensso.timbre :as log]
    ;; internal
-   [restaurant-inspections-api.services :as srv]
    [restaurant-inspections-api.util :as util]
    [restaurant-inspections-api.validations :as validate]
+   [restaurant-inspections-api.db :as db]
    [restaurant-inspections-api.handlers.businesses :as businesses]
    [restaurant-inspections-api.handlers.inspections :as inspections]))
 
@@ -33,7 +33,7 @@
      :allowed-methods [:get]
      :available-media-types ["application/json"]
      :handle-ok (fn [ctx] {:meta {}
-                           :data (srv/get-counties)})))
+                           :data (db/select-counties-summary)})))
 
   (ANY "/inspections" []
     (resource
@@ -48,11 +48,12 @@
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
-     :handle-ok (fn [ctx] {:meta {}
-                           :data (let [inspection (srv/full-inspection-details id)]
-                                   (if inspection
-                                     [inspection]
-                                     []))})))
+     :handle-ok (fn [ctx]
+                  {:meta {}
+                   :data (let [inspection (inspections/full-details id)]
+                           (if inspection
+                             [inspection]
+                             []))})))
 
  (ANY "/businesses" []
   (resource
@@ -67,7 +68,7 @@
      :allowed-methods [:get]
      :available-media-types ["application/json"]
      :handle-ok (fn [ctx] {:meta {}
-                           :data (let [business (srv/full-business-details licenseNumber)]
+                           :data (let [business (db/select-restaurant-details {:licenseNumber licenseNumber})]
                                    (if business
                                      [business]
                                      []))})))
@@ -80,7 +81,7 @@
      :handle-unprocessable-entity #(get % :errors-map)
      :handle-ok (fn [ctx]
                   {:meta {}
-                   :data (srv/get-violations)})))
+                   :data (db/select-all-violations)})))
 
   (not-found "404 NOT FOUND"))
 
