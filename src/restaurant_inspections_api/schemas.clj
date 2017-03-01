@@ -82,7 +82,7 @@
    :licenseNumber Long,
    :visitNumber s/Int,
    :inspectionType s/Str,
-   :inspectionDate java.util.Date,
+   :inspectionDate s/Str,
    :highPriorityViolations s/Int,
    :district s/Str})
 
@@ -107,7 +107,7 @@
    :pdaStatus Boolean
    :visitNumber s/Int,
    :inspectionType s/Str,
-   :inspectionDate java.util.Date,
+   :inspectionDate s/Str,
    :violations [Violation]
    :highPriorityViolations s/Int,
    :criticalViolationsBefore2013 s/Int,
@@ -120,18 +120,38 @@
    :source {:parameter s/Str}})
 
 (defn wrap-data
-  ""
-  [data]
-  {:meta {}
-   :data [data]})
+  "Wrap schemas in meta/data objects we use in oour responses"
+  ([data]
+   (wrap-data data {}))
+  ([data meta]
+   {:meta meta
+    :data [data]}))
+
+(s/defschema InspectionsMeta
+  {:parameters {:zipCodes s/Str
+                :businessName s/Str
+                :startDate s/Str
+                :endDate s/Str
+                :districtCode s/Str
+                :countyNumber s/Int
+                :perPage s/Int
+                :page s/Int}})
+
+(s/defschema BusinessMeta
+  {:parameters {:zipCodes s/Str
+                :countyNumber s/Int
+                :perPage s/Int
+                :page s/Int}})
 
 (def swagger
   {:swagger
    {:ui "/api-docs"
     :spec "/swagger.json"
-    :data {:info {:title "Florida Restaurant Inspections API",
+    :data {:info {:title "Florida Restaurants Inspections API",
                   :version "0.3.0",
-                  :description "Florida RESTAPI",
+                  :host "45.55.191.140"
+                  :schemes "http"
+                  :description "API For Florida Restaurant Inspections Records. It's datasource is Florida Department of Business & Professional Regulation. See http://www.myfloridalicense.com",
                   ;; :termsOfService "",
                   :contact {:name "Joel Quiles",
                             :email "quilesbaker@gmail.com",
@@ -142,14 +162,13 @@
            :produces ["application/json"],
            :consumes ["application/json"],
            :tags [], ;; TODO: if we want to add tags, we need to tag things below as well.
-
            :basePath ""
 
-           :paths {"/counties"  {:get {:responses {200 {:schema County
-                                                        :description "Counties description here..."}}
+           :paths {"/counties"  {:get {:responses {200 {:schema (wrap-data County)
+                                                        :description "Returns all counties, no pagination."}}
                                        :summary "Retrieve all available counties"}}
 
-                   "/inspections" {:get {:responses {200 {:schema Inspection
+                   "/inspections" {:get {:responses {200 {:schema (wrap-data Inspection InspectionsMeta)
                                                           :description "Returns all Inspections, 20 per page by default."}
                                                      422 {:schema UnprocessableError
                                                           :description "Unprocessable Query Parameters provided to inspections endpoint."}}
@@ -161,12 +180,12 @@
                                                               (s/optional-key :businessName) s/Str}}
                                          :summary "List Inspections using filters"}}
 
-                   "/inspections/:id" {:get {:responses {200 {:schema InspectionDetail
+                   "/inspections/:id" {:get {:responses {200 {:schema (wrap-data InspectionDetail)
                                                               :description "Individual Inspection Detail"}}
                                              :parameters {:path {:id Long}}
                                              :summary "Retrieve one inspection by id; includes violations details"}}
 
-                   "/businesses" {:get {:responses {200 {:schema Business
+                   "/businesses" {:get {:responses {200 {:schema (wrap-data Business BusinessMeta)
                                                          :description "Returns all businesses, 20 per page at a time by default."}
                                                     422 {:schema UnprocessableError
                                                          :description "Unprocessable Query Parameters provided to businesses endpoint."}}
@@ -176,11 +195,11 @@
                                                              (s/optional-key :page) s/Int}}
                                         :summary "List businesses using filters"}}
 
-                   "/businesses/:licenseNumber" {:get {:responses {200 {:schema Business
+                   "/businesses/:licenseNumber" {:get {:responses {200 {:schema (wrap-data Business)
                                                                         :description "Retrieve one business by id."}}
                                                        :parameters {:path {:licenseNumber Long}}
                                                        :summary "Retrieve individual Business details by id"}}
 
-                   "/violations" {:get {:responses {200 {:schema Violation
+                   "/violations" {:get {:responses {200 {:schema (wrap-data Violation)
                                                          :description "All Violations with their summary."}}
                                         :summary "List violations"}}}}}})
