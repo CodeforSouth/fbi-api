@@ -30,4 +30,5 @@
   :profiles {:uberjar {:aot :all}                      ;; ahead of time compilation for release
              :dev {:plugins [[lein-kibit "0.1.2"]
                              [lein-cljfmt "0.5.6" :exclusions [org.clojure/clojure]]
+                             [quickie "0.4.2"]
                              [lein-cloverage "1.0.7" :exclusions [org.clojure/clojure]]]}})
