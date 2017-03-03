@@ -6,7 +6,7 @@
             [clojure.string :as str]))
 
 (defn format-data
-  "Format db raw data to json."
+  "Format db raw data for inspections."
   ([data]
    (format-data data false))
   ([data is-full]
@@ -35,8 +35,10 @@
   "Return full inspection info for the given Id."
   [id]
   (if-let [inspection (first (db/select-inspection-details {:id id}))]
-    (format-data (assoc inspection :violations (violations-for-inspection (:inspection_visit_id inspection)))
-                 true)))
+    (format-data
+     (assoc inspection
+            :violations (violations-for-inspection (:inspection_visit_id inspection)))
+     true)))
 
 (defn full-business-details
   "Return full business info for the given Id."
