@@ -5,7 +5,7 @@
             :url "https://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.8.0"]         ;; clojure
                  [javax.servlet/servlet-api "2.5"]     ;; for server with http-kit
-                 [http-kit "2.2.0-beta1"]              ;; web server
+                 [http-kit "2.2.0"]                    ;; web server
                  [ring/ring-devel "1.5.0"]             ;; for server to be compatible with ring spec
                  [environ "1.1.0"]                     ;; to read environmental vars, including ones on profiles.clj
                  [compojure "1.5.1"]                   ;; routing library

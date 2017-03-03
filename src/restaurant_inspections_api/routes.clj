@@ -61,13 +61,13 @@
                                      [inspection]
                                      []))})))
 
- (ANY "/businesses" []
-  (resource
-   :allowed-methods [:get]
-   :available-media-types ["application/json"]
-   :processable? businesses/processable?
-   :handle-unprocessable-entity businesses/handle-unprocessable
-   :handle-ok businesses/handle-ok))
+  (ANY "/businesses" []
+    (resource
+     :allowed-methods [:get]
+     :available-media-types ["application/json"]
+     :processable? businesses/processable?
+     :handle-unprocessable-entity businesses/handle-unprocessable
+     :handle-ok businesses/handle-ok))
 
   (ANY "/businesses/:licenseNumber" [licenseNumber]
     (resource

@@ -1,7 +1,6 @@
 (ns restaurant-inspections-api.validations
   (:require [restaurant-inspections-api.util :as util]))
 
-
 (defn zip-codes
   "Validates zip codes. Returns original value if passes, nil if nil allowed,
   or false if not valid. Zip codes format: 33136,00976,33137."
@@ -38,7 +37,7 @@
   "Validates that the provided per-page param is a number or nil"
   [per-page]
   (when-not (nil? per-page)
-    (and (boolean (re-matches #"\d+" per-page)) (Integer. per-page) )))
+    (and (boolean (re-matches #"\d+" per-page)) (Integer. per-page))))
 
 (defn page
   "Validate that the provided page (offset) param is a number or nil"
@@ -51,7 +50,7 @@
    and returns two arrays of valid and invalid params"
   [validated-map]
   {:invalid (into {} (filter #(false? (second %)) validated-map))
-   :valid (into {} (filter #(not (false? (second %)))) validated-map) })
+   :valid (into {} (filter #(not (false? (second %)))) validated-map)})
 
 (defn processable?
   "Given a ring server ctx, returns an array with true or false if parameters
