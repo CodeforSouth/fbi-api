@@ -27,6 +27,10 @@
   :min-lein-version "2.0.0"
   :uberjar-name "restaurant-inspections-api.jar"
   :main ^:skip-aot restaurant-inspections-api.core     ;; skip ahead of time compilation on REPL
+  :test-selectors {:default #(not (:integration %))
+                   :integration :integration
+                   :unit :default
+                   :all (constantly true)}
   :profiles {:uberjar {:aot :all}                      ;; ahead of time compilation for release
              :dev {:plugins [[lein-kibit "0.1.2"]
                              [lein-cljfmt "0.5.6" :exclusions [org.clojure/clojure]]

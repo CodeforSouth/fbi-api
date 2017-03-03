@@ -1,4 +1,4 @@
-(ns restaurant-inspections-api.validations-test
+(ns ria.unit.validations-test
   (:require [clojure.test :refer :all]
             [restaurant-inspections-api.validations :as validate]))
 

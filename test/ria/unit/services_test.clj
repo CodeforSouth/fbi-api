@@ -1,4 +1,4 @@
-(ns restaurant-inspections-api.services-test
+(ns ria.unit.services-test
   (:require [clojure.test :refer :all]
             [restaurant-inspections-api.services :as srv]
             [restaurant-inspections-api.util :as util]

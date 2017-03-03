@@ -1,4 +1,4 @@
-(ns restaurant-inspections-api.handlers.counties-test
+(ns ria.unit.handlers.counties-test
   (:require [restaurant-inspections-api.handlers.counties :refer :all]
             [restaurant-inspections-api.db :as db]
             [clojure.test :refer :all]))

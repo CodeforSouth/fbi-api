@@ -1,4 +1,4 @@
-(ns restaurant-inspections-api.cron.csv-to-model-test
+(ns ria.unit.cron.csv-to-model-test
   (:require [clojure.test :refer :all]
             [restaurant-inspections-api.cron.csv-to-model :refer :all]
             [restaurant-inspections-api.util :as util]))

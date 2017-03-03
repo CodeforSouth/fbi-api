@@ -1,4 +1,4 @@
-(ns restaurant-inspections-api.handlers.businesses-test
+(ns ria.unit.handlers.businesses-test
   (:require [clojure.test :refer :all]
             [restaurant-inspections-api.handlers.businesses :refer :all]))
 
