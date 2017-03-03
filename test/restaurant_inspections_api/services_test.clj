@@ -52,43 +52,5 @@
         (is (= (:location_city json) "COOPER CITY"))
         (is (= (count (:violations json)) 8))
         (is (= (first (:violations json)) {:id 3, :count 1}))
+;; TODO: test given full results, gets fully correctly formatted object
         (is (= (:total_violations json) 11))))))
-
-(deftest format-params-test
-  (testing "Given parameters, returns formatted params"
-  (is (= { :zipCodes ["326015125"],
-           :businessName "%MC%DON%",
-           :startDate "2013-01-01",
-           :endDate "2016-11-06",
-           :districtCode nil,
-           :countyNumber nil,
-           :perPage 20,
-           :page 0
-          } (srv/format-params { :zipCodes "326015125",
-                                         :businessName "*MC*DON*",
-                                         :startDate "2013-01-01",
-                                         :endDate "2016-11-06",
-                                         :districtCode nil,
-                                         :countyNumber nil,
-                                         :perPage 20,
-                                :page 0 }))))
-  (testing "given per page and page number, returns page multiplied by perpage"
-    (is (= { :zipCodes ["326015125"],
-            :businessName "%MC%DON%",
-            :startDate "2013-01-01",
-            :endDate "2016-11-06",
-            :districtCode nil,
-            :countyNumber nil,
-            :perPage 10,
-            :page 20
-            }
-           (srv/format-params { :zipCodes "326015125",
-                               :businessName "*MC*DON*",
-                               :startDate "2013-01-01",
-                               :endDate "2016-11-06",
-                               :districtCode nil,
-                               :countyNumber nil,
-                               :perPage 10,
-                               :page 2 })
-           )))
-  )
