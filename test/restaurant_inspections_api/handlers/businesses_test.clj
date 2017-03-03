@@ -8,11 +8,13 @@
                                   :page "2"}}})
 
 (deftest validate-businesses-params-test
-  (testing "Given query params input, returns valid and invalid format/values."
+  (testing "Given a context returns valid and invalid format/values"
     (is (= {:invalid {}
-          :valid {:zipCodes "33137,22345"
-                  :countyNumber "11"
-                  :perPage 1
-                  :page 2}}
-         (validate-businesses-params
-          "33137,22345" "11" "1" "2")))))
+            :valid {:zipCodes "33139,33327"
+                    :countyNumber "23"
+                    :perPage 20
+                    :page 0}}
+           (validate-businesses-params {:zipCodes "33139,33327"
+                                        :countyNumber "23"
+                                        :perPage "20"
+                                        :page "0"})))))

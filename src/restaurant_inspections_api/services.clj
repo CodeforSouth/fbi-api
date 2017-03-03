@@ -5,7 +5,6 @@
             [taoensso.timbre :refer [debug]]
             [clojure.string :as str]))
 
-
 (defn format-data
   "Format db raw data to json."
   ([data]
@@ -63,39 +62,7 @@
   [id]
   (db/select-restaurant-details {:licenseNumber id}))
 
-(defn format-params
-  "Format all the pre-params sent to this endpoint"
-  [params-map]
-  (assoc params-map
-    :businessName (when-let [businessName (:businessName params-map)]
-                    (clojure.string/replace businessName #"\*" "%"))
-    :zipCodes (when-let [zipCodes (:zipCodes params-map)]
-                (str/split zipCodes #","))
-    :page (* (:page params-map) (:perPage params-map))))
-
-(defn inspections-by-all
-  "Retrieves and formats inspections, filtered by all, any, or no criteria."
-  [params-map]
-  (map format-data (db/select-inspections-by-all (format-params params-map))))
-
-(defn get-counties
-  "Return counties list, with their district."
-  []
-  (db/select-counties-summary))
-
-(defn- format-businesses-params
-  [params-map]
-  (assoc params-map
-         :zipCodes (when-let [zipCodes (:zipCodes params-map)]
-                     (str/split zipCodes #","))
-         :page (* (:page params-map) (:perPage params-map))))
-
-(defn get-businesses
-  ""
-  [params-map]
-  (db/select-all-restaurants (format-businesses-params params-map)))
-
 (defn get-violations
-  ""
+  "Retrieve all violations from db."
   []
   (db/select-all-violations))
