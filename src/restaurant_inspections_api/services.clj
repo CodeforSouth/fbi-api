@@ -6,38 +6,19 @@
             [clojure.string :as str]))
 
 (defn format-data
-  "Format db raw data to json."
+  "Format db raw data for inspections."
   ([data]
    (format-data data false))
   ([data is-full]
-   (let [basic-data {:type                   "inspections"
-                     :id                     (:inspection_visit_id data)
-                     :district               (:district data)
-                     :countyNumber           (:county_number data)
-                     :countyName             (:county_name data)
-                     :licenseTypeCode        (:license_type_code data)
-                     :licenseNumber          (:license_number data)
-                     :businessName           (:business_name data)
-                     :inspectionDate         (util/parse-date-or-nil (:inspection_date data))
-                     :locationAddress        (:location_address data)
-                     :locationCity           (:location_city data)
-                     :locationZipcode        (:location_zipcode data)
-                     :inspectionNumber       (:inspection_number data)
-                     :visitNumber            (:visit_number data)
-                     :inspectionType         (:inspection_type data)
-                     :inspectionDisposition  (:inspection_disposition data)
-                     :totalViolations        (:total_violations data)
-                     :highPriorityViolations (:high_priority_violations data)
-                     :intermediateViolations (:intermediate_violations data)
-                     :basicViolations        (:basic_violations data)}]
-     (if is-full
-       (assoc basic-data
-              :criticalViolationsBefore2013      (:critical_violations_before_2013 data)
-              :nonCriticalViolationsBefore2013   (:noncritical_violations_before_2013 data)
-              :pdaStatus                         (:pda_status data)
-              :licenseId                         (:license_id data)
-              :violations                        (:violations data))
-       basic-data))))
+   (assoc (if is-full
+            data
+            (dissoc data
+                    :critical_violations_before_2013
+                    :noncritical_violations_before_2013
+                    :license_id
+                    :violations))
+          :id (:inspection_visit_id data)
+          :inspection_date (util/parse-date-or-nil (:inspection_date data)))))
 
 (defn violations-for-inspection
   "Select and parse violations for a given inspection id."
@@ -54,8 +35,10 @@
   "Return full inspection info for the given Id."
   [id]
   (if-let [inspection (first (db/select-inspection-details {:id id}))]
-    (format-data (assoc inspection :violations (violations-for-inspection (:inspection_visit_id inspection)))
-                 true)))
+    (format-data
+     (assoc inspection
+            :violations (violations-for-inspection (:inspection_visit_id inspection)))
+     true)))
 
 (defn full-business-details
   "Return full business info for the given Id."

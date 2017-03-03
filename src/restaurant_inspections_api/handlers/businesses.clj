@@ -31,7 +31,8 @@
   "Handles 200 OK for inspections"
   [{:keys [valid-params]}]
   {:meta {:parameters valid-params}
-   :data (into [] (db/select-all-restaurants (format-businesses-params valid-params)))})
+   :data (into [] (map #(assoc % :id (:license_number %))
+                       (db/select-all-restaurants (format-businesses-params valid-params))))})
 
 (defn handle-unprocessable
   "Handles 422 Unprocessable when invalid params provided"

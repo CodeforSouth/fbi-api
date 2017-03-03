@@ -69,7 +69,7 @@
      :handle-unprocessable-entity businesses/handle-unprocessable
      :handle-ok businesses/handle-ok))
 
-  (ANY "/businesses/:licenseNumber" [licenseNumber]
+  (ANY "/businesses/:id" [licenseNumber]
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]

@@ -195,7 +195,7 @@
                                                              (s/optional-key :page) s/Int}}
                                         :summary "List businesses using filters"}}
 
-                   "/businesses/:licenseNumber" {:get {:responses {200 {:schema (wrap-data Business)
+                   "/businesses/:id" {:get {:responses {200 {:schema (wrap-data Business)
                                                                         :description "Retrieve one business by id."}}
                                                        :parameters {:path {:licenseNumber Long}}
                                                        :summary "Retrieve individual Business details by id"}}
