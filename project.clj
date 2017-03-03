@@ -9,13 +9,18 @@
                  [ring/ring-devel "1.5.0"]             ;; for server to be compatible with ring spec
                  [environ "1.1.0"]                     ;; to read environmental vars, including ones on profiles.clj
                  [compojure "1.5.1"]                   ;; routing library
-                 [jarohen/chime "0.1.9"]               ;; handle cron jobs
+                 [jarohen/chime "0.2.0" :exclusions [org.clojure/core.memoize
+                                                     org.clojure/tools.reader]] ;; handle cron jobs
                  [org.clojure/data.csv "0.1.3"]        ;; read and write csv files
-                 [com.taoensso/timbre "4.7.4"]         ;; logging library
+                 [com.taoensso/timbre "4.8.0" :exclusions [org.clojure/tools.reader]] ;; logging library
                  [org.clojure/tools.nrepl "0.2.12"]    ;; start narepl server, to connect repl client to running app instance
                  [prismatic/schema "1.1.3"]            ;; generate docs, validate data schema
                  [yesql "0.5.3"]                       ;; SQL -> clojure
-                 [metosin/compojure-api "1.1.10"]      ;; Generates /api-docs api documentation
+                 [metosin/compojure-api "1.1.10" :exclusions [ring/ring-core
+                                                              compojure
+                                                              commons-codec
+                                                              clj-time
+                                                              org.clojure/tools.reader]] ;; Generates /api-docs api documentation
                  [org.clojure/java.jdbc "0.6.2-alpha1"] ;; To connecto to database with java
                  [mysql/mysql-connector-java "5.1.6"]  ;; mysql jdbc adapter
                  [liberator "0.13"]]                   ;; RESTful resources with for APIs, with LOTS of defaults
@@ -24,5 +29,6 @@
   :main ^:skip-aot restaurant-inspections-api.core     ;; skip ahead of time compilation on REPL
   :profiles {:uberjar {:aot :all}                      ;; ahead of time compilation for release
              :dev {:plugins [[lein-kibit "0.1.2"]
-                             [lein-cloverage "1.0.7"]
-                             [lein-cljfmt "0.5.6"]]}})
+                             [lein-cljfmt "0.5.6" :exclusions [org.clojure/clojure]]
+                             [quickie "0.4.2"]
+                             [lein-cloverage "1.0.7" :exclusions [org.clojure/clojure]]]}})
