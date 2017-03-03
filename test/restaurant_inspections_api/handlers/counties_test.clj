@@ -10,8 +10,7 @@
                :countyname "Dade"
                :inspections 20630}])
 
-(def response-mock {:meta {}
-                  :data db-mock})
+(def response-mock {:meta {}, :data db-mock})
 
 (deftest handle-ok-test
   "expect handle-ok to query the db and return a formatted response"

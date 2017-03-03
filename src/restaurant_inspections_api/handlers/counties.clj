@@ -4,7 +4,7 @@
             [restaurant-inspections-api.db :as db]))
 
 (defn handle-ok
-  ""
+  "Retrieves all counties from db"
   [ctx]
   {:meta {}
    :data (db/select-counties-summary)})

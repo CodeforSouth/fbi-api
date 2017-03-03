@@ -10,7 +10,6 @@
   "Receives all inspections query parameters (nil when not specified) and returns a map of valid and
   invalid params."
   [{:keys [zipCodes businessName startDate endDate districtCode countyNumber perPage page]}]
-
   (validate/validate-params {:zipCodes (validate/zip-codes zipCodes)
                              :businessName (or businessName nil)
                              :startDate (validate/date (or startDate constants/earliest-date))
@@ -24,10 +23,10 @@
   "Format all the pre-params sent to this endpoint"
   [params-map]
   (assoc params-map
-         :businessName (when-let [businessName (:businessName params-map)]
-                         (clojure.string/replace businessName #"\*" "%"))
-         :zipCodes (when-let [zipCodes (:zipCodes params-map)]
-                     (str/split zipCodes #","))
+         :businessName (when-let [business-name (:businessName params-map)]
+                         (clojure.string/replace business-name #"\*" "%"))
+         :zipCodes (when-let [zip-codes (:zipCodes params-map)]
+                     (str/split zip-codes #","))
          :page (* (:page params-map) (:perPage params-map))))
 
 (defn processable?

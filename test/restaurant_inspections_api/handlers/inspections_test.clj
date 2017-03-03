@@ -37,8 +37,7 @@
                       :districtCode "D3",
                       :perPage 1,
                       :page 2}}]
-         (processable? (assoc-in mock-ctx [:request :params :countyNumber] "38h3fh__"))
-           )))
+         (processable? (assoc-in mock-ctx [:request :params :countyNumber] "38h3fh__")))))
 
   (testing "json error for district if district is invalid"
     (is (= [false {:errors-map {:errors [{:code 1,
@@ -52,8 +51,7 @@
                             :countyNumber "19",
                             :perPage 1,
                             :page 2}}]
-         (processable? (assoc-in mock-ctx [:request :params :districtCode] "D9999"))
-           )))
+         (processable? (assoc-in mock-ctx [:request :params :districtCode] "D9999")))))
 
   (testing "json error for date if date is invalid"
     (is (= [false {:errors-map {:errors [{:code 1,
@@ -67,8 +65,7 @@
                             :countyNumber "19",
                             :perPage 1,
                             :page 2}}]
-         (processable? (assoc-in mock-ctx [:request :params :startDate] "2015-03-a0"))
-           )))
+         (processable? (assoc-in mock-ctx [:request :params :startDate] "2015-03-a0")))))
 
   (testing "json error for zipCodes if zipCode is invalid"
     (is (= [false {:errors-map {:errors [{:code 1,
@@ -82,8 +79,7 @@
                             :countyNumber "19",
                             :perPage 1,
                             :page 2}}]
-         (processable? (assoc-in mock-ctx [:request :params :zipCodes] "33136,33435,0"))
-           ))))
+         (processable? (assoc-in mock-ctx [:request :params :zipCodes] "33136,33435,0"))))))
 
 (deftest validate-inspections-params-test
   (testing "Given query params input, returns valid and invalid format/values."
@@ -147,6 +143,4 @@
                                  :districtCode nil,
                                  :countyNumber nil,
                                  :perPage 10,
-                                 :page 2 })
-             )))
-    )
+                                 :page 2 })))))

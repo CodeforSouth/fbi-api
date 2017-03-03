@@ -5,7 +5,6 @@
             [taoensso.timbre :refer [debug]]
             [clojure.string :as str]))
 
-
 (defn format-data
   "Format db raw data to json."
   ([data]
@@ -64,6 +63,6 @@
   (db/select-restaurant-details {:licenseNumber id}))
 
 (defn get-violations
-  ""
+  "Retrieve all violations from db."
   []
   (db/select-all-violations))
