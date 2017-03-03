@@ -39,40 +39,21 @@
 
 ;; Test general helper functions
 (deftest format-data-test
+  ;; TODO: test given full results, gets fully correctly formatted object
+  ;; TODO: given empty, returns full object with nulls
   (let [data inspection-example]
     (testing "Basic data"
       (let [json (srv/format-data data)]
-        (is (= (:locationCity json) "COOPER CITY"))
+        (is (= (:location_city json) "COOPER CITY"))
         (is (= (:id json) 5807286))
-        (is (= (:totalViolations json) 11))))
+        (is (= (:total_violations json) 11))))
     (testing "Full data"
       (let [json (srv/format-data data true)]
-        (is (= (:locationCity json) "COOPER CITY"))
+        (is (= (:location_city json) "COOPER CITY"))
         (is (= (count (:violations json)) 8))
         (is (= (first (:violations json)) {:id 3, :count 1}))
-        (is (= (:totalViolations json) 11))))
-    ;; TODO: test given full results, gets fully correctly formatted object
-    (testing "Given empty results, returns object with all keys nil"
-      (is (= (srv/format-data nil) {:basicViolations nil,
-                                    :businessName nil,
-                                    :countyName nil,
-                                    :countyNumber nil,
-                                    :district nil,
-                                    :highPriorityViolations nil,
-                                    :id nil,
-                                    :type "inspections"
-                                    :inspectionDate nil,
-                                    :inspectionDisposition nil,
-                                    :inspectionNumber nil,
-                                    :inspectionType nil,
-                                    :intermediateViolations nil,
-                                    :licenseNumber nil,
-                                    :licenseTypeCode nil,
-                                    :locationAddress nil,
-                                    :locationCity nil,
-                                    :locationZipcode nil,
-                                    :totalViolations nil,
-                                    :visitNumber nil})))))
+        (is (= (:total_violations json) 11))))))
+
 (deftest format-params-test
   (testing "Given parameters, returns formatted params"
   (is (= { :zipCodes ["326015125"],
