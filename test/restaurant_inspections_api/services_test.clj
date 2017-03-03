@@ -37,7 +37,6 @@
                 {:id 53, :count 1}
                 {:id 54, :count 1}]})
 
-;; Test general helper functions
 (deftest format-data-test
   ;; TODO: test given full results, gets fully correctly formatted object
   ;; TODO: given empty, returns full object with nulls
@@ -52,5 +51,4 @@
         (is (= (:location_city json) "COOPER CITY"))
         (is (= (count (:violations json)) 8))
         (is (= (first (:violations json)) {:id 3, :count 1}))
-;; TODO: test given full results, gets fully correctly formatted object
         (is (= (:total_violations json) 11))))))
