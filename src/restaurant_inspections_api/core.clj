@@ -14,13 +14,11 @@
   (:use [clojure.tools.nrepl.server :only (start-server stop-server)])
   (:gen-class))
 
-
 (def server-error-details
   "\n\nPlease contact the administrator:
        - Github: teh0xqb
        - Email: quilesbaker@gmail.com
        - or Code For Miami Slack Group (http://codefor.miami)")
-
 
 (defn wrap-exception-handling
   [handler]
@@ -34,7 +32,6 @@
         (log/error e "GENERIC ERROR bubbled up. Replace specific expection here and add to the catch statements.")
         {:status 500 :body (str "500 INTERNAL SERVER ERROR." server-error-details)}))))
 
-
 (def api (->> (middleware/wrap-canonical-redirect           ;; Not using thread last in first arg
                routes                                       ;; because handler is the second args of this middleware
                (fn [^String uri]
@@ -46,12 +43,10 @@
               all-cors
               (sweet/api schemas/swagger)))
 
-
 (def app
   (if const/production?
     api
     (reload/wrap-reload #'api)))
-
 
 (defn -main
   "Starts server and schedules load-api-data process."

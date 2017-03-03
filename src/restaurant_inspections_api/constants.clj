@@ -6,3 +6,4 @@
 (def production? (env/production?))
 (def db-url (env/get-env-db-url))
 (def csv-files (env/get-csv-files))
+(def earliest-date "2013-01-01")
