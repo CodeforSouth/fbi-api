@@ -14,4 +14,4 @@ pom.xml.asc
 .lein-deps-sum
 .lein-plugins/
 .lein-failures
-restaurant_inspections_api.log
+fbi_api.log
