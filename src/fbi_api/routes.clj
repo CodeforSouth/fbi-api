@@ -5,7 +5,7 @@
    [compojure.route :refer [not-found]]
    [taoensso.timbre :as log]
    ;; internal
-   [fbi-api.services :as srv]
+   [fbi-api.db :as db]
    [fbi-api.util :as util]
    [fbi-api.validations :as validate]
    [fbi-api.handlers.businesses :as businesses]
@@ -54,8 +54,7 @@
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
-     :handle-ok (fn [ctx] {:meta {}
-                           :data (or (srv/full-inspection-details id) [])})))
+     :handle-ok (fn [ctx] (inspections/handle-individual-ok id))))
 
   (ANY "/businesses" []
     (resource
@@ -69,8 +68,7 @@
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
-     :handle-ok (fn [ctx] {:meta {}
-                           :data (or (srv/full-business-details id) [])})))
+     :handle-ok (fn [ctx] (businesses/handle-individual-ok id))))
 
   (ANY "/violations" []
     (resource
@@ -80,6 +78,6 @@
      :handle-unprocessable-entity #(get % :errors-map)
      :handle-ok (fn [ctx]
                   {:meta {}
-                   :data (srv/get-violations)})))
+                   :data (db/select-all-violations)})))
 
   (not-found "404 NOT FOUND"))

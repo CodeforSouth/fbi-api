@@ -39,3 +39,11 @@
   (merge {:meta
           {:parameters (get ctx :params)}}
          (get ctx :errors-map)))
+
+(defn handle-individual-ok
+  "Return full business info for the given Id."
+  [id]
+  {:meta {}
+   :data (if-let [business (first (db/select-restaurant-details {:licenseNumber id}))]
+     [(assoc business :id id)]
+     [])})
