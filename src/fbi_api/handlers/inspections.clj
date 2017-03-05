@@ -3,8 +3,7 @@
             [fbi-api.util :as util]
             [fbi-api.services :as srv]
             [fbi-api.db :as db]
-            [fbi-api.constants :as constants]
-            [clojure.string :as str]))
+            [fbi-api.constants :as constants]))
 
 (defn validate-inspections-params
   "Receives all inspections query parameters (nil when not specified) and returns a map of valid and
@@ -26,7 +25,7 @@
          :businessName (when-let [business-name (:businessName params-map)]
                          (clojure.string/replace business-name #"\*" "%"))
          :zipCodes (when-let [zip-codes (:zipCodes params-map)]
-                     (str/split zip-codes #","))
+                     (clojure.string/split zip-codes #","))
          :page (* (:page params-map) (:perPage params-map))))
 
 (defn processable?

@@ -1,9 +1,9 @@
 (ns fbi-api.services
   (:require [yesql.core :refer [defqueries]]
-            [fbi-api.db :as db]
-            [fbi-api.util :as util]
             [taoensso.timbre :refer [debug]]
-            [clojure.string :as str]))
+            ;; internal
+            [fbi-api.db :as db]
+            [fbi-api.util :as util]))
 
 (defn format-inspection
   "Format db raw data for inspections."

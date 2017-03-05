@@ -1,8 +1,7 @@
 (ns fbi-api.handlers.businesses
   (:require [fbi-api.validations :as validate]
             [fbi-api.util :as util]
-            [fbi-api.db :as db]
-            [clojure.string :as str]))
+            [fbi-api.db :as db]))
 
 (defn validate-businesses-params
   "Recieves all businesses query parameters (nil when not specified) and
@@ -18,7 +17,7 @@
   [params-map]
   (assoc params-map
          :zipCodes (when-let [zip-codes (:zipCodes params-map)]
-                     (str/split  zip-codes #","))
+                     (clojure.string/split  zip-codes #","))
          :page (* (Integer. (:perPage params-map)) (Integer. (:page params-map)))))
 
 (defn processable?
