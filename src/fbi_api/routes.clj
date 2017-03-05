@@ -20,7 +20,7 @@
      :allowed-methods [:get]
      :available-media-types ["application/json"]
      :handle-ok (fn [ctx] {:api-name "FBI: Florida's Business Inspections API"
-                           :description "Florida's Restaurant inspections are available in csv files. Also available on an old http form on their website."
+                           :description "Florida Business Inspections are available in csv files. Also available on an http form on dbpr website."
                            :routes ["/"
                                     "/wiki"
                                     "/api-docs"
