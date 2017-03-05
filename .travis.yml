@@ -1,9 +1,10 @@
 language: clojure
+env:
+  - database_url="jdbc:mysql://45.55.191.140:3306/cfm_restaurants?user=travis&password=Somapist3001_"
 script:
   - lein uberjar
   - lein cloverage
 jdk:
-  - openjdk6
   - openjdk7
   - oraclejdk7
   - oraclejdk8

@@ -1,1 +1,1 @@
-java -jar target/restaurant-inspections-api.jar
+java -jar target/fbi-api.jar

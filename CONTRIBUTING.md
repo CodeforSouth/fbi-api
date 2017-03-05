@@ -57,8 +57,8 @@ all the tests are passing (the news and also the old ones).
 5. **Pull request:** [Submit a pull request][pr] to send your changes to this
 repository for review.
 
-[issue_tracker]: https://github.com/Code-for-Miami/restaurant-inspections-api/issues
-[issue_search]: https://github.com/Code-for-Miami/restaurant-inspections-api/search?ref=cmdform&type=Issues
-[install]: https://github.com/Code-for-Miami/restaurant-inspections-api/wiki/How-to-Install%3F
+[issue_tracker]: https://github.com/Code-for-Miami/fbi-api/issues
+[issue_search]: https://github.com/Code-for-Miami/fbi-api/search?ref=cmdform&type=Issues
+[install]: https://github.com/Code-for-Miami/fbi-api/wiki/How-to-Install%3F
 [branch]: https://help.github.com/articles/fork-a-repo#create-branches
 [pr]: http://help.github.com/send-pull-requests/
