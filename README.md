@@ -1,4 +1,4 @@
-# Florida Business Inspections API ![](https://img.shields.io/badge/status-active-green.svg) [![Build Status](https://travis-ci.org/Code-for-Miami/fbi-api.svg?branch=master)](https://travis-ci.org/Code-for-Miami/fbi-api)
+# Florida Business Inspections (FBI) API ![](https://img.shields.io/badge/status-active-green.svg) [![Build Status](https://travis-ci.org/Code-for-Miami/fbi-api.svg?branch=master)](https://travis-ci.org/Code-for-Miami/fbi-api)
 
 Get started through our wiki here: https://github.com/Code-for-Miami/fbi-api/wiki
 
