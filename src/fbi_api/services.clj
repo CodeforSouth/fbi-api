@@ -5,10 +5,10 @@
             [taoensso.timbre :refer [debug]]
             [clojure.string :as str]))
 
-(defn format-data
+(defn format-inspection
   "Format db raw data for inspections."
   ([data]
-   (format-data data false))
+   (format-inspection data false))
   ([data is-full]
    (assoc (if is-full
             data
@@ -34,16 +34,17 @@
 (defn full-inspection-details
   "Return full inspection info for the given Id."
   [id]
-  (if-let [inspection (first (db/select-inspection-details {:id id}))]
-    (format-data
-     (assoc inspection
-            :violations (violations-for-inspection (:inspection_visit_id inspection)))
-     true)))
+  (when-let [inspection (first (db/select-inspection-details {:id id}))]
+    [(format-inspection
+       (assoc inspection
+              :violations (violations-for-inspection (:inspection_visit_id inspection)))
+       true)]))
 
 (defn full-business-details
   "Return full business info for the given Id."
   [id]
-  (db/select-restaurant-details {:licenseNumber id}))
+  (when-let [business (first (db/select-restaurant-details {:licenseNumber id}))]
+    [(assoc business :id id)]))
 
 (defn get-violations
   "Retrieve all violations from db."

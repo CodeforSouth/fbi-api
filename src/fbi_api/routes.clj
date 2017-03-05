@@ -35,7 +35,6 @@
     {:status 302
      :headers {"Location" "https://github.com/Code-for-Miami/fbi-api/wiki"}})
 
-  ;; TODO: use id to check for county info
   (ANY "/counties" []
     (resource
      :allowed-methods [:get]
@@ -50,16 +49,13 @@
      :handle-unprocessable-entity inspections/handle-unprocessable
      :handle-ok inspections/handle-ok))
 
-  ;; TODO: return different status code and error? in body if no inspection with provided id
+  ;; TODO: return different status code and error in body if no inspection with provided id?
   (ANY "/inspections/:id" [id]
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
      :handle-ok (fn [ctx] {:meta {}
-                           :data (let [inspection (srv/full-inspection-details id)]
-                                   (if inspection
-                                     [inspection]
-                                     []))})))
+                           :data (or (srv/full-inspection-details id) [])})))
 
   (ANY "/businesses" []
     (resource
@@ -69,15 +65,12 @@
      :handle-unprocessable-entity businesses/handle-unprocessable
      :handle-ok businesses/handle-ok))
 
-  (ANY "/businesses/:id" [licenseNumber]
+  (ANY "/businesses/:id" [id]
     (resource
      :allowed-methods [:get]
      :available-media-types ["application/json"]
      :handle-ok (fn [ctx] {:meta {}
-                           :data (let [business (srv/full-business-details licenseNumber)]
-                                   (if business
-                                     [business]
-                                     []))})))
+                           :data (or (srv/full-business-details id) [])})))
 
   (ANY "/violations" []
     (resource

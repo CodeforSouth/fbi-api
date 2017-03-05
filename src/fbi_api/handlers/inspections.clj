@@ -37,7 +37,7 @@
   "Handles 200 OK for inspections"
   [{:keys [valid-params]}] ;; as ctx
   {:meta {:parameters valid-params}
-   :data (into [] (map srv/format-data
+   :data (into [] (map srv/format-inspection
                        (db/select-inspections-by-all (format-params valid-params))))})
 
 (defn handle-unprocessable
