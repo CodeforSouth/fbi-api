@@ -3,11 +3,9 @@ SELECT i.inspection_visit_id, i.license_id, i.inspection_number,
        i.visit_number, i.inspection_class, i.inspection_type,
        i.inspection_disposition, i.inspection_date, i.total_violations,
        i.high_priority_violations, i.intermediate_violations,
-       i.basic_violations, i.pda_status, i.county_number, i.license_number,
-       r.county_number, r.license_type_code, r.license_number,
+       i.basic_violations, i.pda_status, i.county_number,
+       r.license_type_code, r.license_number,
        r.business_name, r.location_address, r.location_city, r.location_zipcode,
-       r.location_latitude, r.location_longitude,
-       r.critical_violations_before_2013, r.noncritical_violations_before_2013,
        c.county_name, c.district
   FROM inspections AS i
  INNER JOIN counties AS c

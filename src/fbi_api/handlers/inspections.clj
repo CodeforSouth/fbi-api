@@ -57,11 +57,10 @@
   "Select and parse violations for a given inspection id."
   [inspection-id]
   (map (fn [violation]
-         {:id               (:violation_id violation)
-          :count            (:violation_count violation)
-          :description      (:description violation)
-          :isRiskFactor     (:is_risk_factor violation)
-          :isPrimaryConcern (:is_primary_concern violation)})
+         (dissoc (clojure.set/rename-keys violation
+                                          {:violation_id :id
+                                           :violation_count :count})
+                 :inspection_id))
        (db/select-violations-by-inspection {:id inspection-id})))
 
 (defn handle-individual-ok
