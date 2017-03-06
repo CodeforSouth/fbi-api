@@ -14,6 +14,10 @@
   (:use [clojure.tools.nrepl.server :only (start-server stop-server)])
   (:gen-class))
 
+(when-not const/production?
+  ;; First time running, or changes detected in "src" code
+  (println "Hot reloading http dev server before processing next request..."))
+
 (def server-error-details
   "\n\nPlease contact the administrator:
        - Github: teh0xqb
