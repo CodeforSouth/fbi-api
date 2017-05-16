@@ -28,6 +28,9 @@ This project was kickstarted by [Leo Ribeiro](https://github.com/leordev) and is
 
 ## Using Docker:
 
+Docker has been set up to easily create a development environment inside a container.
+We are still not creating a production environment, although that is certainly possible.
+
 #### Using script
 
 Just run `start-docker.sh`
