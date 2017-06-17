@@ -59,11 +59,11 @@
 ;; (into {} (map vector fields values))
 (defn csv-row->map
   "Transforms csv data into map with restaurant database keys."
-  [csv-row]
-  (#(try {:district                           (not-empty (nth % 0))
-          :county_number                      (str-null->int (nth % 1))
-          :county_name                        (not-empty (nth % 2))
-          :license_type_code                  (not-empty (nth % 3))
+  [csv-row]                                                              ;; CSV Column
+  (#(try {:district                           (not-empty (nth % 0))      ;; A
+          :county_number                      (str-null->int (nth % 1))  ;; B
+          :county_name                        (not-empty (nth % 2))      ;; C
+          :license_type_code                  (str-null->int (nth % 3))      ;; D
           :license_number                     (str-null->int (nth % 4))
           :business_name                      (not-empty (nth % 5))
           :location_address                   (not-empty (nth % 6))
@@ -72,6 +72,7 @@
           :inspection_number                  (str-null->int (nth % 9))
           :visit_number                       (str-null->int (nth % 10))
           :inspection_class                   (not-empty (nth % 11))
+          ;; type: determines if its food, lodging, etc
           :inspection_type                    (not-empty (nth % 12))
           :inspection_disposition             (not-empty (nth % 13))
           :inspection_date                    (str-csv-date->iso (nth % 14))

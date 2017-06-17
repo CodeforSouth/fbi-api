@@ -36,13 +36,7 @@
   ([data]
    (format-inspection data false))
   ([data is-full]
-   (assoc (if is-full
-            data
-            (dissoc data
-                    :critical_violations_before_2013
-                    :noncritical_violations_before_2013
-                    :license_id
-                    :violations))
+   (assoc data
           :id (:inspection_visit_id data)
           :inspection_date (util/parse-date-or-nil (:inspection_date data)))))
 

@@ -1,10 +1,10 @@
 -- Select inspections by restaurant name and location
-SELECT i.inspection_visit_id, i.inspection_number, i.visit_number,
+SELECT SQL_CALC_FOUND_ROWS i.inspection_visit_id, i.inspection_number, i.visit_number,
        i.inspection_class, i.inspection_type, i.inspection_disposition,
        i.inspection_date, i.total_violations, i.high_priority_violations,
        i.intermediate_violations, i.basic_violations,
        i.license_number, r.county_number, r.license_type_code,
-       r.business_name, r.location_address, r.location_city, r.location_zipcode,
+       r.business_name, r.location_city, r.location_zipcode,
        c.county_name, c.district
   FROM inspections AS i
  INNER JOIN counties AS c
@@ -17,4 +17,5 @@ SELECT i.inspection_visit_id, i.inspection_number, i.visit_number,
    AND (length(concat(:zipCodes)) is null or r.location_zipcode IN (:zipCodes))
    AND (:districtCode is null or c.district = :districtCode)
    AND (:countyNumber is null or i.county_number = :countyNumber)
- LIMIT :perPage OFFSET :page;
+ LIMIT :perPage OFFSET :page
+ SELECT FOUND_ROWS();
